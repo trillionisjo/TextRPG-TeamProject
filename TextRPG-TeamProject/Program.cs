@@ -3,12 +3,15 @@ public class Program
 {
     static void Main (string[] args)
     {
+        GameData.InitDatas();
+
         Scene currentScene = new StartScene();
-        Scene nextScene = null;
+        Scene nextScene = currentScene;
+        currentScene.Start();
         
         while (true)
         {
-            if (currentScene != nextScene && nextScene != null)
+            if (currentScene != nextScene)
             {
                 currentScene = nextScene;
                 currentScene.Start();
