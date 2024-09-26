@@ -2,11 +2,9 @@
 
 class StartScene : Scene
 {
-    private Scene nextScene;
 
     public override void Start ()
     {
-        nextScene = this;
         Console.Clear();
     }
 
