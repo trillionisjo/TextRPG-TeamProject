@@ -87,7 +87,7 @@ static class Equipment
         EquiptedArmor = null;
     }
 
-    public static bool IsEquiptedItem (Item item)
+    public static bool IsEquiptedItem (IEquipable item)
     {
         switch (item)
         {
