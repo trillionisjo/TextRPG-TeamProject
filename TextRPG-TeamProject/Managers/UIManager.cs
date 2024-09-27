@@ -148,5 +148,21 @@ static class UIManager
         return selectNum;
     }
 
+    public static string PadRight (string input, int totalWidth)
+    {
+        int textWidth = CalcTextWidth(input);
+        return input.PadRight(totalWidth + (totalWidth - textWidth));
+    }
+
+    public static int CalcTextWidth (string str)
+    {
+        return str.Sum(c => IsKorean(c) ? 2 : 1);
+    }
+
+    public static bool IsKorean (char ch)
+    {
+        return ('가' <= ch && ch <= '힣') || ('ㄱ' <= ch && ch <= 'ㅎ') || ('ㅏ' <= ch && ch <= 'ㅣ');
+    }
 }
+
 
