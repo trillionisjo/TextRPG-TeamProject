@@ -6,7 +6,7 @@ static class GameData
 
     static public Player player = new Knight();
     
-  public  static void InitDatas()
+    public  static void InitDatas()
     {
         player.Name = "김말";
     }
@@ -14,8 +14,4 @@ static class GameData
     public static Armor TraineesArmor { get; }
     public static Armor IronArmor { get; }
     public static Armor SpartanArmor { get; }
-
-    public static void InitDatas()
-    {
-    }
 }

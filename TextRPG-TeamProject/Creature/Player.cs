@@ -12,14 +12,14 @@ public enum PlayerType
 
     class Player : Creature
     {
-      public PlayerType Type { get; protected set; }
-      public int Gold { get; protected set; }
+      public PlayerType PlayerType { get; set; }
+      public int Gold { get; set; }
 
 
     protected Player(PlayerType type) : base(CreatureType.Player)
         {
              Level = 1;
-            Type = type;
+            PlayerType = type;
         }
 
         public int GetGold() { return Gold; }

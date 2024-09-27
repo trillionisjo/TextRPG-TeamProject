@@ -10,7 +10,7 @@ public enum MonsterType
 }
 class Monster : Creature
 {
-    public MonsterType Type { get; protected set; }
+    public MonsterType Type { get; set; }
     protected Monster(MonsterType type) : base(CreatureType.Monster)
     {
         Type = type;

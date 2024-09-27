@@ -54,20 +54,14 @@ class DungeonScene : Scene
         switch (selectNum)
         {
             case 1:
-                 nextScene = new BattleScene(monsters);
+                NextScene = new BattleScene(monsters);
                 break;
             case 2:
-                nextScene = new StartScene(); 
+                NextScene = new StartScene(); 
                 break;           
         }
 
     }
-
-
-    public override Scene GetNextScene()
-        {
-            return nextScene;
-        }
 
     public void SpawnRandomEnemy()
     {

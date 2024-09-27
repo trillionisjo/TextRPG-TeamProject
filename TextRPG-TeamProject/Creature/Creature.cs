@@ -11,20 +11,17 @@ public enum CreatureType
 
 class Creature
 {
-    public CreatureType Type { get; protected set; }
-    public int HP { get; protected set; }
+    public CreatureType CreatureType { get; set; }
+    public int HP { get; set; }
     public string Name { get; set; }
     public bool IsDead => HP <= 0;
-    public int Level { get; protected set; }
-    public int AttackPower { get; protected set; }
-    public int DefensePower { get; protected set; }
-
-    protected int attackPower;
-    protected int defensePower;
+    public int Level { get; set; }
+    public int AttackPower { get; set; }
+    public int DefensePower { get; set; }
 
     protected Creature(CreatureType type)
     {
-        Type = type;
+        CreatureType = type;
     }
 
     public void SetInfo(int hp, int attackPower, int defensePower)
