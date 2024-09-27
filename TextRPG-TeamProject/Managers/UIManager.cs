@@ -148,10 +148,41 @@ static class UIManager
         return selectNum;
     }
 
+    public static void WriteTable (string[,] table)
+    {
+        int rows = table.GetLength(0);
+        int cols = table.GetLength(1);
+        int[] maxWidths = new int[cols];
+
+        // 각 열의 최대너비 계산
+        for (int col = 0; col < cols; col++)
+        {
+            int max = 0;
+            for (int row = 0; row < rows; row++)
+            {
+                int width = CalcTextWidth(table[row, col]);
+                max = Math.Max(max, width);
+            }
+            maxWidths[col] = max;
+        }
+
+        // 테이블 출력
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < cols - 1; col++)
+            {
+                string paddedText = PadRight(table[row, col], maxWidths[col]);
+                Console.Write($"{paddedText} | ");
+            }
+            string lastColumnText = PadRight(table[row, cols - 1], maxWidths[cols - 1]);
+            Console.WriteLine(lastColumnText);
+        }
+    }
+
     public static string PadRight (string input, int totalWidth)
     {
         int textWidth = CalcTextWidth(input);
-        return input.PadRight(totalWidth + (totalWidth - textWidth));
+        return input.PadRight(input.Length + (totalWidth - textWidth));
     }
 
     public static int CalcTextWidth (string str)
