@@ -1,26 +1,23 @@
 ﻿using System;
 
-namespace TextRPG_TeamProject.Creature
-{
-    enum MonsterType
+
+    public enum MonsterType
     {
         None,
         Goblin = 1,
         Kobold = 2,
         Orc = 3
     }
-    class Monster : Creature
+class Monster : Creature
     {
-        protected MonsterType type;
-
-        protected Monster(MonsterType type) : base(CreatureType.Monster)
+      public MonsterType type { get; protected set; }
+      protected Monster(MonsterType type) : base(CreatureType.Monster)
         {
-
+             Name = type.ToString();
         }
 
-      
-
     }
+
 
      class Goblin : Monster
     {
@@ -49,4 +46,4 @@ namespace TextRPG_TeamProject.Creature
 
     }
 
-}
+

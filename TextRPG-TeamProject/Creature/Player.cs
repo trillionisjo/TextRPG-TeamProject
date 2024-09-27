@@ -1,7 +1,6 @@
 ﻿using System;
 
-namespace TextRPG_TeamProject.Creature
-{
+
     public enum PlayerType
     {
         None,
@@ -13,39 +12,40 @@ namespace TextRPG_TeamProject.Creature
 
     class Player : Creature
     {
-        protected PlayerType type;
-        protected int gold;
-        protected int level;
+    public PlayerType type { get; protected set; }
+     public int Gold { get; protected set; }
+      public int Level { get; protected set; }
 
 
-        protected Player(PlayerType type) : base(CreatureType.Player)
+    protected Player(PlayerType type) : base(CreatureType.Player)
         {
-
+            
         }
 
 
-        public int GetGold() { return gold; }
+        public int GetGold() { return Gold; }
         public void AddGold(int amount)
-        { 
-            gold += amount;
+        {
+            Gold += amount;
         }
 
         public bool SpendGold(int amount)
         {
-            if (gold <= 0)
+            if (Gold <= 0)
             {
                 return false;
             }
 
             else
             {
-                gold -= amount;
+              Gold -= amount;
                 return true;
             }
         }
-        public void AddLevel() { level++;}
+
+        public void AddLevel() { Level++;}
       
-        public int GetLevel() { return level; }
+        public int GetLevel() { return Level; }
 
 
 
@@ -86,4 +86,4 @@ namespace TextRPG_TeamProject.Creature
             SetInfo(120, 5, 10);
         }
     }
-}
+
