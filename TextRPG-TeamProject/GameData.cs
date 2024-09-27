@@ -1,11 +1,14 @@
 ﻿using System;
+using TextRPG_TeamProject.Creature;
 
 static class GameData
 {
-    public static Player player;
+    public static Player Player;
 
-    static void InitDatas()
+    public static void InitDatas()
     {
-        player = new Player();
+        Player = new Player();
     }
+
+
 }
