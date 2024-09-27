@@ -11,27 +11,29 @@ public enum CreatureType
 
 class Creature
 {
-    CreatureType type;
+    public CreatureType Type { get; protected set; }
     public int HP { get; protected set; }
     public string Name { get; set; }
     public bool IsDead => HP <= 0;
+    public int Level { get; protected set; }
+    public int AttackPower { get; protected set; }
+    public int DefensePower { get; protected set; }
 
     protected int attackPower;
     protected int defensePower;
 
     protected Creature(CreatureType type)
     {
-        this.type = type;
+        Type = type;
     }
 
     public void SetInfo(int hp, int attackPower, int defensePower)
     {
         HP = hp;
-        this.attackPower = attackPower;
-        this.defensePower = defensePower;
+        AttackPower = attackPower;
+        DefensePower = defensePower;
     }
 
-    public int GetAttack() { return attackPower; }
     public void OnDamaged(int damage)
     {
         HP -= damage;
@@ -39,6 +41,8 @@ class Creature
         if (HP < 0)
             HP = 0;
     }
+
+
 
 
 
