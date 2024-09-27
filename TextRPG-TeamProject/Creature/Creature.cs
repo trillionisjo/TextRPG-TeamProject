@@ -16,8 +16,8 @@ class Creature
     public string Name { get; set; }
     public bool IsDead => HP <= 0;
 
-    protected int attackPower;
-    protected int defensePower;
+    public int AttackPower { get; protected set; }
+    public int DefensePower { get; protected set; }
 
     protected Creature(CreatureType type)
     {
@@ -27,17 +27,16 @@ class Creature
     public void SetInfo(int hp, int attackPower, int defensePower)
     {
         HP = hp;
-        this.attackPower = attackPower;
-        this.defensePower = defensePower;
+        AttackPower = attackPower;
+        DefensePower = defensePower;
     }
 
-    public int GetAttack() { return attackPower; }
     public void OnDamaged(int damage)
     {
-        hp -= damage;
+        HP -= damage;
 
-        if (hp < 0)
-            hp = 0;
+        if (HP < 0)
+            HP = 0;
     }
 
 
