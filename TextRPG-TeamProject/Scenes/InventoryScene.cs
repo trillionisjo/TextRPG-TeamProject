@@ -24,26 +24,21 @@ class InventoryScene : Scene
 
     private void WriteItemList()
     {
-        string[][] table = new string[Inventory.ItemList.Count][];
+        string[,] table = new string[Inventory.ItemList.Count, 4];
 
         for (int i = 0; i < Inventory.ItemList.Count; i++)
         {
             Item item = Inventory.ItemList[i];
-            table[i] = new string[4] { $"- {item.Name}", item.StatInfo, item.Desc, $"{item.Price}" };
+            table[i, 0] = $"- {item.Name}";
+            table[i, 1] = item.StatInfo;
+            table[i, 2] = item.Desc;
+            table[i, 3] = $"{item.Price} G";
         }
 
-        WriteItemDetail(table);
+        UIManager.WriteTable(table);
     }
 
-    private void WriteItemDetail (string[][] table)
-    {
-        for (int row = 0; row < table.Count(); row++)
-        {
-            for (int col = 0; col < table[row].Count() - 1; col++)
-                Console.Write($"{table[row][col]} | ");
-            Console.WriteLine(table[row].Last());
-        }
-    }
+    
 
     private void HandleInput(int selectedNumber)
     {
