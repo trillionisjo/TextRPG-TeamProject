@@ -2,7 +2,14 @@
 
 static class Inventory
 {
-    public static List<Item> ItemList { get; set; } = null;
+    public static List<Item> ItemList { get; set; } = new List<Item>();
+
+    public static void RemoveItem (Item item)
+    {
+        for (int i = 0; i < ItemList.Count; i++)
+            if (ItemList[i].Id == item.Id)
+                ItemList.RemoveAt(i);
+    }
 
     public static IReadOnlyList<T> GetItemsByType<T>() where T : Item
     {
