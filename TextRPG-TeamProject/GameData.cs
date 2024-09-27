@@ -10,6 +10,5 @@ static class GameData
 
     public static void InitDatas()
     {
-        
     }
 }

@@ -6,20 +6,14 @@ using System.Threading.Tasks;
 namespace TextRPG_TeamProject.Scenes;
 
 class Battle : Scene
-    {
-    public override void Start()
+{
+    public override void Start ()
     {
         Console.Clear();
     }
-  
 
-    public override void Update()
+
+    public override void Update ()
     {
-     }
-
-    public override Scene GetNextScene()
-        {
-            return nextScene;
-        }
     }
-
+}

@@ -2,16 +2,9 @@
 
 class PlayerState : Scene
 {
-    private Scene nextScene;
-
     public override void Start ()
     {
         Console.Clear();
-    }
-
-    public override Scene GetNextScene ()
-    {
-        return nextScene;
     }
 
     public override void Update ()

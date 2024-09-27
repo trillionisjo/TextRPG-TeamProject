@@ -17,7 +17,7 @@ public class Program
                 currentScene.Start();
             }
             currentScene.Update();
-            nextScene = currentScene.GetNextScene();
+            nextScene = currentScene.NextScene;
         }
     }
 }
