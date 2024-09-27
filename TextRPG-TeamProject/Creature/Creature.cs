@@ -34,10 +34,10 @@ class Creature
     public int GetAttack() { return attackPower; }
     public void OnDamaged(int damage)
     {
-        hp -= damage;
+        HP -= damage;
 
-        if (hp < 0)
-            hp = 0;
+        if (HP < 0)
+            HP = 0;
     }
 
 

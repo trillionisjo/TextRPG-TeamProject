@@ -1,5 +1,4 @@
 ﻿using System;
-using TextRPG_TeamProject.Creature;
 
 static class GameData
 {
@@ -7,8 +6,6 @@ static class GameData
 
     public static void InitDatas()
     {
-        Player = new Player();
+        
     }
-
-
 }
