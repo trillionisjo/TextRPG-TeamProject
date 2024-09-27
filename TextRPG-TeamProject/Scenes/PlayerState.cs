@@ -27,10 +27,6 @@ class PlayerState : Scene
         if (outKey==0)
         {
             nextScene=new StartScene();
-            Console.WriteLine("debug");
         }
-
-
-        Console.ReadKey(true);
     }
 }
