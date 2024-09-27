@@ -11,7 +11,7 @@ class BattleScene : Scene
     private Monster[] monsters;
     int selectNum = 0;
     bool isPlayerTurn = true;
-    Player player = GameData.player;
+    Player player = GameData.Player;
     int playerPreviousHP;
 
     public BattleScene(Monster[] monsters)
@@ -81,12 +81,12 @@ class BattleScene : Scene
 
         if (isPlayerTurn)
         {
-            damage = GameData.player.AttackPower;
+            damage = GameData.Player.AttackPower;
             previousHP = monster.HP;
             monster.OnDamaged(damage);
             texts = new string[]
                 {
-                    $"{GameData.player.Name}의 공격",
+                    $"{GameData.Player.Name}의 공격",
                     $"Lv.{monster.Level} {monster.Name} 을(를) 맞췄습니다. [데미지 : {damage}]",
                     $"{previousHP}->{(monster.HP > 0 ? monster.HP.ToString() : "Dead")}"
                 };

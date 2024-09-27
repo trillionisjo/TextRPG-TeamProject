@@ -33,6 +33,20 @@ static class Equipment
         EquiptedArmor = armor;
     }
 
+    public static void ToggleItem(IEquipable item)
+    {
+        switch (item)
+        {
+        case Weapon weapon:
+            ToggleWeapon(weapon);
+            break;
+
+        case Armor armor:
+            ToggleArmor(armor);
+            break;
+        }
+    }
+
     public static void ToggleWeapon (Weapon weapon)
     {
         if (EquiptedWeapon == null)
@@ -42,13 +56,9 @@ static class Equipment
         }
 
         if (EquiptedWeapon.Id == weapon.Id)
-        {
             UnequipWeapon();
-            return;
-        } else
-        {
+        else
             EquipWeapon(weapon);
-        }
     }
 
     public static void ToggleArmor (Armor armor)
@@ -60,13 +70,9 @@ static class Equipment
         }
 
         if (EquiptedArmor.Id == armor.Id)
-        {
             UnequipArmor();
-            return;
-        } else
-        {
+        else
             EquipArmor(armor);
-        }
     }
 
     public static void UnequipWeapon ()
@@ -79,5 +85,41 @@ static class Equipment
     {
         EquiptedArmor?.RemoveStats();
         EquiptedArmor = null;
+    }
+
+    public static bool IsEquiptedItem (Item item)
+    {
+        switch (item)
+        {
+        case Weapon weapon:
+            return IsEquiptedWeapon(weapon);
+
+        case Armor armor:
+            return IsEquiptedArmor(armor);
+        }
+
+        return false;
+    }
+
+    public static bool IsEquiptedWeapon (Weapon weapon)
+    {
+        if (EquiptedWeapon == null)
+            return false;
+
+        if (EquiptedWeapon.Id == weapon.Id)
+            return true;
+
+        return false;
+    }
+
+    public static bool IsEquiptedArmor (Armor armor)
+    {
+        if (EquiptedArmor == null)
+            return false;
+
+        if (EquiptedArmor.Id == armor.Id)
+            return true;
+
+        return false;
     }
 }
