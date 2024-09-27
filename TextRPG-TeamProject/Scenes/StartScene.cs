@@ -2,17 +2,9 @@
 
 class StartScene : Scene
 {
-    private Scene nextScene;
-
     public override void Start ()
     {
-        nextScene = this;
         Console.Clear();
-    }
-
-    public override Scene GetNextScene ()
-    {
-        return nextScene;
     }
 
     public override void Update ()
@@ -33,7 +25,7 @@ class StartScene : Scene
         switch (number)
         {
         case 1:
-            nextScene = new PlayerState();
+            NextScene = new PlayerState();
             break;
 
         default:

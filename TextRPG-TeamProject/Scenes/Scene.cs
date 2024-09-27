@@ -2,16 +2,14 @@
 
 abstract class Scene
 {
-    protected Scene nextScene;
+    public Scene NextScene { get; protected set; }
 
     public Scene()
     {
-        nextScene = this;
+        NextScene = this;
     }
 
     public virtual void Start () { }
 
     public virtual void Update () { }
-
-    public abstract Scene GetNextScene ();
 }

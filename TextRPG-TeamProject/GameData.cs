@@ -1,14 +1,17 @@
 ﻿using System;
-using TextRPG_TeamProject.Creature;
 
 static class GameData
 {
-    public static Player Player;
+    public static Player Player = new Knight();
 
-    public static void InitDatas()
+    static public Player player = new Knight();
+    
+    public  static void InitDatas()
     {
-        Player = new Player();
+        player.Name = "김말";
     }
 
-
+    public static Armor TraineesArmor { get; }
+    public static Armor IronArmor { get; }
+    public static Armor SpartanArmor { get; }
 }

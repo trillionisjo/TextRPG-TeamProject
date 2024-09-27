@@ -1,11 +1,13 @@
 ﻿
+using TextRPG_TeamProject.Scenes;
+
 public class Program
 {
     static void Main (string[] args)
     {
         GameData.InitDatas();
 
-        Scene currentScene = new StartScene();
+        Scene currentScene = new DungeonScene();
         Scene nextScene = currentScene;
         currentScene.Start();
         
@@ -16,9 +18,9 @@ public class Program
                 currentScene = nextScene;
                 currentScene.Start();
             }
+
             currentScene.Update();
-            nextScene = currentScene.GetNextScene();
+            nextScene = currentScene.NextScene;
         }
     }
 }
-console.WriteLine

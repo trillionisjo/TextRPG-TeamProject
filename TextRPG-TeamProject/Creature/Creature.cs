@@ -1,48 +1,42 @@
 ﻿using System;
 
 
-namespace TextRPG_TeamProject.Creature
+public enum CreatureType
 {
-    enum CreatureType
-    {
-        None,
-        Player = 1,
-        Monster = 2
+    None,
+    Player = 1,
+    Monster = 2
 
+}
+
+class Creature
+{
+    public CreatureType CreatureType { get; set; }
+    public int HP { get; set; }
+    public string Name { get; set; }
+    public bool IsDead => HP <= 0;
+    public int Level { get; set; }
+    public int AttackPower { get; set; }
+    public int DefensePower { get; set; }
+
+    protected Creature(CreatureType type)
+    {
+        CreatureType = type;
     }
 
-    class Creature
+    public void SetInfo(int hp, int attackPower, int defensePower)
     {
-        CreatureType type;
-        protected int hp;
-        protected int attackPower;
-        protected int defensePower;
-        protected string name;
+        HP = hp;
+        AttackPower = attackPower;
+        DefensePower = defensePower;
+    }
 
-        protected Creature(CreatureType type)
-        {
-            this.type = type;
-        }
+    public void OnDamaged(int damage)
+    {
+        HP -= damage;
 
-        public void SetInfo(int hp, int attackPower, int defensePower)
-        {
-            this.hp = hp;
-            this.attackPower = attackPower;
-            this.defensePower = defensePower;
-        }
-        public int GetHp() { return hp; }
-        public bool IsDead() { return hp <= 0; }
-        public int GetAttack() { return attackPower; }
-        public void OnDamaged(int damage)
-        {
-            hp -= damage;
-
-            if (hp < 0)
-                hp = 0;
-        }
-
-
-
+        if (HP < 0)
+            HP = 0;
     }
 
 
@@ -50,3 +44,9 @@ namespace TextRPG_TeamProject.Creature
 
 
 }
+
+
+
+
+
+
