@@ -3,20 +3,20 @@
 class Weapon : Item, IEquipable
 {
     public int WeaponDamage { get; set; }
-    public override string StatInfo => $"공격력 {WeaponDamage}";
+    public override string StatInfo => $"공격력 {WeaponDamage:+#;-#;0}";
 
-    public Weapon (int id, string name, string desc, int price, int weaponDamage) : base(id, name, desc, price)
+    public Weapon (ItemId id, string name, string desc, int price, int weaponDamage) : base(id, name, desc, price)
     {
         WeaponDamage = weaponDamage;
     }
 
     public void ApplyStats ()
     {
-        
+        GameData.Player.AttackPower += WeaponDamage;
     }
 
     public void RemoveStats ()
     {
-
+        GameData.Player.AttackPower -= WeaponDamage;
     }
 }
