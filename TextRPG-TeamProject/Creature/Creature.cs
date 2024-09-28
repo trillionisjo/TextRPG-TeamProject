@@ -18,6 +18,8 @@ class Creature
     public int Level { get; set; }
     public int AttackPower { get; set; }
     public int DefensePower { get; set; }
+    public float CriticalChance { get; set; }
+    public float CritDmgPct { get; set; }
 
     protected Creature(CreatureType type)
     {
@@ -29,6 +31,8 @@ class Creature
         HP = hp;
         AttackPower = attackPower;
         DefensePower = defensePower;
+        CriticalChance = 0.15f;
+        CritDmgPct =1.6f;
     }
 
     public void OnDamaged(int damage)
@@ -40,6 +44,18 @@ class Creature
     }
 
 
+
+
+    public virtual int GetTotalAttackPower()
+    { 
+        return AttackPower;
+    }
+
+
+    public virtual int GetTotalDefensePower()
+    {
+        return DefensePower;
+    }
 
 
 

@@ -10,77 +10,81 @@ public enum PlayerType
     Rogue = 4,
 }
 
-    class Player : Creature
+class Player : Creature
+{
+    public PlayerType Type { get; set; }
+    public int Gold { get; set; }
+
+    public int ExtraAttackPower { get; set; }
+    public int ExtraDefensePower { get; set; }
+
+
+    public Player(PlayerType type) : base(CreatureType.Player)
     {
-      public PlayerType PlayerType { get; set; }
-      public int Gold { get; set; }
+        Level = 1;
+        Type = type;
+        ExtraAttackPower = 0;
+        ExtraDefensePower = 0;
+        Init();
+    }
 
-
-    protected Player(PlayerType type) : base(CreatureType.Player)
+    public void Init()
+    {
+        int num = (int)Type;
+        switch (num)
         {
-             Level = 1;
-            PlayerType = type;
+            case 1:
+                SetInfo(120, 5, 7);
+                break;
+            case 2:
+                SetInfo(70, 10, 2);
+                break;
+             case 3:
+                SetInfo(100, 6, 6);
+                break;
+            case 4:
+                SetInfo(50, 10, 5);
+                break;
+        }
+    }
+
+    public override int GetTotalAttackPower()
+    {
+        return AttackPower + ExtraAttackPower;
+    }
+
+    public override int GetTotalDefensePower()
+    {
+        return DefensePower + ExtraDefensePower;
+    }
+
+    public int GetGold() { return Gold; }
+    public void AddGold(int amount)
+    {
+        Gold += amount;
+    }
+    public bool SpendGold(int amount)
+    {
+        if (Gold <= 0)
+        {
+            return false;
         }
 
-        public int GetGold() { return Gold; }
-        public void AddGold(int amount)
+        else
         {
-            Gold += amount;
+            Gold -= amount;
+            return true;
         }
-        public bool SpendGold(int amount)
-        {
-            if (Gold <= 0)
-            {
-                return false;
-            }
-
-            else
-            {
-              Gold -= amount;
-                return true;
-            }
-        }
-        public void AddLevel()
+    }
+    public void AddLevel()
     {
 
         AttackPower += 1;
         DefensePower += 1;
         Level++;
-    
-    }
-      
 
-}
-
-class Knight : Player
-{
-    public Knight() : base(PlayerType.Knight)
-    {
-        SetInfo(120, 5, 10);
     }
-}
 
-class Mage : Player
-{
-    public Mage(PlayerType type) : base(PlayerType.Mage)
-    {
-        SetInfo(120, 5, 10);
-    }
-}
 
-class Archer : Player
-{
-    public Archer(PlayerType type) : base(PlayerType.Archer)
-    {
-        SetInfo(120, 5, 10);
-    }
-}
-
-class Rogue : Player
-{
-    public Rogue(PlayerType type) : base(PlayerType.Rogue)
-    {
-        SetInfo(120, 5, 10);
-    }
 }
 

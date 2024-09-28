@@ -15,6 +15,7 @@ public class Program
         {
             if (currentScene != nextScene)
             {
+
                 currentScene = nextScene;
                 currentScene.Start();
             }

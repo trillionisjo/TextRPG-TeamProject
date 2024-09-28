@@ -2,13 +2,14 @@
 
 static class GameData
 {
-    public static Player Player = new Knight();
 
-    static public Player player = new Knight();
+    static public Player Player = new Player(PlayerType.Mage);
+    static public List<Monster> AliveMonster;
+    static public Monster [] DeathMonster;
     
     public  static void InitDatas()
     {
-        player.Name = "김말";
+        Player.Name = "김말";
     }
 
     public static Armor TraineesArmor { get; }

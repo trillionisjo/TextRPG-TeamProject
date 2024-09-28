@@ -78,7 +78,7 @@ static class UIManager
 
         int selectNum = 0;
         //선택값을 저장하기 위한 변수 
-        int cursorPosY = (int)(Console.WindowHeight * 0.7); //
+        int cursorPosY = (int)(Console.WindowHeight * 0.7) + 2; //
         int selectCursorPosY = cursorPosY + 1;
         int previousCursorPosY = selectCursorPosY; // 이전 커서 위치 저장
         bool isSelecting = true;
