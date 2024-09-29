@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using System.Threading;
 
 public enum AttackType
@@ -14,8 +15,11 @@ class BattleSystem
 
     private Player player;
     private BattleUIManager battleUIManager;
-    private double missChance = 0.10f;
+
     private Random rand = new Random();
+    private double missChance = 0.10f;
+
+    private int diedMonsterNum = 0;
 
 
     public BattleSystem()
@@ -25,13 +29,31 @@ class BattleSystem
     }
 
 
-
     public void ProcessPlayerTurn()
     {
+        bool isItemMenuActive = false;
+        string[] options = new string[2];
+        int selectNum = 0;
         //공격 선택
-        battleUIManager.ShowTurnUI("플레이어 턴 - 행동선택");
-        string[] options = { "일반공격", "스킬" };
-        int selectNum = UIManager.DisplaySelectionUI(options);
+        do
+        {
+            battleUIManager.ShowTurnUI("플레이어 턴 - 행동선택");
+            options = new string[] { "일반공격", "스킬", "아이템" };
+            selectNum = UIManager.DisplaySelectionUI(options);
+
+            switch (selectNum)
+            {
+                case 1:
+                case 2:
+                    isItemMenuActive = false;
+                    break;
+                case 3:
+                    isItemMenuActive = true;
+                    UseItem();
+                    break;
+            }
+        } while (isItemMenuActive);
+
 
         //선택 결과에 따라 회피 , 치명타, 기본 중 공격 결과 도츨 
         AttackType type = DetermineAttackOutcome();
@@ -50,6 +72,14 @@ class BattleSystem
         selectNum = UIManager.DisplaySelectionUI(options);
 
     }
+
+    private void UseItem()
+    {
+        battleUIManager.ShowTurnUI("플레이어 턴 - 아이템 사용");
+        string [] options = new string[] { "포션", "스크롤", "폭탄" };
+        int selectNum = UIManager.DisplaySelectionUI(options);
+    }
+
     public void ProcessMonsterTurn()
     {
         string[] options;
@@ -81,13 +111,36 @@ class BattleSystem
     {
         int damage = 0;
         damage = CalculateDamage(type, attacker, target);
-        string critical = (type == AttackType.Critical) ? "(치명타)" : "";
-        string[] texts = { $"{target.Name}에게 {damage}만큼의 공격{critical}", $"{target.Name} HP:{target.HP} -> {(target.HP - damage > 0 ? target.HP - damage : "Dead")}" };
+        string[] texts;
+
+
+        if (type == AttackType.Miss)
+        {
+            texts = new string[] { $"{attacker.Name}의 공격은 빗나갔다." };
+        }
+
+        else
+        {
+            string critical = (type == AttackType.Critical) ? "(치명타)" : "";
+
+            texts = new string[]
+            {
+                    $"{target.Name}에게 {damage}만큼의 공격{critical}",
+                    $"{target.Name} HP:{target.HP} -> {(target.HP - damage > 0 ? target.HP - damage : "Dead")}"
+            };
+
+            target.OnDamaged(damage);
+
+            if (target.IsDead  &&  target is Monster monster)
+            {
+                int lineSpacing = texts.Length;
+                HandleMonsterDeath(monster, lineSpacing);
+            }
+
+        }
         UIManager.AlignTextCenter(texts);
-        target.OnDamaged(damage);
     }
 
-    
     public string[] GetMonsterOptions()
     {
         string[] options = new string[GameData.AliveMonster.Count];
@@ -99,7 +152,6 @@ class BattleSystem
 
         return options;
     }
-
 
     private int CalculateDamage(AttackType type, Creature attacker, Creature target)
     {
@@ -143,8 +195,26 @@ class BattleSystem
         return AttackType.Normal;
     }
 
+    public void HandleMonsterDeath(Monster monster, int lineSpacing = 0)
+    {
+        int exp = (int)monster.Grade;
+        int prevPlayerLevel = player.Level;
+        player.AddExp(exp);
+        GameData.DeathMonster[diedMonsterNum++] = monster;
+        GameData.AliveMonster.Remove(monster);
 
+        string text = $"{exp}의 경험치를 획득";
+        UIManager.AlignTextCenter(text, lineSpacing);
+
+        if (prevPlayerLevel != player.Level)
+        {
+            text = $"Lv {prevPlayerLevel} -> {player.Level} ";
+            UIManager.AlignTextCenter(text, lineSpacing + 1);
+        }
+
+    }
 
 
 }
+
 

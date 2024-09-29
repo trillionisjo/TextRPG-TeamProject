@@ -75,16 +75,16 @@ class Monster : Creature
                 SetInfo(5, 3, 2);
                 break;
             case MonsterGrade.Medium:
-                SetInfo(5, 3, 6);
+                SetInfo(10, 6, 6);
                 break;
             case MonsterGrade.High:
-                SetInfo(5, 3, 6);
+                SetInfo(20, 6, 8);
                 break;
             case MonsterGrade.VeryHigh:
-                SetInfo(5, 3, 6);
+                SetInfo(30, 6, 10);
                 break;
             case MonsterGrade.Extreme:
-                SetInfo(5, 3, 6);
+                SetInfo(100, 10, 10);
                 break;
             default:
                 break;

@@ -14,15 +14,17 @@ class Player : Creature
 {
     public PlayerType Type { get; set; }
     public int Gold { get; set; }
-
+    public int ExpToNextLv { get; set; }
+    public int Exp { get; set; }
     public int ExtraAttackPower { get; set; }
     public int ExtraDefensePower { get; set; }
-
-
+    
     public Player(PlayerType type) : base(CreatureType.Player)
     {
         Level = 1;
         Type = type;
+        Exp = 0;
+        ExpToNextLv = 1;
         ExtraAttackPower = 0;
         ExtraDefensePower = 0;
         Init();
@@ -45,6 +47,27 @@ class Player : Creature
             case 4:
                 SetInfo(50, 10, 5);
                 break;
+        }
+    }
+
+    public void AddExp(int extraExp)
+    {
+        Exp += extraExp;
+        bool canLevelUp = Exp >= ExpToNextLv;
+
+        while (canLevelUp)
+        {
+            if (Exp >= ExpToNextLv)
+            {
+                AddLevel();
+                Exp = Exp - ExpToNextLv;
+                ExpToNextLv *= 2;
+            }
+
+            else
+            {
+                canLevelUp = false;
+            }
         }
     }
 

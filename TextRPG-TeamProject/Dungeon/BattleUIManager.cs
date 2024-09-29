@@ -11,14 +11,13 @@ class BattleUIManager
         player = GameData.Player;
     }
 
-
     public void DisplayMonsterList()
     {
         Console.ForegroundColor = ConsoleColor.Green;
 
         for (int i = 0; i < GameData.AliveMonster.Count; i++)
         {
-            Console.WriteLine($"{GameData.AliveMonster[i].InstanceNumber} Lv.{GameData.AliveMonster[i].Level} {GameData.AliveMonster[i].Name} HP {GameData.AliveMonster[i].HP} 공격력: {GameData.AliveMonster[i].GetTotalAttackPower()} 방어력: {GameData.AliveMonster[i].GetTotalDefensePower()} ");
+            Console.WriteLine($"Lv.{GameData.AliveMonster[i].Level} {GameData.AliveMonster[i].Name}({GameData.AliveMonster[i].InstanceNumber}) HP {GameData.AliveMonster[i].HP} 공격력: {GameData.AliveMonster[i].GetTotalAttackPower()} 방어력: {GameData.AliveMonster[i].GetTotalDefensePower()} ");
         }
 
         Console.WriteLine();
@@ -35,8 +34,6 @@ class BattleUIManager
         Console.ForegroundColor = ConsoleColor.White;
     }
 
-
-
     public void ShowTurnUI(string title)
     {
         Console.Clear();
@@ -45,8 +42,6 @@ class BattleUIManager
         DisplayMonsterList();
     }
 
-
-
     public void DisplayPlayerStat()
     {
         string extraAttackPower = player.ExtraAttackPower > 0 ? $"({player.ExtraAttackPower})" : "";
@@ -54,7 +49,7 @@ class BattleUIManager
 
         string[] statText =
          {
-            $"플레이어:{player.Name}",
+            $"플레이어:{player.Name} Lv:{player.Level}({player.Exp}/{player.ExpToNextLv})",
             $"체력:{player.HP}",
             $"공격력:{player.GetTotalAttackPower()}{extraAttackPower}",
             $"방어력:{player.GetTotalDefensePower()}{extraDefensePower}",
@@ -86,15 +81,13 @@ class BattleUIManager
 
     }
 
-
-
     private int GetMaxWidth(string[] texts)
     {
         int maxWidth = 0;
 
         for (int i = 0; i < texts.Length; i++)
         {
-            int width = UIManager.GetByteFromText(texts[i]); // 문자열의 실제 너비를 계산
+            int width = UIManager.GetByteFromText(texts[i]); 
             if (width > maxWidth)
                 maxWidth = width;
         }
