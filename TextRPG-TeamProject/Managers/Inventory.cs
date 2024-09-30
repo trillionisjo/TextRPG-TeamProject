@@ -16,7 +16,7 @@ static class Inventory
         int count = 0;
         var list = GetItemsByType<Potion>();
         foreach (Potion item in list)
-            count += id == ItemId.HpPotion ? 1 : 0;
+            count += id == item.Id ? 1 : 0;
         return count;
     }
 
