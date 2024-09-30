@@ -22,14 +22,21 @@ class InventoryScene : Scene
         HandleInput(selectedNumber);
     }
 
-    private void WriteItemList()
+    protected void WriteItemList()
     {
         string[,] table = new string[Inventory.ItemList.Count, 4];
 
         for (int i = 0; i < Inventory.ItemList.Count; i++)
         {
             Item item = Inventory.ItemList[i];
-            table[i, 0] = $"- {item.Name}";
+
+            if (item is IEquipable equipment)
+            {
+                string strEquipted = Equipment.IsEquiptedItem(equipment) ? "[E]" : "";
+                table[i, 0] = $"- {strEquipted}{item.Name}";
+            } else
+                table[i, 0] = $"- {item.Name}";
+
             table[i, 1] = item.StatInfo;
             table[i, 2] = item.Desc;
             table[i, 3] = $"{item.Price} G";
@@ -38,13 +45,14 @@ class InventoryScene : Scene
         UIManager.WriteTable(table);
     }
 
-    
-
     private void HandleInput(int selectedNumber)
     {
         switch (selectedNumber)
         {
         case 1:
+            NextScene = new EquipmentScene();
+            break;
+
         case 2:
             NextScene = new StartScene();
             break;

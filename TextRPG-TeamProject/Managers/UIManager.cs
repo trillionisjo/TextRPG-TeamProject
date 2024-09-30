@@ -234,6 +234,43 @@ static class UIManager
         return paddedTable;
     }
 
+    public static string[] CreatePaddedList (string[,] table)
+    {
+        int rows = table.GetLength(0);
+        int cols = table.GetLength(1);
+        int[] maxWidths = new int[cols];
+        string[] paddedList = new string[rows];
+
+        // 각 열의 최대너비 계산
+        for (int col = 0; col < cols; col++)
+        {
+            int max = 0;
+            for (int row = 0; row < rows; row++)
+            {
+                int width = CalcTextWidth(table[row, col]);
+                max = Math.Max(max, width);
+            }
+            maxWidths[col] = max;
+        }
+
+        // 스페이스가 채워진 테이블 생성
+        for (int row = 0; row < rows; row++)
+        {
+            var sb = new StringBuilder();
+            for (int col = 0; col < cols - 1; col++)
+            {
+                string paddedText = PadRight(table[row, col], maxWidths[col]);
+                sb.Append($"{paddedText} | ");
+            }
+            string lastColumnText = PadRight(table[row, cols - 1], maxWidths[cols - 1]);
+            sb.Append(lastColumnText);
+
+            paddedList[row] = sb.ToString();
+        }
+
+        return paddedList;
+    }
+
     public static string PadRight (string input, int totalWidth)
     {
         int textWidth = CalcTextWidth(input);

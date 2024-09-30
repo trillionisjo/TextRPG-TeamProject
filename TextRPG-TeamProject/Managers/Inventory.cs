@@ -11,7 +11,7 @@ static class Inventory
                 ItemList.RemoveAt(i);
     }
 
-    public static IReadOnlyList<T> GetItemsByType<T>() where T : Item
+    public static IReadOnlyList<T> GetItemsByType<T>()
     {
         return ItemList.OfType<T>().ToList();
     }
