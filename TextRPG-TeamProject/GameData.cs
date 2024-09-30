@@ -3,7 +3,7 @@ using System.Numerics;
 
 static class GameData
 {
-    static public Player Player = new Player(PlayerType.Mage);
+    static public Player Player = new Player();
     static public List<Monster> AliveMonster;
     static public Monster[] DeathMonster;
     static public int DungeonLv = 0;
@@ -13,7 +13,6 @@ static class GameData
         if(DungeonLv == 0)
             { DungeonLv = 1; }
 
-        Player.Name = "김말";
         // Test
         Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.TraineesArmor));
         Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.IronArmor));
