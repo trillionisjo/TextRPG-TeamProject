@@ -11,7 +11,30 @@ static class Inventory
                 ItemList.RemoveAt(i);
     }
 
-    public static IReadOnlyList<T> GetItemsByType<T>() where T : Item
+    public static int QueryPotionCount(ItemId id)
+    {
+        int count = 0;
+        var list = GetItemsByType<Potion>();
+        foreach (Potion item in list)
+            count += id == item.Id ? 1 : 0;
+        return count;
+    }
+
+    public static void UsePotion(ItemId id)
+    {
+        var potionList = GetItemsByType<Potion>();
+        foreach (Potion item in potionList)
+        {
+            if (id == item.Id)
+            {
+                item.Consume();
+                RemoveItem(item);
+                break;
+            }
+        }
+    }
+
+    public static IReadOnlyList<T> GetItemsByType<T>()
     {
         return ItemList.OfType<T>().ToList();
     }

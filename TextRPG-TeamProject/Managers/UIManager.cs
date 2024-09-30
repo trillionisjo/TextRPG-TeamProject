@@ -191,8 +191,14 @@ static class UIManager
 
     public static void WriteTable (string[,] table, int left, int top)
     {
-        Console.SetCursorPosition(left, top);
-        WriteTable(table);
+        int count = 0;
+        string[,] paddedTable = CreatePaddedTable(table);
+        for (int row = 0; row < table.GetLength(0); row++)
+        {
+            Console.SetCursorPosition(left, top + count++);
+            for (int col = 0; col < table.GetLength(1); col++)
+                Console.Write(paddedTable[row, col]);
+        }
     }
 
     public static string[,] CreatePaddedTable (string[,] table)
@@ -229,6 +235,42 @@ static class UIManager
         return paddedTable;
     }
 
+    public static string[] CreatePaddedList (string[,] table)
+    {
+        int rows = table.GetLength(0);
+        int cols = table.GetLength(1);
+        int[] maxWidths = new int[cols];
+        string[] paddedList = new string[rows];
+
+        // 각 열의 최대너비 계산
+        for (int col = 0; col < cols; col++)
+        {
+            int max = 0;
+            for (int row = 0; row < rows; row++)
+            {
+                int width = CalcTextWidth(table[row, col]);
+                max = Math.Max(max, width);
+            }
+            maxWidths[col] = max;
+        }
+
+        // 스페이스가 채워진 테이블 생성
+        for (int row = 0; row < rows; row++)
+        {
+            var sb = new StringBuilder();
+            for (int col = 0; col < cols - 1; col++)
+            {
+                string paddedText = PadRight(table[row, col], maxWidths[col]);
+                sb.Append($"{paddedText} | ");
+            }
+            string lastColumnText = PadRight(table[row, cols - 1], maxWidths[cols - 1]);
+            sb.Append(lastColumnText);
+
+            paddedList[row] = sb.ToString();
+        }
+
+        return paddedList;
+    }
 
     public static string PadRight (string input, int totalWidth)
     {
@@ -236,12 +278,10 @@ static class UIManager
         return input.PadRight(input.Length + (totalWidth - textWidth));
     }
 
-
     public static int CalcTextWidth (string str)
     {
         return str.Sum(c => IsKorean(c) ? 2 : 1);
     }
-
 
     public static bool IsKorean (char ch)
     {
