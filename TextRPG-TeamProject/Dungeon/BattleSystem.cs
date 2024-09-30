@@ -37,7 +37,7 @@ class BattleSystem
         //공격 선택
         do
         {
-            battleUIManager.ShowTurnUI("플레이어 턴 - 행동선택");
+            battleUIManager.DisplayTurnUI("플레이어 턴 - 행동선택");
             options = new string[] { "일반공격", "스킬", "아이템" };
             selectNum = UIManager.DisplaySelectionUI(options);
 
@@ -60,13 +60,14 @@ class BattleSystem
 
 
         //대상 선택 
-        battleUIManager.ShowTurnUI("플레이어 턴 - 대상선택");
+        battleUIManager.DisplayTurnUI("플레이어 턴 - 대상선택");
         options = GetMonsterOptions();
         selectNum = UIManager.DisplaySelectionUI(options);
+
         Monster monster = GameData.AliveMonster[selectNum - 1];
 
         //공격 수행
-        battleUIManager.ShowTurnUI("플레이어 턴 - 공격 결과");
+        battleUIManager.DisplayTurnUI("플레이어 턴 - 공격 결과");
         PerformAttack(player, monster, type);
         options = new string[] { "다음" };
         selectNum = UIManager.DisplaySelectionUI(options);
@@ -75,8 +76,8 @@ class BattleSystem
 
     private void UseItem()
     {
-        battleUIManager.ShowTurnUI("플레이어 턴 - 아이템 사용");
-        string [] options = new string[] { "포션", "스크롤", "폭탄" };
+        battleUIManager.DisplayTurnUI("플레이어 턴 - 아이템 사용");
+        string [] options = new string[] { "포션", "스크롤", "폭탄", "나가기"};
         int selectNum = UIManager.DisplaySelectionUI(options);
     }
 
@@ -85,12 +86,12 @@ class BattleSystem
         string[] options;
         int selectNum = 0;
         //몬스터턴
-        battleUIManager.ShowTurnUI("몬스터 턴");
+        battleUIManager.DisplayTurnUI("몬스터 턴");
 
         for (int i = 0; i < GameData.AliveMonster.Count; i++)
         {
             AttackType type = DetermineAttackOutcome();
-            battleUIManager.ShowTurnUI("몬스터 턴 - 공격 결과");
+            battleUIManager.DisplayTurnUI("몬스터 턴 - 공격 결과");
             PerformAttack(GameData.AliveMonster[i], player, type);
 
 
@@ -103,8 +104,6 @@ class BattleSystem
 
         options = new string[] { "다음" };
         selectNum = UIManager.DisplaySelectionUI(options);
-
-
     }
 
     public void PerformAttack(Creature attacker, Creature target, AttackType type)
@@ -140,14 +139,14 @@ class BattleSystem
         }
         UIManager.AlignTextCenter(texts);
     }
-
+        
     public string[] GetMonsterOptions()
     {
         string[] options = new string[GameData.AliveMonster.Count];
 
         for (int i = 0; i < GameData.AliveMonster.Count; i++)
         {
-            options[i] = $" {GameData.AliveMonster[i].Name}({GameData.AliveMonster[i].InstanceNumber})";
+            options[i] = $"{GameData.AliveMonster[i].Name}({GameData.AliveMonster[i].InstanceNumber})";
         }
 
         return options;

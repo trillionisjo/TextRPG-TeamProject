@@ -11,6 +11,7 @@ class BattleUIManager
         player = GameData.Player;
     }
 
+
     public void DisplayMonsterList()
     {
         Console.ForegroundColor = ConsoleColor.Green;
@@ -27,21 +28,14 @@ class BattleUIManager
         {
 
             if (GameData.DeathMonster[i] != null)
-                Console.WriteLine($"{GameData.DeathMonster[i].InstanceNumber} Lv.{GameData.DeathMonster[i].Level} {GameData.DeathMonster[i].Name} HP {(GameData.DeathMonster[i].HP > 0 ? GameData.DeathMonster[i].HP : "Dead")} ");
+                Console.WriteLine($"Lv.{GameData.DeathMonster[i].Level} {GameData.DeathMonster[i].Name}({GameData.DeathMonster[i].InstanceNumber}) HP {(GameData.DeathMonster[i].HP > 0 ? GameData.DeathMonster[i].HP : "Dead")} ");
 
         }
 
         Console.ForegroundColor = ConsoleColor.White;
     }
 
-    public void ShowTurnUI(string title)
-    {
-        Console.Clear();
-        DisplayPlayerStat();
-        UIManager.TitleBox(title);
-        DisplayMonsterList();
-    }
-
+    //스탯 정렬부분 개선 필요 .
     public void DisplayPlayerStat()
     {
         string extraAttackPower = player.ExtraAttackPower > 0 ? $"({player.ExtraAttackPower})" : "";
@@ -57,10 +51,8 @@ class BattleUIManager
           };
 
         int maxTextWidth = GetMaxWidth(statText);
-
         int cursorX = Console.WindowWidth - maxTextWidth;
         int cursorY = 0;
-
         int size = 0;
 
         for (int i = 0; i < statText.Length; i++)
@@ -76,10 +68,17 @@ class BattleUIManager
             Console.SetCursorPosition(cursorX, cursorY + i);
             Console.WriteLine(statText[i]);
         }
-
-
-
     }
+
+
+    public void DisplayTurnUI(string title)
+    {
+        Console.Clear();
+        DisplayPlayerStat();
+        UIManager.TitleBox(title);
+        DisplayMonsterList();
+    }
+
 
     private int GetMaxWidth(string[] texts)
     {

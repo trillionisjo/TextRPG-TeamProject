@@ -41,7 +41,10 @@ class DungeonScene : Scene
     private float escapeChance = 0.30f;            
     private bool isPlayerTurn = true;               
     private bool isEscape = false;
-    private Random random = new Random();          
+    private Random random = new Random();
+
+
+    private int[] goldRoot = { 100, 200, 300, 400, 500 };
 
     private void Init()
     {
@@ -92,8 +95,8 @@ class DungeonScene : Scene
 
         else
         {
-            CheckBattleEnd();
             ProcessTurn();
+            CheckBattleEnd();
         }
     }
 
@@ -135,13 +138,31 @@ class DungeonScene : Scene
         isPlayerTurn = !isPlayerTurn;
     }
 
+
+    public void DropLoot()
+    {
+        //전리품 획득 
+        int goldLoot = goldRoot[GameData.DungeonLv - 1] * GameData.DeathMonster.Length;
+        int prevPlayerGold = player.Gold;
+        player.AddGold(goldLoot);
+        UIManager.AlignTextCenter($"소지금:{prevPlayerGold} -> {player.Gold}");
+
+        float itemDropChance = 0.3f;
+
+        if (itemDropChance >= random.NextDouble())
+        {
+            UIManager.AlignTextCenter("아이템 획득!",1);
+        }
+
+    }
+
     public void CheckBattleEnd()
     {
+
         if (player.IsDead)
         {
             Console.WriteLine("플레이어가 죽었습니다");
             Environment.Exit(0);
-
         }
 
         if (GameData.AliveMonster.Count == 0)
@@ -149,13 +170,22 @@ class DungeonScene : Scene
             Console.Clear();
             int lineSpacing = -2;
             UIManager.AlignTextCenter($"Lv{GameData.DungeonLv}의 던전 클리어", lineSpacing);
+            DropLoot();
             GameData.DungeonLv++;
+         
             string[] options = { "던전입장","나가기"};
-            UIManager.DisplaySelectionUI(options);
+            int selectNum = UIManager.DisplaySelectionUI(options);
             Console.Clear();
-            NextDungeon();
+            switch (selectNum)
+            {
+                case 1:
+                    NextDungeon();
+                    break;
+                case 2:
+                    isEscape = true;
+                    break;
+            }
         }
-
     }
 
 }

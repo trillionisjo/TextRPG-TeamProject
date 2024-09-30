@@ -60,7 +60,6 @@ static class UIManager
         Console.SetCursorPosition(0, 0);
     }
 
-
     public static void AlignTextCenter(string text)
     {
         int cursorPosX = (Console.WindowWidth / 2) - (GetByteFromText(text) / 2);
