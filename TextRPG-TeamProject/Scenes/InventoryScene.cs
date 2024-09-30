@@ -4,6 +4,7 @@ class InventoryScene : Scene
 {
     public override void Start ()
     {
+        AudioManager.PlayAudio("main_bgm.mp3");
         Console.Clear();
     }
 

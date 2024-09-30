@@ -10,7 +10,7 @@ public class Program
         Scene currentScene = new NameInputScene();
         Scene nextScene = currentScene;
         currentScene.Start();
-        
+
         while (true)
         {
             if (currentScene != nextScene)
@@ -19,10 +19,10 @@ public class Program
                 currentScene = nextScene;
                 currentScene.Start();
             }
-             
-                currentScene.Update();
-                nextScene = currentScene.NextScene;
-            
+
+            currentScene.Update();
+            nextScene = currentScene.NextScene;
+
         }
     }
 }

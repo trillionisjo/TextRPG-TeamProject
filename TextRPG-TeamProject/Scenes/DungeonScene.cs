@@ -62,6 +62,7 @@ class DungeonScene : Scene
     public override void Start()
     {
         Console.Clear();
+        AudioManager.PlayAudio("fight_bgm.mp3");
         Init();
 
         string[] options = { "싸운다", "도망간다" };
