@@ -7,7 +7,7 @@ public class Program
     {
         GameData.InitDatas();
 
-        Scene currentScene = new InventoryScene();
+        Scene currentScene = new DungeonScene();
         Scene nextScene = currentScene;
         currentScene.Start();
         
@@ -15,12 +15,14 @@ public class Program
         {
             if (currentScene != nextScene)
             {
+
                 currentScene = nextScene;
                 currentScene.Start();
             }
-
-            currentScene.Update();
-            nextScene = currentScene.NextScene;
+             
+                currentScene.Update();
+                nextScene = currentScene.NextScene;
+            
         }
     }
 }
