@@ -15,11 +15,11 @@ class Potion : Item, IConsumable
     {
         switch (Id)
         {
-        case ItemId.HPPotion:
+        case ItemId.HpPotion:
             GameData.Player.HP += RecoveryPower;
             break;
 
-        case ItemId.MPPotion:
+        case ItemId.MpPotion:
             GameData.Player.MP += RecoveryPower;
             break;
         }
