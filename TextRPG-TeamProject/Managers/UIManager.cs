@@ -188,6 +188,12 @@ static class UIManager
         }
     }
 
+    public static void WriteTable (string[,] table, int left, int top)
+    {
+        Console.SetCursorPosition(left, top);
+        WriteTable(table);
+    }
+
     public static string[,] CreatePaddedTable (string[,] table)
     {
         int rows = table.GetLength(0);
