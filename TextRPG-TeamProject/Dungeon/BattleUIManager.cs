@@ -44,7 +44,8 @@ class BattleUIManager
         string[] statText =
          {
             $"플레이어:{player.Name} Lv:{player.Level}({player.Exp}/{player.ExpToNextLv})",
-            $"체력:{player.HP}",
+            $"HP:{player.HP}",
+            $"MP:{player.MP}",
             $"공격력:{player.GetTotalAttackPower()}{extraAttackPower}",
             $"방어력:{player.GetTotalDefensePower()}{extraDefensePower}",
             $"치명타율:{player.CriticalChance}",

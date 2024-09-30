@@ -100,7 +100,20 @@ class DungeonScene : Scene
         }
     }
 
-    public void NextDungeon() 
+
+    private void ProcessTurn()
+    {
+        if (isPlayerTurn)
+            battleSystem.ProcessPlayerTurn();
+
+        else
+            battleSystem.ProcessMonsterTurn();
+
+        isPlayerTurn = !isPlayerTurn;
+    }
+
+
+    private void NextDungeon() 
     {
         Console.Clear();
         Init();
@@ -127,19 +140,10 @@ class DungeonScene : Scene
         }
     }
 
-    private void ProcessTurn()
-    {
-        if (isPlayerTurn)
-            battleSystem.ProcessPlayerTurn();
-
-        else
-            battleSystem.ProcessMonsterTurn();
-
-        isPlayerTurn = !isPlayerTurn;
-    }
 
 
-    public void DropLoot()
+
+    private void DropLoot()
     {
         //전리품 획득 
         int goldLoot = goldRoot[GameData.DungeonLv - 1] * GameData.DeathMonster.Length;
@@ -153,10 +157,11 @@ class DungeonScene : Scene
         {
             UIManager.AlignTextCenter("아이템 획득!",1);
         }
-
     }
 
-    public void CheckBattleEnd()
+
+
+    private void CheckBattleEnd()
     {
 
         if (player.IsDead)

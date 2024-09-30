@@ -13,6 +13,7 @@ class Creature
 {
     public CreatureType CreatureType { get; set; }
     public int HP { get; set; }
+    public int MP { get; set; }
     public string Name { get; set; }
     public bool IsDead => HP <= 0;
     public int Level { get; set; }
@@ -26,7 +27,8 @@ class Creature
         CreatureType = type;
     }
 
-    public void SetInfo(int hp, int attackPower, int defensePower)
+
+    public void SetInfo(int hp,int attackPower, int defensePower)
     {
         HP = hp;
         AttackPower = attackPower;
@@ -35,6 +37,8 @@ class Creature
         CritDmgPct =1.6f;
     }
 
+
+
     public void OnDamaged(int damage)
     {
         HP -= damage;
@@ -42,8 +46,6 @@ class Creature
         if (HP < 0)
             HP = 0;
     }
-
-
 
 
     public virtual int GetTotalAttackPower()

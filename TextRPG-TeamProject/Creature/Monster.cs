@@ -42,6 +42,10 @@ class Monster : Creature
         
     }
 
+
+
+
+
      void InitBossMonster()
     {
         switch (Grade)

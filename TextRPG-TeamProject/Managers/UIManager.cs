@@ -49,6 +49,7 @@ static class UIManager
         Console.SetCursorPosition(0, 0);
 
     }
+
     public static void AlignTextCenter(string text, int lineSpacing)
     {
         int cursorPosX = (Console.WindowWidth / 2) - (GetByteFromText(text) / 2);
@@ -60,6 +61,7 @@ static class UIManager
         Console.SetCursorPosition(0, 0);
     }
 
+
     public static void AlignTextCenter(string text)
     {
         int cursorPosX = (Console.WindowWidth / 2) - (GetByteFromText(text) / 2);
@@ -70,6 +72,7 @@ static class UIManager
         Console.SetCursorPosition(0, 0);
     }
 
+
     public static void PrintTextAtPosition(string text, int x, int y)
     {
 
@@ -78,6 +81,7 @@ static class UIManager
         //커서 포지션 초기화 
         Console.SetCursorPosition(0, 0);
     }
+
 
     public static int GetByteFromText(string text)
     {
@@ -95,6 +99,7 @@ static class UIManager
         }
         return byteSize;
     }
+
 
     public static int DisplaySelectionUI(string[] options)
     {
@@ -217,16 +222,19 @@ static class UIManager
         return paddedTable;
     }
 
+
     public static string PadRight (string input, int totalWidth)
     {
         int textWidth = CalcTextWidth(input);
         return input.PadRight(input.Length + (totalWidth - textWidth));
     }
 
+
     public static int CalcTextWidth (string str)
     {
         return str.Sum(c => IsKorean(c) ? 2 : 1);
     }
+
 
     public static bool IsKorean (char ch)
     {

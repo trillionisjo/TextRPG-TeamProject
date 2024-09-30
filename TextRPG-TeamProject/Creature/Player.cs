@@ -30,25 +30,37 @@ class Player : Creature
         Init();
     }
 
+
+    public void SetInfo(int hp, int mp, int attackPower, int defensePower)
+    {
+        base.SetInfo(hp, attackPower, defensePower);
+        MP = mp;
+    }
+
+
     public void Init()
     {
         int num = (int)Type;
         switch (num)
         {
             case 1:
-                SetInfo(120, 5, 7);
+                SetInfo(120,20, 5, 7);
                 break;
             case 2:
-                SetInfo(70, 10, 2);
+                SetInfo(70,100 , 10, 2);
                 break;
              case 3:
-                SetInfo(100, 6, 6);
+                SetInfo(100,50 , 6, 6);
                 break;
             case 4:
-                SetInfo(50, 10, 5);
+                SetInfo(50,70 , 12, 5);
                 break;
         }
     }
+
+
+
+
 
     public void AddExp(int extraExp)
     {
@@ -101,7 +113,6 @@ class Player : Creature
     }
     public void AddLevel()
     {
-
         AttackPower += 1;
         DefensePower += 1;
         Level++;
