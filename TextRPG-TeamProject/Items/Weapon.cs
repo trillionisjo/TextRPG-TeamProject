@@ -12,11 +12,11 @@ class Weapon : Item, IEquipable
 
     public void ApplyStats ()
     {
-        GameData.Player.AttackPower += WeaponDamage;
+        GameData.Player.ExtraAttackPower += WeaponDamage;
     }
 
     public void RemoveStats ()
     {
-        GameData.Player.AttackPower -= WeaponDamage;
+        GameData.Player.ExtraAttackPower -= WeaponDamage;
     }
 }

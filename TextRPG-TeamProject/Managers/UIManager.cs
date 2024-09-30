@@ -180,9 +180,27 @@ static class UIManager
 
     public static void WriteTable (string[,] table)
     {
+        string[,] paddedTable = CreatePaddedTable(table);
+        for (int row = 0; row < table.GetLength(0); row++)
+        {
+            for (int col = 0; col < table.GetLength(1); col++)
+                Console.Write(paddedTable[row, col]);
+            Console.WriteLine();
+        }
+    }
+
+    public static void WriteTable (string[,] table, int left, int top)
+    {
+        Console.SetCursorPosition(left, top);
+        WriteTable(table);
+    }
+
+    public static string[,] CreatePaddedTable (string[,] table)
+    {
         int rows = table.GetLength(0);
         int cols = table.GetLength(1);
         int[] maxWidths = new int[cols];
+        string[,] paddedTable = new string[rows, cols];
 
         // 각 열의 최대너비 계산
         for (int col = 0; col < cols; col++)
@@ -196,17 +214,19 @@ static class UIManager
             maxWidths[col] = max;
         }
 
-        // 테이블 출력
+        // 스페이스가 채워진 테이블 생성
         for (int row = 0; row < rows; row++)
         {
             for (int col = 0; col < cols - 1; col++)
             {
                 string paddedText = PadRight(table[row, col], maxWidths[col]);
-                Console.Write($"{paddedText} | ");
+                paddedTable[row, col] = $"{paddedText} | ";
             }
             string lastColumnText = PadRight(table[row, cols - 1], maxWidths[cols - 1]);
-            Console.WriteLine(lastColumnText);
+            paddedTable[row, cols - 1] = lastColumnText;
         }
+
+        return paddedTable;
     }
 
 
