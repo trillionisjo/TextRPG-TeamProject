@@ -12,11 +12,11 @@ class Armor : Item, IEquipable
 
     public void ApplyStats ()
     {
-        GameData.Player.DefensePower += ArmorDefense;
+        GameData.Player.ExtraDefensePower += ArmorDefense;
     }
 
     public void RemoveStats ()
     {
-        GameData.Player.DefensePower -= ArmorDefense;
+        GameData.Player.ExtraDefensePower -= ArmorDefense;
     }
 }
