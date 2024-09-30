@@ -7,7 +7,7 @@ public class Program
     {
         GameData.InitDatas();
 
-        Scene currentScene = new DungeonScene();
+        Scene currentScene = new StartScene();
         Scene nextScene = currentScene;
         currentScene.Start();
         
