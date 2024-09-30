@@ -50,6 +50,7 @@ static class UIManager
 
     }
 
+
     public static void AlignTextCenter(string text, int lineSpacing)
     {
         int cursorPosX = (Console.WindowWidth / 2) - (GetByteFromText(text) / 2);
@@ -226,6 +227,8 @@ static class UIManager
     {
         return ('가' <= ch && ch <= '힣') || ('ㄱ' <= ch && ch <= 'ㅎ') || ('ㅏ' <= ch && ch <= 'ㅣ');
     }
+
+
 }
 
 

@@ -176,8 +176,7 @@ class DungeonScene : Scene
             int lineSpacing = -2;
             UIManager.AlignTextCenter($"Lv{GameData.DungeonLv}의 던전 클리어", lineSpacing);
             DropLoot();
-            GameData.DungeonLv++;
-         
+            GameData.DungeonLv++; 
             string[] options = { "던전입장","나가기"};
             int selectNum = UIManager.DisplaySelectionUI(options);
             Console.Clear();

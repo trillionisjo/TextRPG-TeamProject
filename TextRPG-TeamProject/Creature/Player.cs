@@ -18,7 +18,7 @@ class Player : Creature
     public int Exp { get; set; }
     public int ExtraAttackPower { get; set; }
     public int ExtraDefensePower { get; set; }
-    
+
     public Player(PlayerType type) : base(CreatureType.Player)
     {
         Level = 1;
@@ -34,8 +34,12 @@ class Player : Creature
     public void SetInfo(int hp, int mp, int attackPower, int defensePower)
     {
         base.SetInfo(hp, attackPower, defensePower);
+        MaxMP = mp;
         MP = mp;
     }
+
+
+
 
 
     public void Init()
@@ -44,16 +48,16 @@ class Player : Creature
         switch (num)
         {
             case 1:
-                SetInfo(120,20, 5, 7);
+                SetInfo(120, 20, 5, 7);
                 break;
             case 2:
-                SetInfo(70,100 , 10, 2);
+                SetInfo(70, 100, 10, 2);
                 break;
-             case 3:
-                SetInfo(100,50 , 6, 6);
+            case 3:
+                SetInfo(100, 50, 6, 6);
                 break;
             case 4:
-                SetInfo(50,70 , 12, 5);
+                SetInfo(50, 70, 12, 5);
                 break;
         }
     }
@@ -119,6 +123,17 @@ class Player : Creature
 
     }
 
+    public void UseMP(int amount)
+    {
+        MP -= amount;
+        
+    }
+    public void AddMP(int amount)
+    {
+        MP += amount;
+        if (MP > MaxMP)
+            MP = MaxMP;
+
+    }
 
 }
-

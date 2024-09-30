@@ -81,6 +81,7 @@ class BattleUIManager
     }
 
 
+
     private int GetMaxWidth(string[] texts)
     {
         int maxWidth = 0;
