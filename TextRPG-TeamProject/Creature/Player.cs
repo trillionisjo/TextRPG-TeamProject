@@ -27,6 +27,8 @@ class Player : Creature
         ExtraDefensePower = 0;
     }
 
+
+
     public void SetInfo(int hp, int mp, int attackPower, int defensePower)
     {
         base.SetInfo(hp, attackPower, defensePower);

@@ -5,7 +5,7 @@
     public int Damage { get; set; }
 
 
-    public Rogue() : base(PlayerType.Mage)
+    public Rogue() 
     {
         SkillName = "도적스킬";
         ManaCost = 20;

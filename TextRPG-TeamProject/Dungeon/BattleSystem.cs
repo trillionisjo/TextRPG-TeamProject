@@ -170,11 +170,17 @@ class BattleSystem
         switch ((int)playerType)
         {
             case 1:
+                skill = new Knight();
+                break;
             case 2:
                 skill = new Mage();
                 break;
             case 3:
+                skill = new Archer();
+                break;
             case 4:
+                skill = new Rogue();
+                break;
             default:
                 skill = new Mage();
                 break;

@@ -5,7 +5,7 @@
     public int Damage { get; set; }
 
 
-    public Mage() : base(PlayerType.Mage)
+    public Mage() 
     {
         SkillName = "법사스킬";
         ManaCost = 30;

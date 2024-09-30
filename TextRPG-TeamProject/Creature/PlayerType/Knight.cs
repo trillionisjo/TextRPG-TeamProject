@@ -5,7 +5,7 @@
     public int Damage { get; set; }
 
 
-    public Knight() : base(PlayerType.Knight)
+    public Knight()
     {
         SkillName = "전사스킬";
         ManaCost = 20;
