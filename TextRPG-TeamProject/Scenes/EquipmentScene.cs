@@ -64,8 +64,8 @@ class EquipmentScene : Scene
     {
         var equipmentList = Inventory.GetItemsByType<IEquipable>();
 
-        string[,] table = new string[equipmentList.Count(), 4];
-        var options = new (string text, IEventHandler handler)?[equipmentList.Count + 2];
+        string[,] table = new string[equipmentList.Count(), 3];
+        var options = new (string text, IEventHandler handler)?[equipmentList.Count + 3];
 
         for (int i = 0; i < equipmentList.Count; i++)
         {
@@ -75,7 +75,6 @@ class EquipmentScene : Scene
             table[i, 0] = $"{strEquipted}{item.Name}";
             table[i, 1] = item.StatInfo;
             table[i, 2] = item.Desc;
-            table[i, 3] = $"{item.Price} G";
 
             options[i] = (text: "", handler: new ToggleEvent(equipmentList[i]));
         }
@@ -85,7 +84,7 @@ class EquipmentScene : Scene
         for (int i = 0; i < paddedList.Count(); i++)
             options[i] = (text: paddedList[i], handler: options[i]?.handler);
 
-        options[options.Count() - 2] = (text: "----------------------------------------------------------------------------------------", handler: null);
+        options[options.Count() - 2] = (text: "----------------------------------------------------------------------------------------------", handler: null);
         options[options.Count() - 1] = (text: "나가기", handler: new ExitEvent(ExitScene));
 
         (int x, int y) point = Console.GetCursorPosition();
