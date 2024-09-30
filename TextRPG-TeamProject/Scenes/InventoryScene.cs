@@ -18,7 +18,7 @@ class InventoryScene : Scene
         WriteItemList();
         Console.WriteLine();
 
-        var options = new string[] {"장착 관리", $"회복약 사용 ({Inventory.QueryPotionCount(ItemId.HpPotion)})", "나가기"};
+        var options = new string[] {"장착 관리", $"회복약 사용 ({Inventory.QueryItemCount(ItemId.HpPotion)})", "나가기"};
         int selectedNumber = UIManager.DisplaySelectionUI(options);
         HandleInput(selectedNumber);
     }
