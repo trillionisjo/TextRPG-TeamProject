@@ -20,6 +20,8 @@ static class GameData
         Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.WornSword));
         Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.BronzeAxe));
         Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.SpartanSpear));
+        Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.HPPotion));
+        Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.MPPotion));
     }
     
 }
