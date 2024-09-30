@@ -23,5 +23,7 @@ class Potion : Item, IConsumable
             GameData.Player.MP += RecoveryPower;
             break;
         }
+
+        Inventory.RemoveItem(this);
     }
 }

@@ -24,7 +24,7 @@ class InventoryScene : Scene
 
     protected void WriteItemList()
     {
-        string[,] table = new string[Inventory.ItemList.Count, 4];
+        string[,] table = new string[Inventory.ItemList.Count, 3];
 
         for (int i = 0; i < Inventory.ItemList.Count; i++)
         {
@@ -39,7 +39,7 @@ class InventoryScene : Scene
 
             table[i, 1] = item.StatInfo;
             table[i, 2] = item.Desc;
-            table[i, 3] = $"{item.Price} G";
+            //table[i, 3] = $"{item.Price} G";
         }
 
         UIManager.WriteTable(table);
