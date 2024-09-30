@@ -190,8 +190,14 @@ static class UIManager
 
     public static void WriteTable (string[,] table, int left, int top)
     {
-        Console.SetCursorPosition(left, top);
-        WriteTable(table);
+        int count = 0;
+        string[,] paddedTable = CreatePaddedTable(table);
+        for (int row = 0; row < table.GetLength(0); row++)
+        {
+            Console.SetCursorPosition(left, top + count++);
+            for (int col = 0; col < table.GetLength(1); col++)
+                Console.Write(paddedTable[row, col]);
+        }
     }
 
     public static string[,] CreatePaddedTable (string[,] table)
@@ -228,19 +234,16 @@ static class UIManager
         return paddedTable;
     }
 
-
     public static string PadRight (string input, int totalWidth)
     {
         int textWidth = CalcTextWidth(input);
         return input.PadRight(input.Length + (totalWidth - textWidth));
     }
 
-
     public static int CalcTextWidth (string str)
     {
         return str.Sum(c => IsKorean(c) ? 2 : 1);
     }
-
 
     public static bool IsKorean (char ch)
     {
