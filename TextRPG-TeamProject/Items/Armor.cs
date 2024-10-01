@@ -1,12 +1,22 @@
 ﻿using System;
 
-class Armor : Item, IEquipable
+class Armor : IEquipable
 {
+    public ItemId Id { get; set; }
+    public string Name { get; set; }
+    public string Desc { get; set; }
+    public int Price { get; set; }
     public int ArmorDefense { get; set; }
-    public override string StatInfo => $"방어력 {ArmorDefense:+#;-#;0}";
+    public string StatInfo => $"방어력 {ArmorDefense:+#;-#;0}";
 
-    public Armor (ItemId id, string name, string desc, int price, int armorDefense) : base(id, name, desc, price)
+    public Slot Slot => Slot.Body;
+
+    public Armor (ItemId id, string name, string desc, int price, int armorDefense)
     {
+        Id = id;
+        Name = name;
+        Desc = desc;
+        Price = price;
         ArmorDefense = armorDefense;
     }
 

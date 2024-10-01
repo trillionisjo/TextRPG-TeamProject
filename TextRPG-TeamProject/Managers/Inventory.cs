@@ -2,9 +2,9 @@
 
 static class Inventory
 {
-    public static List<Item> ItemList { get; set; } = new List<Item>();
+    public static List<IItem> ItemList { get; set; } = new List<IItem>();
 
-    public static void RemoveItem (Item item)
+    public static void RemoveItem (IItem item)
     {
         for (int i = 0; i < ItemList.Count; i++)
             if (ItemList[i].Id == item.Id)
@@ -37,7 +37,7 @@ static class Inventory
     public static int QueryItemCount(ItemId id)
     {
         int count = 0;
-        foreach (Item item in ItemList)
+        foreach (IItem item in ItemList)
             count += id == item.Id ? 1 : 0;
         return count;
     }
@@ -47,22 +47,22 @@ static class Inventory
         return ItemList.OfType<T>().ToList();
     }
 
-    public static IReadOnlyList<Item> GetItemsSortedByName()
+    public static IReadOnlyList<IItem> GetItemsSortedByName()
     {
         return GetItemsSortedByName(ItemList);
     }
 
-    public static IReadOnlyList<Item> GetItemsSortedByPrice()
+    public static IReadOnlyList<IItem> GetItemsSortedByPrice()
     {
         return GetItemsSortedByPrice(ItemList);
     }
 
-    public static IReadOnlyList<Item> GetItemsSortedByName (List<Item> items)
+    public static IReadOnlyList<IItem> GetItemsSortedByName (List<IItem> items)
     {
         return items.OrderBy(item => item.Name).ToList();
     }
 
-    public static IReadOnlyList<Item> GetItemsSortedByPrice (List<Item> items)
+    public static IReadOnlyList<IItem> GetItemsSortedByPrice (List<IItem> items)
     {
         return items.OrderBy(item => item.Price).ToList();
     }

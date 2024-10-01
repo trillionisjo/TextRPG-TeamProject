@@ -29,7 +29,7 @@ class InventoryScene : Scene
 
         for (int i = 0; i < Inventory.ItemList.Count; i++)
         {
-            Item item = Inventory.ItemList[i];
+            IItem item = Inventory.ItemList[i];
 
             if (item is IEquipable equipment)
             {

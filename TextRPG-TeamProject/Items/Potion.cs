@@ -1,13 +1,20 @@
 ﻿using System;
 
-class Potion : Item, IConsumable
+class Potion : IConsumable
 {
+    public ItemId Id { get; set; }
+    public string Name { get; set; }
+    public string Desc { get; set; }
+    public int Price { get; set; }
     public int RecoveryPower { get; set; }
+    public string StatInfo => $"회복력 {RecoveryPower}";
 
-    public override string StatInfo => $"회복력 {RecoveryPower}";
-
-    public Potion(ItemId id, string name, string desc, int price, int recoveryPower) : base(id, name, desc, price)
+    public Potion(ItemId id, string name, string desc, int price, int recoveryPower)
     {
+        Id = id;
+        Name = name;
+        Desc = desc;
+        Price = price;
         RecoveryPower = recoveryPower;
     }
 
@@ -16,11 +23,11 @@ class Potion : Item, IConsumable
         switch (Id)
         {
         case ItemId.HpPotion:
-            GameData.Player.HP += RecoveryPower;
+            GameData.Player.HP = Math.Min(GameData.Player.HP + RecoveryPower, GameData.Player.MaxHP);
             break;
 
         case ItemId.MpPotion:
-            GameData.Player.MP += RecoveryPower;
+            GameData.Player.AddMP(RecoveryPower);
             break;
         }
     }

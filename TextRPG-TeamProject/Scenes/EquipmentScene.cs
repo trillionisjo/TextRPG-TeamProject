@@ -68,7 +68,7 @@ class EquipmentScene : Scene
 
         for (int i = 0; i < equipmentList.Count; i++)
         {
-            Item item = (Item)equipmentList[i];
+            IItem item = (IItem)equipmentList[i];
             string strEquipted = Equipment.IsEquiptedItem(equipmentList[i]) ? "[E]" : "";
 
             table[i, 0] = $"{strEquipted}{item.Name}";

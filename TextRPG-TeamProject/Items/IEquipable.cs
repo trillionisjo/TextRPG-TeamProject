@@ -1,7 +1,14 @@
 ﻿using System;
 
-interface IEquipable
+enum Slot
 {
+    Hand,
+    Body
+}
+
+interface IEquipable : IItem
+{
+    Slot Slot { get; }
     void ApplyStats ();
     void RemoveStats ();
 }
