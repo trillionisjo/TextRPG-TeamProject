@@ -13,12 +13,15 @@ public enum AttackType
     Critical,
     Normal
 }
-public delegate void OnEndBattle();
+public delegate void OnWinBattle();
+public delegate void OnLoseBattle();
+
 
 class BattleSystem
 {
 
-    public event OnEndBattle End;
+    public event OnWinBattle OnWinBattle;
+    public event OnLoseBattle OnLoseBattle;
 
 
     private Player player;
@@ -31,7 +34,7 @@ class BattleSystem
     private double missChance = 0.10f;
 
     private int diedMonsterNum = 0;
-    private bool isPlayerTurn =true;
+    private bool isPlayerTurn = true;
 
     public BattleSystem()
     {
@@ -119,7 +122,7 @@ class BattleSystem
         if (selectedTargetIndex == backButtonIndex)
             return false;
 
-     
+
         ISkill skill = battleUtilities.GetSkillByType(player.Type);
         if (skill.ManaCost > player.MP)
         {
@@ -127,7 +130,7 @@ class BattleSystem
             return false;
         }
 
-        PerformSkill(player, monsters[selectedTargetIndex ],skill);
+        PerformSkill(player, monsters[selectedTargetIndex], skill);
         return true;
     }
 
@@ -152,7 +155,7 @@ class BattleSystem
     {
         battleUIManager.DisplayTurnUI("플레이어 턴 - 포션사용");
         Inventory.UsePotion(potion.Id);
-        string[] texts  = battleUIManager.GetPotionUsageResultTexts(player, potion);
+        string[] texts = battleUIManager.GetPotionUsageResultTexts(player, potion);
         UIManager.AlignTextCenter(texts);
     }
 
@@ -199,38 +202,38 @@ class BattleSystem
     }
 
 
-    public void EndBattle()
-    {
-    
-       
-
-        End?.Invoke();
-    }
 
 
     public void StartBattle()
     {
 
+
         for (int i = 0; i < monsters.Count; i++)
         {
-            monsters[i].OnDeath += TriggerMonsterDeath;
+            monsters[i].OnDeath += HandleMonsterDeath;
         }
+
 
         while (true)
         {
 
             if (monsters.Count == 0)
             {
-                EndBattle();
+                OnWinBattle?.Invoke();
                 break;
             }
 
             else
             {
-                if(isPlayerTurn)
-                     ProcessPlayerTurn();
+                if (player.IsDead)
+                {
+                    OnLoseBattle?.Invoke();
+                    break;
+                }
+                if (isPlayerTurn)
+                    ProcessPlayerTurn();
                 else
-                     ProcessMonsterTurn();
+                    ProcessMonsterTurn();
 
                 isPlayerTurn = !isPlayerTurn;
             }
@@ -241,26 +244,26 @@ class BattleSystem
     }
 
 
-    public  void TriggerMonsterDeath(Monster monster)
+    public void HandleMonsterDeath(Monster monster)
     {
-        monster.OnDeath -= TriggerMonsterDeath;
+        monster.OnDeath -= HandleMonsterDeath;
         GameData.AliveMonster.Remove(monster);
         GameData.DeathMonster.Add(monster);
         int prevPlayerLevel = player.Level;
-   
+
         player.AddExp(monster.DropExp);
         player.AddGold(monster.DropGold);
 
-        string [] texts = { $"{monster.Name}({monster.InstanceNumber})을 처치!",$"{monster.DropExp}의 경험치와 {monster.DropGold} Gold를 획득" };
+        string[] texts = { $"{monster.Name}({monster.InstanceNumber})을 처치!", $"{monster.DropExp}의 경험치와 {monster.DropGold} Gold를 획득" };
         UIManager.AlignTextCenter(texts);
 
         if (prevPlayerLevel != player.Level)
         {
-            texts = texts.Concat(new string [] {$"lv {prevPlayerLevel} -> {player.Level} "}).ToArray();
+            texts = texts.Concat(new string[] { $"lv {prevPlayerLevel} -> {player.Level} " }).ToArray();
             UIManager.AlignTextCenter(texts);
         }
 
-        string [] options = new string[] { "다음" };
+        string[] options = new string[] { "다음" };
         int selectNum = UIManager.DisplaySelectionUI(options);
 
     }
