@@ -6,11 +6,11 @@
     Random random = new Random();
 
 
-    public List<Monster> GetMobListByLevel(int level)
+
+    public List<Monster> GenerateMonstersByLevel(int level , int monsterNum)
     { 
         List<Monster> monsters = new List <Monster>();
-        int monsterNum = random.Next(1, 5);
-
+ 
         for (int i = 0; i < monsterNum; i++)
         {
             int type = random.Next(1, Math.Min(level, 5) + 1);

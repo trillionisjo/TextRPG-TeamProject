@@ -45,7 +45,7 @@ public class Player : Creature
         {
             case 1:
                 Type = PlayerType.Knight;
-                SetInfo(120, 20, 5, 7);
+                SetInfo(5, 20, 5, 7);
                 break;
             case 2:
                 Type = PlayerType.Mage;
