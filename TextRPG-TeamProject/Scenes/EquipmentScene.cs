@@ -60,6 +60,7 @@ class EquipmentScene : Scene
         WriteItemList();
     }
 
+
     private void WriteItemList()
     {
         var equipmentList = Inventory.GetItemsByType<IEquipable>();
@@ -91,6 +92,7 @@ class EquipmentScene : Scene
         DiaplaySelectionUI(options, point.x, point.y);
     }
 
+
     private void DiaplaySelectionUI ((string text, IEventHandler handler)?[] options, int x, int y)
     {
         bool looping = true;
@@ -121,7 +123,8 @@ class EquipmentScene : Scene
                 {
                     cursor = (cursor - 1 + options.Length) % options.Length;
                 } while (!options[cursor].HasValue || options[cursor].Value.handler == null);
-                break;
+             
+                    break;
                 case ConsoleKey.RightArrow:
                 case ConsoleKey.DownArrow:
                 do

@@ -139,7 +139,8 @@ static class BattleUIManager
             var monsterStats = $"HP: {monster.HP}ㅣ공격력: {monster.GetTotalAttackPower()}ㅣ방어력: {monster.GetTotalDefensePower()}";
             Console.WriteLine($"{monsterInfo} {monsterStats}");
         }
-
+    
+  
 
         Console.WriteLine();
 
@@ -159,14 +160,11 @@ static class BattleUIManager
         Console.ForegroundColor = ConsoleColor.White;
     }
 
-    //스탯 정렬부분 개선 필요 .
     static public void DisplayPlayerStat()
     {
-        // extraAttackPower와 extraDefensePower 값을 올바르게 설정
         string extraAttackPower = player.ExtraAttackPower > 0 ? $"(+{player.ExtraAttackPower})" : "";
         string extraDefensePower = player.ExtraDefensePower > 0 ? $"(+{player.ExtraDefensePower})" : "";
 
-        // 메서드 호출 시 ()를 사용
         string[] statText =
         {
              $"Lv:{player.Level}({player.Exp}/{player.ExpToNextLv})",

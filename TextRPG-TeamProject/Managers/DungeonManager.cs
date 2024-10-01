@@ -18,6 +18,7 @@ class DungeonManager
             instance = value;
         }
     }
+
     static private DungeonManager instance;
 
     private BattleSystem battleSystem;

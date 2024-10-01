@@ -32,6 +32,7 @@ class DungeonScene : Scene
     }
 
 
+
     private void DecideDungeonEntry()
     {
         UIManager.TitleBox($"던전LV:{GameData.DungeonLv}");

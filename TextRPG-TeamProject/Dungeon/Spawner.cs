@@ -57,6 +57,13 @@
         
     }
 
+    string [] GetGraphices()
+    {
+        string[] mobGraphic;
+
+        return mobGraphic = new string[1];
+    }
+
 
 
 
