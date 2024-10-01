@@ -34,8 +34,8 @@ bld/
 
 #[Bb]in/
 [Bb]in/*
-![Bb]in/*.mp3
-![Bb]in/*.wav
+![Bb]in/**/*.mp3
+![Bb]in/**/*.wav
 
 [Oo]bj/
 [Ll]og/
