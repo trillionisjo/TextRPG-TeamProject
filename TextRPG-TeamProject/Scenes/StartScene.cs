@@ -1,5 +1,4 @@
 ﻿using System;
-using TextRPG_TeamProject.Scenes;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 class StartScene : Scene

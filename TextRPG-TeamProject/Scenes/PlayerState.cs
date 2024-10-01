@@ -1,5 +1,4 @@
 ﻿using System;
-using TextRPG_TeamProject.Scenes;
 
 class PlayerState : Scene
 {
