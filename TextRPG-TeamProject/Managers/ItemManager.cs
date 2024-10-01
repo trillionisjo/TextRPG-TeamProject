@@ -19,7 +19,7 @@ enum ItemId
 
 static class ItemManager
 {
-    public static Item Instantiate (ItemId id)
+    public static IItem Instantiate (ItemId id)
     {
         switch (id)
         {

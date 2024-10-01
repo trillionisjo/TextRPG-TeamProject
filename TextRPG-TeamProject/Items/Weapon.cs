@@ -1,12 +1,21 @@
 ﻿using System;
 
-class Weapon : Item, IEquipable
+class Weapon : IEquipable
 {
+    public ItemId Id { get; set; }
+    public string Name { get; set; }
+    public string Desc { get; set; }
+    public int Price { get; set; }
     public int WeaponDamage { get; set; }
-    public override string StatInfo => $"공격력 {WeaponDamage:+#;-#;0}";
+    public string StatInfo => $"공격력 {WeaponDamage:+#;-#;0}";
+    public Slot Slot => Slot.Hand;
 
-    public Weapon (ItemId id, string name, string desc, int price, int weaponDamage) : base(id, name, desc, price)
+    public Weapon (ItemId id, string name, string desc, int price, int weaponDamage)
     {
+        Id = id;
+        Name = name;
+        Desc = desc;
+        Price = price;
         WeaponDamage = weaponDamage;
     }
 

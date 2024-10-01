@@ -1,6 +1,6 @@
 ﻿using System;
 
-interface IConsumable
+interface IConsumable : IItem
 {
     void Consume ();
 }
