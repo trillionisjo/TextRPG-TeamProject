@@ -1,12 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using static System.Net.Mime.MediaTypeNames;
-
-interface IEventHandler
-{
-    public void Invoke ();
-}
-
+﻿
 
 
 class EquipmentScene : Scene
@@ -14,15 +6,15 @@ class EquipmentScene : Scene
     #region private classes
     private class ToggleEvent : IEventHandler
     {
-        IEquipable equipment;
-        public ToggleEvent (IEquipable equipment)
+        IEquipable item;
+        public ToggleEvent (IEquipable item)
         {
-            this.equipment = equipment;
+            this.item = item;
         }
 
         public void Invoke ()
         {
-            Equipment.ToggleItem(equipment);
+            EquipManager.ToggleEquip(item);
         }
     }
 
@@ -63,18 +55,16 @@ class EquipmentScene : Scene
     private void WriteItemList()
     {
         var equipmentList = Inventory.GetItemsByType<IEquipable>();
-
         string[,] table = new string[equipmentList.Count(), 3];
         var options = new (string text, IEventHandler handler)?[equipmentList.Count + 3];
 
         for (int i = 0; i < equipmentList.Count; i++)
         {
-            IItem item = (IItem)equipmentList[i];
-            string strEquipted = Equipment.IsEquiptedItem(equipmentList[i]) ? "[E]" : "";
+            string strEquipted = EquipManager.IsEquiptedItem(equipmentList[i]) ? "[E]" : "";
 
-            table[i, 0] = $"{strEquipted}{item.Name}";
-            table[i, 1] = item.StatInfo;
-            table[i, 2] = item.Desc;
+            table[i, 0] = $"{strEquipted}{equipmentList[i].Name}";
+            table[i, 1] = equipmentList[i].StatInfo;
+            table[i, 2] = equipmentList[i].Desc;
 
             options[i] = (text: "", handler: new ToggleEvent(equipmentList[i]));
         }

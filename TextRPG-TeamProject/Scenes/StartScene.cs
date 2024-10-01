@@ -20,13 +20,21 @@ class StartScene : Scene
 
     private void HandleInput()
     {
-        string[] option = { "상태 보기", "전투 시작" };
+        string[] option = { "상태 보기", "인벤토리", "상점", "전투 시작" };
         int number = UIManager.DisplaySelectionUI(option);
 
         switch (number)
         {
             case 1:
                 NextScene = new PlayerState();
+                break;
+
+            case 2:
+                NextScene = new InventoryScene();
+                break;
+
+            case 3:
+                NextScene = new ShopScene();
                 break;
 
             default:

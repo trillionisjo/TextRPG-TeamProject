@@ -1,6 +1,24 @@
 ﻿using System;
 using System.Text;
 
+class Option
+{
+    public string Text;
+    public IEventHandler Handler;
+
+    public Option()
+    {
+        Text = null;
+        Handler = null;
+    }
+
+    public Option(string text, IEventHandler handler)
+    {
+        Text = text;
+        Handler = handler;
+    }
+}
+
 static class UIManager
 {
     const int padding = 3;
@@ -178,6 +196,56 @@ static class UIManager
         return selectNum;
     }
 
+    public static int DisplaySelectionUI (Option[] options, int x, int y, int cursorOffset)
+    {
+        bool looping = true;
+
+        while (looping)
+        {
+            for (int i = 0; i < options.Count(); i++)
+            {
+                if (options[i] == null)
+                    continue;
+
+                Console.SetCursorPosition(x, y + i);
+                if (cursorOffset == i)
+                    Console.Write("▶");
+                else
+                    Console.Write(" ");
+
+                Console.SetCursorPosition(x + 2, y + i);
+                Console.Write(options[i].Text);
+            }
+
+            ConsoleKey key = Console.ReadKey(false).Key;
+            switch (key)
+            {
+            case ConsoleKey.UpArrow:
+            case ConsoleKey.LeftArrow:
+                do
+                {
+                    cursorOffset = (cursorOffset - 1 + options.Length) % options.Length;
+                } while (options[cursorOffset] == null || options[cursorOffset].Handler == null);
+                break;
+
+            case ConsoleKey.DownArrow:
+            case ConsoleKey.RightArrow:
+                do
+                {
+                    cursorOffset = (cursorOffset + 1) % options.Length;
+                } while (options[cursorOffset] == null || options[cursorOffset].Handler == null);
+                break;
+
+            case ConsoleKey.Enter:
+                options[cursorOffset].Handler.Invoke();
+                looping = false;
+                break;
+            }
+        }
+
+        return cursorOffset;
+    }
+
     public static void WriteTable (string[,] table)
     {
         string[,] paddedTable = CreatePaddedTable(table);
@@ -270,6 +338,13 @@ static class UIManager
         }
 
         return paddedList;
+    }
+
+    public static void DrawLine(int y, int length = 120)
+    {
+        Console.SetCursorPosition(0, y);
+        for (int i = 0; i < length; i++)
+            Console.Write('-');
     }
 
     public static string PadRight (string input, int totalWidth)

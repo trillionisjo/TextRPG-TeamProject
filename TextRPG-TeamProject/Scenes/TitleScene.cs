@@ -25,7 +25,6 @@ class TitleScene : Scene
     public override void Start ()
     {
         AudioManager.PlayAudio("title_bgm.mp3");
-        Console.CursorVisible = false;
     }
 
     public override void Update ()
@@ -35,8 +34,8 @@ class TitleScene : Scene
             DisplayAsciiArt(17, 3);
 
             Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(47, 22);
-            Console.Write("PRESS ENTER TO START");
+            Console.SetCursorPosition(42, 22);
+            Console.Write("시작하려면 'ENTER'키를 눌러주세요");
 
             if (Console.KeyAvailable)
             {
