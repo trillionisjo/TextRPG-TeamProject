@@ -7,7 +7,7 @@ public class Program
     {
         GameData.InitDatas();
 
-        Scene currentScene = new InventoryScene();
+        Scene currentScene = new NameInputScene();
         Scene nextScene = currentScene;
         currentScene.Start();
         

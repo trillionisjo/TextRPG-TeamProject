@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Numerics;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -23,9 +24,31 @@ class BattleUIManager
         return selectNum - 1;
     }
 
+    public int ShowPotionChoices()
+    {
+
+        DisplayTurnUI("플레이어 턴 - 포션선택");
+        string[] potionList = GetPotionOptions();
+        string[] previousPage = { "뒤로가기" };
+        string[] options = potionList.Concat(previousPage).ToArray();
+        int selectNum = UIManager.DisplaySelectionUI(options);
+        return selectNum - 1;
+    }
 
 
+    public string[] GetPotionOptions()
+    {
+        var potionList = Inventory.GetItemsByType<Potion>();
+        string[] options = new string[potionList.Count];
+        for (int i = 0; i < potionList.Count; i++)
+        {
+            options[i] = $"{potionList[i].Name}";
+        }
 
+        return options;
+    }
+
+    
     public string[] GetMonsterOptions()
     {
         string[] options = new string[GameData.AliveMonster.Count];
@@ -53,7 +76,40 @@ class BattleUIManager
  }
 
 
-public string[] GetAttackResultTexts(Creature attacker, Creature target, AttackType type, int damage)
+    public string[] GetPotionUsageResultTexts(Player player, Potion potion)
+    {
+        int previousPower = 0;
+        int currentPower = 0;
+        string power= " ";
+
+        if (potion.Id == ItemId.HpPotion)
+        {
+            previousPower = player.HP - potion.RecoveryPower;
+            currentPower = player.HP;
+            power = "HP";
+        }
+
+        else if (potion.Id == ItemId.MpPotion)
+        {
+            previousPower = player.MP - potion.RecoveryPower;
+            currentPower = player.MP;
+            power = "MP";
+        }
+
+
+        string[] texts =
+       {
+          $"{(potion.Id == ItemId.HpPotion ? "회복포션" : "마나포션")} 사용",
+          $"{potion.RecoveryPower}만큼 회복",
+          $"{power}{previousPower} -> {currentPower}"
+        };
+
+        return texts;
+    }
+
+
+
+    public string[] GetAttackResultTexts(Creature attacker, Creature target, AttackType type, int damage)
     {
         string[] texts;
         if (type == AttackType.Miss)
@@ -88,7 +144,7 @@ public string[] GetAttackResultTexts(Creature attacker, Creature target, AttackT
         Console.WriteLine();
 
         Console.ForegroundColor = ConsoleColor.Red;
-        for (int i = 0; i < GameData.DeathMonster.Length; i++)
+        for (int i = 0; i < GameData.DeathMonster.Count; i++)
         {
 
             if (GameData.DeathMonster[i] != null)
@@ -106,14 +162,12 @@ public string[] GetAttackResultTexts(Creature attacker, Creature target, AttackT
         string extraDefensePower = player.ExtraAttackPower > 0 ? $"({player.ExtraAttackPower})" : "";
 
         string[] statText =
-         {
-            $"플레이어:{player.Name} Lv:{player.Level}({player.Exp}/{player.ExpToNextLv})",
-            $"HP:{player.HP}",
-            $"MP:{player.MP}",
-            $"공격력:{player.GetTotalAttackPower()}{extraAttackPower}",
-            $"방어력:{player.GetTotalDefensePower()}{extraDefensePower}",
-            $"치명타율:{player.CriticalChance}",
-          };
+      {
+        $"플레이어: {player.Name,-8} Lv: {player.Level} ({player.Exp}/{player.ExpToNextLv})",
+        $"체력    : {player.HP,-8} 마나: {player.MP}",
+        $"공격력  : {player.GetTotalAttackPower(),-8}{extraAttackPower} 방어력: {player.GetTotalDefensePower()}{extraDefensePower}",
+        $"치명타율: {player.CriticalChance}"
+    };
 
         int maxTextWidth = GetMaxWidth(statText);
         int cursorX = Console.WindowWidth - maxTextWidth;

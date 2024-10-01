@@ -3,6 +3,7 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection.Emit;
 using System.Threading;
+using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 public enum AttackType
@@ -12,10 +13,13 @@ public enum AttackType
     Critical,
     Normal
 }
-
+public delegate void OnEndBattle();
 
 class BattleSystem
 {
+
+    public event OnEndBattle End;
+
 
     private Player player;
     private BattleUIManager battleUIManager;
@@ -27,7 +31,7 @@ class BattleSystem
     private double missChance = 0.10f;
 
     private int diedMonsterNum = 0;
-
+    private bool isPlayerTurn =true;
 
     public BattleSystem()
     {
@@ -35,6 +39,8 @@ class BattleSystem
         battleUIManager = new BattleUIManager();
         player = GameData.Player;
     }
+
+
 
 
     public void ProcessMonsterTurn()
@@ -89,7 +95,7 @@ class BattleSystem
 
             if (selectedAction == 1 && HandleAttackSelection(backButtonIndex)) break;
             if (selectedAction == 2 && HandleSkillSelection(backButtonIndex)) break;
-            if (selectedAction == 3 && HandleItemSelection()) break;
+            if (selectedAction == 3 && HandleItemSelection(backButtonIndex)) break;
         }
     }
 
@@ -126,20 +132,29 @@ class BattleSystem
     }
 
 
-    private bool HandleItemSelection()
+    private bool HandleItemSelection(int backButtonIndex)
     {
         battleUIManager.DisplayTurnUI("플레이어 턴 - 아이템 사용");
-        
-        string[] options = new string[] { "포션", "스크롤", "폭탄", "나가기" };
-        int selectNum = UIManager.DisplaySelectionUI(options);
+        int selectedTargetIndex = battleUIManager.ShowPotionChoices();
 
-        return false;
+        if (selectedTargetIndex == backButtonIndex)
+            return false;
 
-        //포션 관리 
+        var potionList = Inventory.GetItemsByType<Potion>();
+        Potion potion = potionList[selectedTargetIndex];
 
-
+        UsePotion(potion);
+        return true;
     }
 
+
+    public void UsePotion(Potion potion)
+    {
+        battleUIManager.DisplayTurnUI("플레이어 턴 - 포션사용");
+        Inventory.UsePotion(potion.Id);
+        string[] texts  = battleUIManager.GetPotionUsageResultTexts(player, potion);
+        UIManager.AlignTextCenter(texts);
+    }
 
 
     public void PerformSkill(Player player, Monster target, ISkill skill)
@@ -154,14 +169,10 @@ class BattleSystem
         ApplyDamage(target, damage, texts);
     }
 
+
     private void ApplyDamage(Creature target, int damage, string[] texts)
     {
         target.OnDamaged(damage);
-        if (target.IsDead && target is Monster monster)
-        {
-            int lineSpacing = texts.Length;
-            HandleMonsterDeath(monster, lineSpacing);
-        }
     }
 
 
@@ -188,26 +199,74 @@ class BattleSystem
     }
 
 
-
-
-    public void HandleMonsterDeath(Monster monster, int lineSpacing = 0)
+    public void EndBattle()
     {
-        int exp = (int)monster.Grade;
-        int prevPlayerLevel = player.Level;
-        player.AddExp(exp);
-        GameData.DeathMonster[diedMonsterNum++] = monster;
-        GameData.AliveMonster.Remove(monster);
+    
+       
 
-        string text = $"{exp}의 경험치를 획득";
-        UIManager.AlignTextCenter(text, lineSpacing);
+        End?.Invoke();
+    }
+
+
+    public void StartBattle()
+    {
+
+        for (int i = 0; i < monsters.Count; i++)
+        {
+            monsters[i].OnDeath += TriggerMonsterDeath;
+        }
+
+        while (true)
+        {
+
+            if (monsters.Count == 0)
+            {
+                EndBattle();
+                break;
+            }
+
+            else
+            {
+                if(isPlayerTurn)
+                     ProcessPlayerTurn();
+                else
+                     ProcessMonsterTurn();
+
+                isPlayerTurn = !isPlayerTurn;
+            }
+
+        }
+
+
+    }
+
+
+    public  void TriggerMonsterDeath(Monster monster)
+    {
+        monster.OnDeath -= TriggerMonsterDeath;
+        GameData.AliveMonster.Remove(monster);
+        GameData.DeathMonster.Add(monster);
+        int prevPlayerLevel = player.Level;
+   
+        player.AddExp(monster.DropExp);
+        player.AddGold(monster.DropGold);
+
+        string [] texts = { $"{monster.Name}({monster.InstanceNumber})을 처치!",$"{monster.DropExp}의 경험치와 {monster.DropGold} Gold를 획득" };
+        UIManager.AlignTextCenter(texts);
 
         if (prevPlayerLevel != player.Level)
         {
-            text = $"Lv {prevPlayerLevel} -> {player.Level} ";
-            UIManager.AlignTextCenter(text, lineSpacing + 1);
+            texts = texts.Concat(new string [] {$"lv {prevPlayerLevel} -> {player.Level} "}).ToArray();
+            UIManager.AlignTextCenter(texts);
         }
 
+        string [] options = new string[] { "다음" };
+        int selectNum = UIManager.DisplaySelectionUI(options);
+
     }
+
+
+
 
 
 }

@@ -35,15 +35,7 @@ class BattleUtilities
         return skill;
     }
 
-    private void ApplyDamage(Creature target, int damage, string[] texts)
-    {
-        target.OnDamaged(damage);
-        if (target.IsDead && target is Monster monster)
-        {
-            int lineSpacing = texts.Length;
-            HandleMonsterDeath(monster, lineSpacing);
-        }
-    }
+ 
     public int CalculateDamage(AttackType type, Creature attacker, Creature target)
     {
         int damage = 0;
