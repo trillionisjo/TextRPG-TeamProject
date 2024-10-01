@@ -24,7 +24,7 @@ class TitleScene : Scene
 
     public override void Start ()
     {
-        AudioManager.PlayAudio("main_bgm.mp3");
+        AudioManager.PlayAudio("title_bgm.mp3");
         Console.CursorVisible = false;
     }
 
