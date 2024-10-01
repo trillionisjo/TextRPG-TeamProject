@@ -4,7 +4,6 @@ class DungeonManager
 {
     static public DungeonManager Instance
     {
-
         get
         {
             if (instance == null)

@@ -14,6 +14,9 @@ static class GameData
             { DungeonLv = 1; }
 
         // Test
+        
+        
+        
         Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.TraineesArmor));
         Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.IronArmor));
         Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.SpartanArmor));

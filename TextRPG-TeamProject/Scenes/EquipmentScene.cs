@@ -4,23 +4,24 @@ using static System.Net.Mime.MediaTypeNames;
 
 interface IEventHandler
 {
-    public void Invoke ();
+    public void Invoke();
 }
-
 
 
 class EquipmentScene : Scene
 {
     #region private classes
+
     private class ToggleEvent : IEventHandler
     {
         IEquipable equipment;
-        public ToggleEvent (IEquipable equipment)
+
+        public ToggleEvent(IEquipable equipment)
         {
             this.equipment = equipment;
         }
 
-        public void Invoke ()
+        public void Invoke()
         {
             Equipment.ToggleItem(equipment);
         }
@@ -35,21 +36,22 @@ class EquipmentScene : Scene
             this.action = action;
         }
 
-        public void Invoke ()
+        public void Invoke()
         {
             action.Invoke();
         }
     }
+
     #endregion
 
     int cursor = 0;
 
-    public override void Start ()
+    public override void Start()
     {
         AudioManager.PlayAudio("main_bgm.mp3");
     }
 
-    public override void Update ()
+    public override void Update()
     {
         Console.Clear();
         Console.WriteLine("인벤토리 - 장착관리");
@@ -85,7 +87,9 @@ class EquipmentScene : Scene
         for (int i = 0; i < paddedList.Count(); i++)
             options[i] = (text: paddedList[i], handler: options[i]?.handler);
 
-        options[options.Count() - 2] = (text: "----------------------------------------------------------------------------------------------", handler: null);
+        options[options.Count() - 2] = (
+            text: "----------------------------------------------------------------------------------------------",
+            handler: null);
         options[options.Count() - 1] = (text: "나가기", handler: new ExitEvent(ExitScene));
 
         (int x, int y) point = Console.GetCursorPosition();
@@ -93,7 +97,7 @@ class EquipmentScene : Scene
     }
 
 
-    private void DiaplaySelectionUI ((string text, IEventHandler handler)?[] options, int x, int y)
+    private void DiaplaySelectionUI((string text, IEventHandler handler)?[] options, int x, int y)
     {
         bool looping = true;
 
@@ -119,29 +123,30 @@ class EquipmentScene : Scene
             {
                 case ConsoleKey.LeftArrow:
                 case ConsoleKey.UpArrow:
-                do
-                {
-                    cursor = (cursor - 1 + options.Length) % options.Length;
-                } while (!options[cursor].HasValue || options[cursor].Value.handler == null);
-             
+                    do
+                    {
+                        cursor = (cursor - 1 + options.Length) % options.Length;
+                    } while (!options[cursor].HasValue || options[cursor].Value.handler == null);
+
                     break;
                 case ConsoleKey.RightArrow:
                 case ConsoleKey.DownArrow:
-                do
-                {
-                    cursor = (cursor + 1) % options.Length;
-                } while (!options[cursor].HasValue || options[cursor].Value.handler == null);
-                break;
+                    do
+                    {
+                        cursor = (cursor + 1) % options.Length;
+                    } while (!options[cursor].HasValue || options[cursor].Value.handler == null);
 
-            case ConsoleKey.Enter:
-                options[cursor]?.handler.Invoke();
-                looping = false;
-                break;
+                    break;
+
+                case ConsoleKey.Enter:
+                    options[cursor]?.handler.Invoke();
+                    looping = false;
+                    break;
             }
         }
     }
 
-    void ExitScene ()
+    void ExitScene()
     {
         NextScene = new InventoryScene();
     }
