@@ -5,6 +5,7 @@ class JobChooseScene : Scene
 {
     public override void Start()
     {
+        AudioManager.PlayAudio("title_bgm.mp3");
         Console.Clear();
     }
 

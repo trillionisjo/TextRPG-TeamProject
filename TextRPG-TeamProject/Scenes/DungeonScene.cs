@@ -59,7 +59,7 @@ class DungeonScene : Scene
     public override void Start()
     {
         Console.Clear();
-        AudioManager.PlayAudio("fight_bgm.mp3");
+        AudioManager.PlayAudio("dungeon_bgm.mp3");
         Init();
 
         battleSystem.End += OnDungeonComplete;
@@ -74,7 +74,11 @@ class DungeonScene : Scene
         double chance = RANDOM.NextDouble();
 
         if (selectNum == 1)
+        {
+            AudioManager.PlayAudio("fight_bgm.mp3");
             battleSystem.StartBattle();
+
+        }
 
         else if (selectNum == 2)
         {
@@ -96,6 +100,7 @@ class DungeonScene : Scene
 
     private void OnDungeonComplete()
     {
+        AudioManager.PlayAudio("dungeon_bgm.mp3");
         battleSystem.End -= OnDungeonComplete;
 
         Console.Clear();
