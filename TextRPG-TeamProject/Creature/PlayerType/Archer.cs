@@ -12,24 +12,11 @@
         Damage = 30;
     }
 
-    public bool UseSkill(Player caster, Monster target)
+    public int UseSkill(Player caster, Monster target)
     {
-       int  previousMp = caster.MP;
         caster.MP -= ManaCost;
         int damage = Level * Damage;
-        target.OnDamaged(damage);
 
-        string[] texts =
-        {
-          $"{target.Name}({target.InstanceNumber})에게 {SkillName} 사용",
-          $"{Damage}의 피해",
-          $"MP{previousMp} -> {caster.MP}"
-        };
-
-        UIManager.AlignTextCenter(texts);
-        string[] options = { "다음" };
-        UIManager.DisplaySelectionUI(options);
-
-        return true;
+        return damage;
     }
 }

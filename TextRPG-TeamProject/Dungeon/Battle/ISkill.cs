@@ -4,5 +4,5 @@ interface ISkill
     public int Damage { get; set; } 
     public int ManaCost { get; set;}
 
-    public bool UseSkill(Player caster,Monster target);
+    public int UseSkill(Player caster,Monster target);
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 
 public enum PlayerType
@@ -9,8 +10,10 @@ public enum PlayerType
     Rogue = 4,
 }
 
-class Player : Creature
+public class Player : Creature
 {
+    public event OnDeath<Player> OnDeath;
+
     public PlayerType Type { get; set; }
     public int Gold { get; set; }
     public int ExpToNextLv { get; set; }
@@ -36,26 +39,25 @@ class Player : Creature
         MP = mp;
     }
 
-
     public void Init(int number)
     {
         switch (number)
         {
             case 1:
                 Type = PlayerType.Knight;
-                SetInfo(120,20, 5, 7);
+                SetInfo(120, 20, 5, 7);
                 break;
             case 2:
                 Type = PlayerType.Mage;
-                SetInfo(70,100 , 10, 2);
+                SetInfo(70, 100 , 10, 2);
                 break;
              case 3:
                 Type = PlayerType.Archer;
-                SetInfo(100,50 , 6, 6);
+                SetInfo(100, 50 , 6, 6);
                 break;
             case 4:
                 Type = PlayerType.Rogue;
-                SetInfo(50,70 , 12, 5);
+                SetInfo(50, 70 , 12, 5);
                 break;
         }
     }
@@ -63,8 +65,7 @@ class Player : Creature
 
 
 
-
-    public void AddExp(int extraExp)
+public void AddExp(int extraExp)
     {
         Exp += extraExp;
         bool canLevelUp = Exp >= ExpToNextLv;
@@ -83,6 +84,8 @@ class Player : Creature
                 canLevelUp = false;
             }
         }
+
+      
     }
 
     public override int GetTotalAttackPower()

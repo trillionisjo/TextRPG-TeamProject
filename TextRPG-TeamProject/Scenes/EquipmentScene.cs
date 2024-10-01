@@ -46,6 +46,7 @@ class EquipmentScene : Scene
 
     public override void Start ()
     {
+        AudioManager.PlayAudio("main_bgm.mp3");
     }
 
     public override void Update ()

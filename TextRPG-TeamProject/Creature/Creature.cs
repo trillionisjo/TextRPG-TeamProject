@@ -9,7 +9,7 @@ public enum CreatureType
 
 }
 
-class Creature
+public class Creature
 {
     public CreatureType CreatureType { get; set; }
     public int HP { get; set; }
@@ -30,7 +30,6 @@ class Creature
         CreatureType = type;
     }
 
-
     public void SetInfo(int hp,int attackPower, int defensePower)
     {
         MaxHP = hp;
@@ -42,8 +41,7 @@ class Creature
     }
 
 
-
-    public void OnDamaged(int damage)
+    public virtual void OnDamaged(int damage)
     {
         HP -= damage;
 

@@ -4,12 +4,12 @@ class InventoryScene : Scene
 {
     public override void Start ()
     {
-        
+        AudioManager.PlayAudio("main_bgm.mp3");
+        Console.Clear();
     }
 
     public override void Update ()
     {
-        Console.Clear();
         Console.WriteLine("인벤토리");
         Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
         Console.WriteLine();

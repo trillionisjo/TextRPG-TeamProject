@@ -1,5 +1,4 @@
 ﻿using System;
-using TextRPG_TeamProject.Scenes;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 class StartScene : Scene
@@ -7,6 +6,7 @@ class StartScene : Scene
     public override void Start ()
     {
         Console.Clear();
+        AudioManager.PlayAudio("main_bgm.mp3");
     }
 
 
@@ -32,6 +32,8 @@ class StartScene : Scene
             default:
                 NextScene = new DungeonScene();
                 break;
+       
+
         }
     }
 
