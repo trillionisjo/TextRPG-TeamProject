@@ -26,7 +26,7 @@ class DungeonScene : Scene
     {
         Console.Clear();
         monsterNum = RANDOM.Next(1, 4);
-        AudioManager.PlayAudio("fight_bgm.mp3");
+        AudioManager.PlayAudio("dungeon_bgm.mp3");
         DungeonManager.Instance.Init(monsterNum, this);
         DecideDungeonEntry();
     }
@@ -90,6 +90,7 @@ class DungeonScene : Scene
 
     public void PromptTryNextDungeon()
     {
+        AudioManager.PlayAudio("dungeon_bgm.mp3");
         string[] options = { "다음 던전", "나가기" };
         int selectNum = UIManager.DisplaySelectionUI(options);
         Console.Clear();

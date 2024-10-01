@@ -43,6 +43,8 @@ class DungeonManager
 
     public void EnterDungeon()
     {
+        AudioManager.PlayAudio("fight_bgm.mp3");
+
         battleSystem.OnLoseBattle += OnDungeonUncomplete;
         battleSystem.OnWinBattle += OnDungeonComplete;
 
