@@ -17,7 +17,7 @@ static class GameData
 
 
         // Test
-        GameData.Player.AddGold(10000);
+        GameData.Player.AddGold(20000);
 
         Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.TraineesArmor));
         Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.IronArmor));

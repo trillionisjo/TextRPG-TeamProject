@@ -214,6 +214,14 @@ static class UIManager
     public static int DisplaySelectionUI (Option[] options, int x, int y, int cursorOffset)
     {
         bool looping = true;
+        int count = 0;
+
+        while (cursorOffset < 0 || cursorOffset >= options.Count() || options[cursorOffset] == null || options[cursorOffset].Handler == null)
+        {
+            cursorOffset = (cursorOffset - 1 + options.Length) % options.Length;
+            if (++count >= options.Count())
+                return 0;
+        }
 
         while (looping)
         {
