@@ -24,6 +24,7 @@ class TitleScene : Scene
 
     public override void Start ()
     {
+        AudioManager.PlayAudio("title_bgm.mp3");
         Console.CursorVisible = false;
     }
 
@@ -42,7 +43,7 @@ class TitleScene : Scene
                 var key = Console.ReadKey(false).Key;
                 if (key == ConsoleKey.Enter)
                 {
-                    NextScene = new StartScene();
+                    NextScene = new NameInputScene();
                     break;
                 }
             }

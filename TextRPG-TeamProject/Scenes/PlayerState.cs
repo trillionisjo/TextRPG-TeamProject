@@ -5,6 +5,7 @@ class PlayerState : Scene
     public override void Start ()
     {
         Console.Clear();
+        AudioManager.PlayAudio("main_bgm.mp3");
     }
 
     public override void Update ()
