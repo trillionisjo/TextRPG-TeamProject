@@ -115,14 +115,15 @@ class EquipmentScene : Scene
             ConsoleKey key = Console.ReadKey(false).Key;
             switch (key)
             {
-            case ConsoleKey.UpArrow:
+                case ConsoleKey.LeftArrow:
+                case ConsoleKey.UpArrow:
                 do
                 {
                     cursor = (cursor - 1 + options.Length) % options.Length;
                 } while (!options[cursor].HasValue || options[cursor].Value.handler == null);
                 break;
-
-            case ConsoleKey.DownArrow:
+                case ConsoleKey.RightArrow:
+                case ConsoleKey.DownArrow:
                 do
                 {
                     cursor = (cursor + 1) % options.Length;
