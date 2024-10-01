@@ -25,6 +25,7 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+#[Bb]in/
 x64/
 x86/
 [Ww][Ii][Nn]32/
@@ -32,10 +33,11 @@ x86/
 [Aa][Rr][Mm]64/
 bld/
 
-#[Bb]in/
-[Bb]in/*
-![Bb]in/**/*.mp3
-![Bb]in/**/*.wav
+TextRPG-TeamProject/[Bb]in/**
+!TextRPG-TeamProject/[Bb]in/**/
+!TextRPG-TeamProject/[Bb]in/**/*.mp3
+!TextRPG-TeamProject/[Bb]in/**/*.wav
+.DS_Store
 
 [Oo]bj/
 [Ll]og/
