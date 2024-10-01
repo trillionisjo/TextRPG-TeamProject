@@ -9,10 +9,14 @@ public enum CreatureType
 
 }
 
-class Creature
+public class Creature
 {
     public CreatureType CreatureType { get; set; }
     public int HP { get; set; }
+    public int MP { get; set; }
+
+    public int MaxHP { get; set; }
+    public int MaxMP { get; set; }
     public string Name { get; set; }
     public bool IsDead => HP <= 0;
     public int Level { get; set; }
@@ -26,8 +30,9 @@ class Creature
         CreatureType = type;
     }
 
-    public void SetInfo(int hp, int attackPower, int defensePower)
+    public void SetInfo(int hp,int attackPower, int defensePower)
     {
+        MaxHP = hp;
         HP = hp;
         AttackPower = attackPower;
         DefensePower = defensePower;
@@ -35,15 +40,14 @@ class Creature
         CritDmgPct =1.6f;
     }
 
-    public void OnDamaged(int damage)
+
+    public virtual void OnDamaged(int damage)
     {
         HP -= damage;
 
         if (HP < 0)
             HP = 0;
     }
-
-
 
 
     public virtual int GetTotalAttackPower()

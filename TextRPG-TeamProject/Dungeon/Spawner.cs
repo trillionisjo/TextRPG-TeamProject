@@ -3,12 +3,12 @@
 
     public string[] MonsterName = { "스더마" , "머다자", "애서이", "부부스" };
     public string[] BossMonsterName = { "킹슬라임","고블린 정예병", "오크 주술사", "드래곤" };
+    Random random = new Random();
 
 
     public List<Monster> GetMobListByLevel(int level)
     { 
         List<Monster> monsters = new List <Monster>();
-        Random random = new Random();
         int monsterNum = random.Next(1, 5);
 
         for (int i = 0; i < monsterNum; i++)
@@ -47,21 +47,22 @@
         return monsters;
     }
 
+
     public string GetRandomMobName()
     {
-        Random random = new Random();
         int index = random.Next(0, MonsterName.Length);
       
             return MonsterName[index];
-        
+ 
         
     }
+
+
 
 
     //미구현
     public Monster GetBossMobByLevel(int level)
     {
-        Random random = new Random();
         int type = random.Next(1, Math.Min(level, 5) + 1);
         MonsterGrade grade;
 

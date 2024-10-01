@@ -36,43 +36,50 @@ class DungeonScene : Scene
 {
     private BattleSystem battleSystem;        
     private Spawner spawner;                  
-    private Player player = GameData.Player;   
-
-    private float escapeChance = 0.30f;            
-    private bool isPlayerTurn = true;               
-    private bool isEscape = false;
-    private Random random = new Random();
+    private Player player = GameData.Player;
 
 
-    private int[] goldRoot = { 100, 200, 300, 400, 500 };
+    private readonly int[] GOLD_REWARD = { 100, 200, 300, 400, 500 };
+    private readonly Random RANDOM = new Random();
+    private const float ESCAPE_CHANCE = 0.30f;
+
+
 
     private void Init()
     {
         spawner = new Spawner();
         GameData.AliveMonster = spawner.GetMobListByLevel(GameData.DungeonLv);
-        GameData.DeathMonster = new Monster[GameData.AliveMonster.Count];
+        GameData.DeathMonster = new List<Monster>();
 
         battleSystem = new BattleSystem();
 
-        isPlayerTurn = true;
-        isEscape = false;
     }
 
 
     public override void Start()
     {
         Console.Clear();
+        AudioManager.PlayAudio("fight_bgm.mp3");
         Init();
 
+        battleSystem.End += OnDungeonComplete;
+        DecideDungeonEntry();
+    }
+
+
+    private void DecideDungeonEntry()
+    {
         string[] options = { "싸운다", "도망간다" };
         int selectNum = UIManager.DisplaySelectionUI(options);
-        double chance = random.NextDouble();
+        double chance = RANDOM.NextDouble();
 
-        if (selectNum == 2)
+        if (selectNum == 1)
+            battleSystem.StartBattle();
+
+        else if (selectNum == 2)
         {
-            if (escapeChance < chance)
+            if (ESCAPE_CHANCE < chance)
             {
-                isEscape = true;
                 NextScene = new StartScene();
             }
 
@@ -87,107 +94,58 @@ class DungeonScene : Scene
     }
 
 
-    public override void Update()
+    private void OnDungeonComplete()
     {
+        battleSystem.End -= OnDungeonComplete;
 
-        if (isEscape)
-            NextScene = new StartScene();
-
-        else
-        {
-            ProcessTurn();
-            CheckBattleEnd();
-        }
-    }
-
-    public void NextDungeon() 
-    {
         Console.Clear();
-        Init();
+        int lineSpacing = -2;
+        UIManager.AlignTextCenter($"Lv{GameData.DungeonLv}의 던전 클리어", lineSpacing);
+        DropLoot();
+       
+        GameData.DungeonLv++;
+       
+        if(GameData.DungeonLv > GOLD_REWARD.Length)
+            GameData.DungeonLv = GOLD_REWARD.Length;
 
-        string[] options = { "싸운다", "도망간다" };
-        int selectNum = UIManager.DisplaySelectionUI(options);
-        double chance = random.NextDouble();
+        AskTryNextDungeon();
 
-        if (selectNum == 2)
-        {
-            if (escapeChance < chance)
-            {
-                isEscape = true;
-                NextScene = new StartScene();
-            }
-
-            else
-            {
-                Console.Clear();
-                UIManager.AlignTextCenter("도망치는데 실패했다.");
-                options = new string[] { "싸운다" };
-                selectNum = UIManager.DisplaySelectionUI(options);
-            }
-        }
     }
 
-    private void ProcessTurn()
-    {
-        if (isPlayerTurn)
-            battleSystem.ProcessPlayerTurn();
-
-        else
-            battleSystem.ProcessMonsterTurn();
-
-        isPlayerTurn = !isPlayerTurn;
-    }
-
-
-    public void DropLoot()
+    private void DropLoot()
     {
         //전리품 획득 
-        int goldLoot = goldRoot[GameData.DungeonLv - 1] * GameData.DeathMonster.Length;
+        int goldLoot = GOLD_REWARD[GameData.DungeonLv - 1];
         int prevPlayerGold = player.Gold;
         player.AddGold(goldLoot);
         UIManager.AlignTextCenter($"소지금:{prevPlayerGold} -> {player.Gold}");
 
         float itemDropChance = 0.3f;
 
-        if (itemDropChance >= random.NextDouble())
+        if (itemDropChance >= RANDOM.NextDouble())
         {
-            UIManager.AlignTextCenter("아이템 획득!",1);
+            UIManager.AlignTextCenter("아이템 획득!", 1);
         }
-
     }
 
-    public void CheckBattleEnd()
+
+
+    private void AskTryNextDungeon()
     {
+        string[] options = { "던전입장", "나가기" };
+        int selectNum = UIManager.DisplaySelectionUI(options);
+        Console.Clear();
 
-        if (player.IsDead)
+        switch (selectNum)
         {
-            Console.WriteLine("플레이어가 죽었습니다");
-            Environment.Exit(0);
-        }
+            case 1:
+                NextScene = new DungeonScene();
+                break;
+            case 2:
 
-        if (GameData.AliveMonster.Count == 0)
-        {
-            Console.Clear();
-            int lineSpacing = -2;
-            UIManager.AlignTextCenter($"Lv{GameData.DungeonLv}의 던전 클리어", lineSpacing);
-            DropLoot();
-            GameData.DungeonLv++;
-         
-            string[] options = { "던전입장","나가기"};
-            int selectNum = UIManager.DisplaySelectionUI(options);
-            Console.Clear();
-            switch (selectNum)
-            {
-                case 1:
-                    NextDungeon();
-                    break;
-                case 2:
-                    isEscape = true;
-                    break;
-            }
+                break;
         }
     }
-
 }
 
 

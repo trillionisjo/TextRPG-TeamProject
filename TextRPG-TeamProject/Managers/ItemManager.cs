@@ -11,6 +11,10 @@ enum ItemId
     WornSword       = 201,
     BronzeAxe       = 202,
     SpartanSpear    = 203,
+
+    // Potions
+    HpPotion    = 301,
+    MpPotion    = 302,
 }
 
 static class ItemManager
@@ -36,6 +40,12 @@ static class ItemManager
 
         case ItemId.SpartanSpear:
             return new Weapon(id, "스파르타의 창", "스파르타의 전사들이 사용했다는 전설의 창입니다", 3000, 7);
+
+        case ItemId.HpPotion:
+            return new Potion(id, "치유약", "HP를 30 회복합니다.", 500, 30);
+
+        case ItemId.MpPotion:
+            return new Potion(id, "마나약", "MP를 30 회복합니다.", 700, 30);
         }
 
         return null;

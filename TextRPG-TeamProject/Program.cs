@@ -7,10 +7,10 @@ public class Program
     {
         GameData.InitDatas();
 
-        Scene currentScene = new StartScene();
+        Scene currentScene = new TitleScene();
         Scene nextScene = currentScene;
         currentScene.Start();
-        
+
         while (true)
         {
             if (currentScene != nextScene)
@@ -19,10 +19,11 @@ public class Program
                 currentScene = nextScene;
                 currentScene.Start();
             }
-             
-                currentScene.Update();
-                nextScene = currentScene.NextScene;
-            
+
+            currentScene.Update();
+            nextScene = currentScene.NextScene;
+
         }
     }
 }
+

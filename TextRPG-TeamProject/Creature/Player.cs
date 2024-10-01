@@ -1,16 +1,16 @@
 ﻿using System;
+using System.Numerics;
 
 
 public enum PlayerType
 {
-    None,
     Knight = 1,
     Mage = 2,
     Archer = 3,
     Rogue = 4,
 }
 
-class Player : Creature
+public class Player : Creature
 {
     public PlayerType Type { get; set; }
     public int Gold { get; set; }
@@ -19,38 +19,50 @@ class Player : Creature
     public int ExtraAttackPower { get; set; }
     public int ExtraDefensePower { get; set; }
     
-    public Player(PlayerType type) : base(CreatureType.Player)
+    public Player() : base(CreatureType.Player)
     {
         Level = 1;
-        Type = type;
         Exp = 0;
         ExpToNextLv = 1;
         ExtraAttackPower = 0;
         ExtraDefensePower = 0;
-        Init();
     }
 
-    public void Init()
+
+    public void SetInfo(int hp, int mp, int attackPower, int defensePower)
     {
-        int num = (int)Type;
-        switch (num)
+        base.SetInfo(hp, attackPower, defensePower);
+        MaxMP = mp;
+        MP = mp;
+    }
+
+    public void Init(int number)
+    {
+        switch (number)
         {
             case 1:
-                SetInfo(120, 5, 7);
+                Type = PlayerType.Knight;
+                SetInfo(120, 20, 5, 7);
                 break;
             case 2:
-                SetInfo(70, 10, 2);
+                Type = PlayerType.Mage;
+                SetInfo(70, 100 , 10, 2);
                 break;
              case 3:
-                SetInfo(100, 6, 6);
+                Type = PlayerType.Archer;
+                SetInfo(100, 50 , 6, 6);
                 break;
             case 4:
-                SetInfo(50, 10, 5);
+                Type = PlayerType.Rogue;
+                SetInfo(50, 70 , 12, 5);
                 break;
         }
     }
 
-    public void AddExp(int extraExp)
+
+
+
+public void AddExp(int extraExp)
     {
         Exp += extraExp;
         bool canLevelUp = Exp >= ExpToNextLv;
@@ -69,6 +81,8 @@ class Player : Creature
                 canLevelUp = false;
             }
         }
+
+      
     }
 
     public override int GetTotalAttackPower()
@@ -101,13 +115,23 @@ class Player : Creature
     }
     public void AddLevel()
     {
-
         AttackPower += 1;
         DefensePower += 1;
         Level++;
 
     }
 
+    public void UseMP(int amount)
+    {
+        MP -= amount;
+        
+    }
+    public void AddMP(int amount)
+    {
+        MP += amount;
+        if (MP > MaxMP)
+            MP = MaxMP;
+
+    }
 
 }
-

@@ -49,6 +49,8 @@ static class UIManager
         Console.SetCursorPosition(0, 0);
 
     }
+
+
     public static void AlignTextCenter(string text, int lineSpacing)
     {
         int cursorPosX = (Console.WindowWidth / 2) - (GetByteFromText(text) / 2);
@@ -60,6 +62,7 @@ static class UIManager
         Console.SetCursorPosition(0, 0);
     }
 
+
     public static void AlignTextCenter(string text)
     {
         int cursorPosX = (Console.WindowWidth / 2) - (GetByteFromText(text) / 2);
@@ -70,6 +73,7 @@ static class UIManager
         Console.SetCursorPosition(0, 0);
     }
 
+
     public static void PrintTextAtPosition(string text, int x, int y)
     {
 
@@ -78,6 +82,7 @@ static class UIManager
         //커서 포지션 초기화 
         Console.SetCursorPosition(0, 0);
     }
+
 
     public static int GetByteFromText(string text)
     {
@@ -95,6 +100,7 @@ static class UIManager
         }
         return byteSize;
     }
+
 
     public static int DisplaySelectionUI(string[] options)
     {
@@ -174,9 +180,33 @@ static class UIManager
 
     public static void WriteTable (string[,] table)
     {
+        string[,] paddedTable = CreatePaddedTable(table);
+        for (int row = 0; row < table.GetLength(0); row++)
+        {
+            for (int col = 0; col < table.GetLength(1); col++)
+                Console.Write(paddedTable[row, col]);
+            Console.WriteLine();
+        }
+    }
+
+    public static void WriteTable (string[,] table, int left, int top)
+    {
+        int count = 0;
+        string[,] paddedTable = CreatePaddedTable(table);
+        for (int row = 0; row < table.GetLength(0); row++)
+        {
+            Console.SetCursorPosition(left, top + count++);
+            for (int col = 0; col < table.GetLength(1); col++)
+                Console.Write(paddedTable[row, col]);
+        }
+    }
+
+    public static string[,] CreatePaddedTable (string[,] table)
+    {
         int rows = table.GetLength(0);
         int cols = table.GetLength(1);
         int[] maxWidths = new int[cols];
+        string[,] paddedTable = new string[rows, cols];
 
         // 각 열의 최대너비 계산
         for (int col = 0; col < cols; col++)
@@ -190,17 +220,56 @@ static class UIManager
             maxWidths[col] = max;
         }
 
-        // 테이블 출력
+        // 스페이스가 채워진 테이블 생성
         for (int row = 0; row < rows; row++)
         {
             for (int col = 0; col < cols - 1; col++)
             {
                 string paddedText = PadRight(table[row, col], maxWidths[col]);
-                Console.Write($"{paddedText} | ");
+                paddedTable[row, col] = $"{paddedText} | ";
             }
             string lastColumnText = PadRight(table[row, cols - 1], maxWidths[cols - 1]);
-            Console.WriteLine(lastColumnText);
+            paddedTable[row, cols - 1] = lastColumnText;
         }
+
+        return paddedTable;
+    }
+
+    public static string[] CreatePaddedList (string[,] table)
+    {
+        int rows = table.GetLength(0);
+        int cols = table.GetLength(1);
+        int[] maxWidths = new int[cols];
+        string[] paddedList = new string[rows];
+
+        // 각 열의 최대너비 계산
+        for (int col = 0; col < cols; col++)
+        {
+            int max = 0;
+            for (int row = 0; row < rows; row++)
+            {
+                int width = CalcTextWidth(table[row, col]);
+                max = Math.Max(max, width);
+            }
+            maxWidths[col] = max;
+        }
+
+        // 스페이스가 채워진 테이블 생성
+        for (int row = 0; row < rows; row++)
+        {
+            var sb = new StringBuilder();
+            for (int col = 0; col < cols - 1; col++)
+            {
+                string paddedText = PadRight(table[row, col], maxWidths[col]);
+                sb.Append($"{paddedText} | ");
+            }
+            string lastColumnText = PadRight(table[row, cols - 1], maxWidths[cols - 1]);
+            sb.Append(lastColumnText);
+
+            paddedList[row] = sb.ToString();
+        }
+
+        return paddedList;
     }
 
     public static string PadRight (string input, int totalWidth)
@@ -218,6 +287,8 @@ static class UIManager
     {
         return ('가' <= ch && ch <= '힣') || ('ㄱ' <= ch && ch <= 'ㅎ') || ('ㅏ' <= ch && ch <= 'ㅣ');
     }
+
+
 }
 
 
