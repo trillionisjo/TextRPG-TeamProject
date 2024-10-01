@@ -9,7 +9,7 @@ class PlayerState : Scene
     }
 
     public override void Update ()
-    {
+    {   
         Console.WriteLine("플레이어 스테이트 신");
         Console.WriteLine($" 이름  : {GameData.Player.Name}");
         Console.WriteLine($" 직업  : {GameData.Player.Type.ToString()}");

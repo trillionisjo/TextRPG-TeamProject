@@ -52,6 +52,21 @@ static class UIManager
     }
 
 
+    public static void AlignTextCenter(string[] text , int lineSpacing)
+    {
+        int cursorPosX;
+        int cursorPosY = Console.WindowHeight / 2 - text.Length / 2 + lineSpacing;
+
+        for (int i = 0; i < text.Length; i++)
+        {
+            cursorPosX = (Console.WindowWidth / 2) - (GetByteFromText(text[i]) / 2);
+            Console.SetCursorPosition(cursorPosX, cursorPosY++);
+            Console.Write(text[i]);
+        }
+
+        Console.SetCursorPosition(0, 0);
+
+    }
     public static void AlignTextCenter(string[] text)
     {
         int cursorPosX;

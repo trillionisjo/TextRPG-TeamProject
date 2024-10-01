@@ -5,9 +5,7 @@ class BattleUtilities
 {
 
     private const double MISS_CHANCE = 0.10f;
-
     private readonly Random rand = new Random();
-
 
 
     public ISkill GetSkillByType(PlayerType playerType)

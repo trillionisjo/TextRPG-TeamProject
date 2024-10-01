@@ -1,5 +1,4 @@
 ﻿using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 class StartScene : Scene
 {
@@ -14,35 +13,36 @@ class StartScene : Scene
     {
         Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
         Console.WriteLine("이제 전투를 시작할 수 있습니다.");
-        HandleInput();
+
+        string[] option = { "상태 보기","주점 입장", "전투 시작", "인벤토리" };
+        int number = UIManager.DisplaySelectionUI(option);
+        HandleInput(number);
     }
 
 
-    private void HandleInput()
+    private void HandleInput(int selectedNumber)
     {
-        string[] option = { "상태 보기", "인벤토리", "상점", "전투 시작" };
-        int number = UIManager.DisplaySelectionUI(option);
+        
 
-        switch (number)
+        switch (selectedNumber)
         {
-            case 1:
-                NextScene = new PlayerState();
-                break;
-
-            case 2:
-                NextScene = new InventoryScene();
-                break;
-
-            case 3:
-                NextScene = new ShopScene();
-                break;
-
-            default:
-                NextScene = new DungeonScene();
-                break;
-       
-
+        case 1:
+            NextScene = new PlayerState();
+            break;
+                
+        case 2:
+            NextScene = new PubScene();
+            break;
+        case 3:
+            NextScene = new DungeonScene();
+            break;
+        case 4:
+            NextScene = new InventoryScene();
+            break;
+        default:
+            break;
         }
     }
+
 
 }
