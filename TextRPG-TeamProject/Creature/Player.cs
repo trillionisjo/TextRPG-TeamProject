@@ -12,6 +12,8 @@ public enum PlayerType
 
 public class Player : Creature
 {
+    public event OnDeath<Player> OnDeath;
+
     public PlayerType Type { get; set; }
     public int Gold { get; set; }
     public int ExpToNextLv { get; set; }
@@ -27,6 +29,7 @@ public class Player : Creature
         ExtraAttackPower = 0;
         ExtraDefensePower = 0;
     }
+
 
 
     public void SetInfo(int hp, int mp, int attackPower, int defensePower)
