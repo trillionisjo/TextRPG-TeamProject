@@ -22,7 +22,7 @@ static class Inventory
 
     public static void UsePotion(ItemId id)
     {
-        var potionList = GetItemsByType<Potion>();
+        var potionList = GetItemsByType<IConsumable>();
         foreach (Potion item in potionList)
         {
             if (id == item.Id)
@@ -32,6 +32,14 @@ static class Inventory
                 break;
             }
         }
+    }
+
+    public static int QueryItemCount(ItemId id)
+    {
+        int count = 0;
+        foreach (Item item in ItemList)
+            count += id == item.Id ? 1 : 0;
+        return count;
     }
 
     public static IReadOnlyList<T> GetItemsByType<T>()
