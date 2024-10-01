@@ -2,8 +2,22 @@
 
 class DungeonManager
 {
-    public static DungeonManager Instance => instance.Value;
+    static public DungeonManager Instance
+    {
 
+        get
+        {
+            if (instance == null)
+                instance = new DungeonManager();
+           
+            return instance;
+        }
+
+        private set 
+        {
+            instance = value;
+        }
+    }
     static private DungeonManager instance;
 
     private BattleSystem battleSystem;
@@ -14,8 +28,9 @@ class DungeonManager
 
     private readonly int[] GOLD_REWARD = { 100, 200, 300, 400, 500 };
     private readonly Random RANDOM = new Random();
+    private const float ESCAPE_CHANCE = 0.30f;
 
-    private DungeonManager() { }
+
 
     public void Init(int mobNum, DungeonScene dungeonScene)
     {
@@ -24,7 +39,6 @@ class DungeonManager
         GameData.AliveMonster = spawner.GenerateMonstersByLevel(GameData.DungeonLv, mobNum);
         GameData.DeathMonster = new List<Monster>();
         battleSystem = new BattleSystem();
-    
     }
 
     public void EnterDungeon()
