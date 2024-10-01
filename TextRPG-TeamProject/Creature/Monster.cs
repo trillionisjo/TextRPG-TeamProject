@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 
 public enum MonsterGrade
@@ -24,26 +25,45 @@ public enum MonsterType
 
 
 
-class Monster : Creature
+public class Monster : Creature, IDeathNotifier<Monster>
 {
     public MonsterType Type { get; set; }
     public MonsterGrade Grade { get; set; }
     public int InstanceNumber { get; set; }
 
+    public int DropExp { get; set; }
+    public int DropGold { get; set; }
+
+    public event OnDeath<Monster> OnDeath;
+
+
+
+    public override void OnDamaged(int damage)
+    {
+
+        HP -= damage;
+
+        if (HP <= 0)
+        {
+            HP = 0;
+            OnDeath?.Invoke(this);
+        }
+    }
+
     public Monster() : base(CreatureType.Monster)
     { 
     
     }
+
     public Monster(MonsterGrade grade,bool isBoss =false) : base(CreatureType.Monster)
     {
         Grade = grade;
         Level = (int)Grade;
+        DropExp = 1 *  (int)grade;
+        DropGold = 100 * (int)grade;
         Init();
         
     }
-
-
-
 
 
      void InitBossMonster()

@@ -33,6 +33,8 @@ class StartScene : Scene
             default:
                 NextScene = new DungeonScene();
                 break;
+       
+
         }
     }
 
