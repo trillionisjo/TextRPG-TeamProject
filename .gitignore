@@ -21,7 +21,7 @@
 mono_crash.*
 
 # Build results
-[Dd]ebug/
+#[Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
@@ -31,7 +31,17 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
+#[Bb]in/
+
+# bin 폴더 전체 무시
+bin/
+
+# bin/Debug/net8.0/ 폴더 내의 .mp3 파일은 예외 처리
+!bin/Debug/
+!bin/Debug/net8.0/
+!bin/Debug/net8.0/*.mp3
+
+
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
@@ -103,7 +113,7 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
-
+!*.mp3
 
 # Chutzpah Test files
 _Chutzpah*
