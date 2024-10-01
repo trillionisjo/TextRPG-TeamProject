@@ -5,7 +5,7 @@ static class GameData
 {
     static public Player Player = new Player();
     static public List<Monster> AliveMonster;
-    static public Monster[] DeathMonster;
+    static public List<Monster> DeathMonster;
     static public int DungeonLv = 0;
 
     public static void InitDatas()
