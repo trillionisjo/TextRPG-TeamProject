@@ -11,6 +11,7 @@
         string[,] activeTable = QuestManager.GetQuestTableByStatus(QuestStatus.Active);
         
         
+        
         int selectedNum = UIManager.DisplaySelectionUI(activeTable);
        
         if (selectedNum != -1)
@@ -36,10 +37,13 @@
             $"보상:{quest.Reward} Gold",
         };
 
-        UIManager.AlignTextCenter(texts,-4);
-        UIManager.AlignTextCenter($"{quest.GetQuestProgressText()}");
-        UIManager.AlignTextCenter(quest.DetailedDescription,2);
-        string[] options = { "보상받기", "돌아가기" };
+        UIManager.AlignTextCenter(texts,-6);
+        UIManager.AlignTextCenter($"({quest.GetQuestProgressText()})",-4);
+        UIManager.AlignTextCenter(quest.DetailedDescription);
+        
+        
+        
+        string[] options = { "보상받기","포기하기" ,"돌아가기" };
         
         int selectNum = UIManager.DisplaySelectionUI(options);
 
@@ -52,7 +56,7 @@
                 UIManager.AlignTextCenter($"보유골드{GameData.Player.Gold - quest.Reward} -> {GameData.Player.Gold}");
                 UIManager.DisplaySelectionUI(new string[]{"돌아가기" });
             }
-
+            
             else
             {
                 Console.Clear();
@@ -62,6 +66,14 @@
             }
 
         }
+
+        else if(selectNum ==2)
+        {
+            QuestManager.CurrentActivateCount--;
+            quest.CancelQuest();
+        }
+        
+        
 
         Console.Clear();
     }

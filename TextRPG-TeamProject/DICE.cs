@@ -124,7 +124,7 @@ class DiceGame :Scene
             HoldDice(dice, holdFlags);
             DisplayDice(dice, holdFlags);
         }
-
+    
         return dice;
     }
 

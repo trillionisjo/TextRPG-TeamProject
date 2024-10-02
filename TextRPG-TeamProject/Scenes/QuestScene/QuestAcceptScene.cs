@@ -10,6 +10,7 @@
         var notStartedList = QuestManager.GetQuestListByStatus(QuestStatus.NotStarted);
         string[,] table = QuestManager.GetQuestTableByStatus(QuestStatus.NotStarted);
         int selectedNum = UIManager.DisplaySelectionUI(table);
+       
 
         if (selectedNum != -1)
         {
@@ -23,6 +24,7 @@
 
     public void ShowQuestInfoById(int id)
     {
+        
         Quest quest = QuestManager.GetQuestById(id);
         Console.Clear();
 
@@ -30,18 +32,32 @@
         {
             $"{quest.Name}",
             $"난이도:{quest.Difficulty}",
+            "",
             $"보상:{quest.Reward} Gold",
         };
 
-        UIManager.AlignTextCenter(texts, -3);
-        UIManager.AlignTextCenter(quest.DetailedDescription, 2);
+        UIManager.AlignTextCenter(texts, -6);
+        UIManager.AlignTextCenter(quest.DetailedDescription );
         string[] options = { "수락", "나가기" };
 
 
         int selectNum = UIManager.DisplaySelectionUI(options);
 
         if (selectNum == 1)
+        {
+            if (QuestManager.CurrentActivateCount >= QuestManager.MaxActivateCount)
+            {
+                Console.Clear();
+                UIManager.AlignTextCenter($"퀘스트는 {QuestManager.MaxActivateCount}개 이상 받을 수 없다네... 진행 중인 퀘스트({QuestManager.CurrentActivateCount} / {QuestManager.MaxActivateCount})");
+                UIManager.DisplaySelectionUI(new[] {"다음"});
+                Console.Clear();
+                return;
+                
+            }
+
             QuestManager.ActivateQuest(id);
+            
+        }
 
         Console.Clear();
     }

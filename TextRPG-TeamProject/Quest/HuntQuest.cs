@@ -3,8 +3,7 @@
     private int targetKillCount;
     private int currentKillCount;
     
-    public HuntQuest(int id, string name, int reward, string description, int targetKillCount , string difficulty) : base(id, name, reward,
-        description)
+    public HuntQuest(int id, string name, int reward, string description, int targetKillCount , string difficulty) : base(id, name, reward, description)
     {
         Type = QuestType.Hunt;
         this.targetKillCount = targetKillCount;
@@ -21,6 +20,13 @@
     public override string GetQuestProgressText()
     {
         return $"처치 수:{Math.Min(currentKillCount,targetKillCount)}/{targetKillCount}";
+    }
+
+    public override void CancelQuest()
+    {
+        currentKillCount = 0;
+        DungeonManager.Instance.OnKillMonster -= IncreaseTargetKillCount;
+        Status = QuestStatus.NotStarted;
     }
 
     public void IncreaseTargetKillCount()

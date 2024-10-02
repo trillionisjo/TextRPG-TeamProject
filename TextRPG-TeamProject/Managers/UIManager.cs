@@ -22,7 +22,7 @@ class Option
 static class UIManager
 {
     const int padding = 3;
-    
+
     /// <summary>
     /// 콘솔 창 상단 중앙에 제목 텍스트를 상하 선으로 감싸서 출력하는 메서드 
     /// </summary>
@@ -64,7 +64,7 @@ static class UIManager
         Console.Write(text);
         Console.SetCursorPosition(0, 0);
     }
-   
+
     /// <summary>
     /// 콘솔 창 가운데에 텍스트 배열을 중앙 정렬하여 출력하는 메서드
     /// </summary>
@@ -96,7 +96,7 @@ static class UIManager
 
         Console.SetCursorPosition(0, 0);
     }
-    
+
     /// <summary>
     /// 콘솔 창 가운데에서 지정된 줄 간격만큼 떨어진 위치에 텍스트 배열을 중앙 정렬로 출력하는 메서드
     /// </summary>
@@ -114,7 +114,7 @@ static class UIManager
 
         Console.SetCursorPosition(0, 0);
     }
-   
+
     /// <summary>
     /// 지정된 좌표 (x, y) 위치에 텍스트를 출력하는 메서드
     /// </summary>
@@ -124,7 +124,7 @@ static class UIManager
         Console.Write(text);
         Console.SetCursorPosition(0, 0);
     }
-    
+
     /// <summary>
     /// 주어진 텍스트의 바이트 크기를 계산하는 메서드 (영문 1바이트, 한글 2바이트)
     /// </summary>
@@ -145,8 +145,7 @@ static class UIManager
 
         return byteSize;
     }
-    
-    
+
     /// <summary>
     /// 2차원 배열로 주어진 옵션을 출력하고 선택할 수 있는 UI를 제공하는 메서드
     /// </summary>
@@ -156,8 +155,7 @@ static class UIManager
         {
             return -1;
         }
-
-
+        
         int rows = table.GetLength(0);
         int cols = table.GetLength(1);
 
@@ -325,7 +323,7 @@ static class UIManager
 
         return cursorOffset;
     }
-    
+
     /// <summary>
     /// 주어진 2차원 배열을 받아와서 정렬 후 출력하는 메서드
     /// </summary>
@@ -339,7 +337,7 @@ static class UIManager
             Console.WriteLine();
         }
     }
-    
+
     /// <summary>
     /// 주어진 2차원 배열을 지정된 위치 (left, top)에서 정렬 후 출력하는 메서드
     /// </summary>
@@ -394,7 +392,6 @@ static class UIManager
         return paddedTable;
     }
 
-    
     public static string[] CreatePaddedList(string[,] table)
     {
         int rows = table.GetLength(0);

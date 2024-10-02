@@ -49,7 +49,8 @@ public abstract class Quest
     /// 퀘스트 진행도를 return 해주기 위한 메서드 
     /// <returns></returns>
     public abstract string GetQuestProgressText();
-    
+
+    public abstract void CancelQuest();
     public virtual void SetDetailedDescription(string[] text)
     {
         DetailedDescription = text;

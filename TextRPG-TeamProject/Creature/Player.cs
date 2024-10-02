@@ -13,6 +13,8 @@ public enum PlayerType
 public class Player : Creature
 {
     public event OnDeath<Player> OnDeath;
+    public event Action<int> OnAddGold;
+    public event Action<int> OnSpendGold;
 
     public PlayerType Type { get; set; }
     public int Gold { get; set; }
@@ -102,6 +104,7 @@ public void AddExp(int extraExp)
     public void AddGold(int amount)
     {
         Gold += amount;
+        OnAddGold?.Invoke(Gold);
     }
     public bool SpendGold(int amount)
     {
@@ -112,6 +115,7 @@ public void AddExp(int extraExp)
 
         else
         {
+            OnSpendGold?.Invoke(Gold);
             Gold -= amount;
             return true;
         }

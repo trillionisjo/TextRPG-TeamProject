@@ -13,7 +13,6 @@
 
     public override void Update()
     {
-        UIManager.TitleBox($"{GameData.Player.Type} 길드");
         UIManager.AlignTextCenter("길드에 오신 것을 환영합니다.", -2);
         UIManager.AlignTextCenter("여기서 퀘스트를 진행하실 수 있습니다.", -1);
         string[] option = { "퀘스트 목록", "진행중인 퀘스트", "나가기" };

@@ -7,8 +7,7 @@ class StartScene : Scene
         Console.Clear();
         AudioManager.PlayAudio("main_bgm.mp3");
     }
-
-
+    
     public override void Update ()
     {
         Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
@@ -19,12 +18,8 @@ class StartScene : Scene
         HandleInput(number);
     }
     
-
-
     private void HandleInput(int selectedNumber)
     {
-        
-
         switch (selectedNumber)
         {
         case 1:
