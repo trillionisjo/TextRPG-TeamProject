@@ -11,7 +11,7 @@ class DiceScene : Scene
     {
         Dice();
     }
-    static void Dice()
+    public void Dice()
     {
         Console.WriteLine("Welcome to the Dice Game!");
 
@@ -21,6 +21,7 @@ class DiceScene : Scene
             Console.Clear();
             Console.WriteLine("\n소지금: " + GameData.Player.Gold + " 골드");
             Console.Write("베팅할 금액을 입력하세요 (최대 10000 골드): ");
+            Console.WriteLine(Console.WindowHeight+"  " + Console.BufferWidth);
             int betAmount = int.Parse(Console.ReadLine());
 
             if (betAmount > GameData.Player.Gold || betAmount > 10000)
@@ -28,7 +29,8 @@ class DiceScene : Scene
                 Console.WriteLine("잘못된 베팅 금액입니다. 다시 입력하세요.");
                 continue;
             }
-
+            Console.Clear() ;
+            Console.WriteLine($"배팅금액 : {betAmount}");
             // 플레이어 및 AI 주사위 굴리기
             Console.WriteLine("\n--- 플레이어 차례 ---");
             int[] playerDice = DiceManager.PlayTurn();
@@ -68,14 +70,13 @@ class DiceScene : Scene
             }
 
             Console.WriteLine("다시 하시겠습니까?");
+
             HandleInput();
-            if (Console.ReadLine().ToLower() != "y")
-                break;
         }
-        static void HandleInput()
+        void HandleInput()
         {
-            string[] option = { "한판 더!", "이제 돌아갈 때가 됫군" };
-            int number = UIManager.DisplaySelectionUI(option);
+            string[] option = { "한판 더!", "이제 그만 할 때가 됫군" };
+            int number = UIManager.DisplaySelectionUI(option, 4);
 
             switch (number)
             {
@@ -83,6 +84,7 @@ class DiceScene : Scene
                     break;
 
                 case 2:
+                    NextScene = new PubScene();
                     break;
 
 
