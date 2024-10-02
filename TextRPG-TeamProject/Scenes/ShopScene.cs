@@ -39,6 +39,7 @@ class ShopScene : Scene
     {
         Option[] options = new Option[] {
             new Option("구매하기", new NextSceneEvent(this, new PurchaseScene())),
+            new Option("판매하기", new NextSceneEvent(this, new SellScene())),
             new Option("나가기", new NextSceneEvent(this, new StartScene())),
         };
 
