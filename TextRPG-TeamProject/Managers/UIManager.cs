@@ -363,11 +363,18 @@ static class UIManager
         return paddedList;
     }
 
-    public static void DrawLine(int y, int length = 120)
+    public static void DrawLine(int y, int length = 110)
     {
         Console.SetCursorPosition(0, y);
+        Console.Write(GetLineString(length));
+    }
+
+    public static string GetLineString(int length = 110)
+    {
+        var sb = new StringBuilder();
         for (int i = 0; i < length; i++)
-            Console.Write('-');
+            sb.Append('-');
+        return sb.ToString();
     }
 
     public static string PadRight (string input, int totalWidth)
