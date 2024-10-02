@@ -18,7 +18,8 @@ public enum QuestType
 
 public abstract class Quest
 {
-
+    public string DetailedDescription { get; set; }
+    public string Difficulty { get; set; }
     public QuestType Type { get; set; }
     public QuestStatus Status { get; set; }
     public int Id { get; set; }
@@ -38,5 +39,9 @@ public abstract class Quest
     public abstract void StartQuest();
     public abstract bool IsCompleteQuest();
 
-   
+    public virtual void SetDetailedDescription(string text)
+    {
+        DetailedDescription = text;
+    }
+
 }

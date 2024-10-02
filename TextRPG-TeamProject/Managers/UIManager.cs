@@ -124,94 +124,121 @@ static class UIManager
         }
         return byteSize;
     }
+    // table을 인자로 받아 뒤로가기가 추가된 선택지 생성 , 뒤로가기 = -1 반환
+public static int DisplaySelectionUI(string[,] options)
+{
+    int rows = options.GetLength(0); // 행의 개수 (첫 번째 차원)
+    int cols = options.GetLength(1); // 열의 개수 (두 번째 차원)
+    
+    int padding = 2;
+    int cursorPosY = 0;
+    int selectCursorPosY = cursorPosY + 1;
+    int previousCursorPosY = selectCursorPosY;
+    bool isSelecting = true;
+
+    while (isSelecting)
+    {
+        // 모든 항목과 "뒤로가기" 항목 출력
+        for (int i = 0; i < rows; i++)
+        {
+            Console.SetCursorPosition(1, cursorPosY + 1 + i);
+
+            // 각 열의 값을 한 줄로 출력
+            for (int j = 0; j < cols; j++)
+            {
+                Console.Write(options[i, j] + "\t");  // 열 값을 탭으로 구분하여 출력
+            }
+
+            Console.WriteLine(); // 다음 줄로 이동
+        }
+
+        // "뒤로가기" 항목 추가 출력
+        Console.SetCursorPosition(1, cursorPosY + 1 + rows);
+        Console.WriteLine("뒤로가기");
+
+        // 이전 커서 위치 지우기
+        Console.SetCursorPosition(0, previousCursorPosY);
+        Console.Write(' ');
+
+        // 선택 커서 위치 제어
+        if (selectCursorPosY < cursorPosY + 1) selectCursorPosY = cursorPosY + rows + 1;
+        else if (selectCursorPosY > cursorPosY + rows + 1) selectCursorPosY = cursorPosY + 1;
+
+        // 현재 선택 위치에 커서 출력
+        Console.SetCursorPosition(0, selectCursorPosY);
+        Console.Write('▶');
+
+        // 키 입력 받아서 선택지 이동 처리
+        ConsoleKey input = Console.ReadKey(true).Key;
+
+        previousCursorPosY = selectCursorPosY;
+
+        // switch 문을 사용하여 선택지 이동 처리
+        switch (input)
+        {
+            case ConsoleKey.UpArrow:
+            case ConsoleKey.LeftArrow:
+                selectCursorPosY -= 1;
+                break;
+            case ConsoleKey.DownArrow:
+            case ConsoleKey.RightArrow:
+                selectCursorPosY += 1;
+                break;
+            case ConsoleKey.Enter:
+                isSelecting = false;
+                
+                // "뒤로가기" 항목이 선택된 경우 -1 반환
+                if (selectCursorPosY == cursorPosY + rows + 1)
+                    return -1;
+                break;
+        }
+    }
+
+    // 선택한 옵션의 행 인덱스를 반환 (0부터 시작)
+    return selectCursorPosY - cursorPosY - 1;
+}
+
 
     public static int DisplaySelectionUI(string[] options)
     {
-        
-        int selectNum = 0;
-        int cursorPosY = (int)(Console.WindowHeight * 0.7) + 2;  // 기본 출력 스타일 
-        
-        // 옵션 수 < 2 출력 스타일 
-        if (options.Length < 2)
-        {
-            cursorPosY += padding; 
-        }
-        
-        // 옵션 수 > 4 출력 스타일
-        else if (options.Length > 4)
-        {
-            cursorPosY -= options.Length / 2; 
-        }
-        
-        
+        int cursorPosY = (int)(Console.WindowHeight * 0.7) + (options.Length < 2 ? 2 + padding : options.Length > 4 ? 2 - options.Length / 2 : 2);
         int selectCursorPosY = cursorPosY + 1;
-        int previousCursorPosY = selectCursorPosY; // 이전 커서 위치 저장
+        int previousCursorPosY = selectCursorPosY;
         bool isSelecting = true;
 
         while (isSelecting)
         {
-            // 옵션 출력
-            for (int i = 0; i <= options.Length; i++)
-            {
-                Console.SetCursorPosition(1, cursorPosY + i);
+            Console.SetCursorPosition(0, cursorPosY);
+            Console.WriteLine(new string('-', Console.WindowWidth - 1));
 
-                if (i == 0)
-                {
-                    // 상단 경계선 그리기
-                    for (int j = 0; j < Console.WindowWidth - 1; j++)
-                    {
-                        Console.Write("-");
-                    }
-                }
-                else
-                {
-                    Console.Write(options[i - 1]);  // 옵션 출력
-                }
+            for (int i = 0; i < options.Length; i++)
+            {
+                Console.SetCursorPosition(1, cursorPosY + 1 + i);
+                Console.WriteLine(options[i]);
             }
 
-            Console.CursorVisible = false; //콘솔창 커서 숨기기 
-
-
-            // 이전 커서 위치의 '▶' 지우기
             Console.SetCursorPosition(0, previousCursorPosY);
-            Console.Write(" ");  // 공백으로 커서를 지움
+            Console.Write(' ');
 
+            if (selectCursorPosY < cursorPosY + 1) selectCursorPosY = cursorPosY + options.Length;
+            else if (selectCursorPosY > cursorPosY + options.Length) selectCursorPosY = cursorPosY + 1;
 
-            //콘솔 좌표 설정
-            if (selectCursorPosY < cursorPosY + 1)
-                selectCursorPosY = cursorPosY + options.Length;
-            else if (selectCursorPosY > cursorPosY + options.Length)
-                selectCursorPosY = cursorPosY + 1;
-
-            // 새 위치에 '▶' 출력
             Console.SetCursorPosition(0, selectCursorPosY);
             Console.Write('▶');
 
-            //사용자 입력처리 
-            ConsoleKeyInfo input = Console.ReadKey(true);
-            switch (input.Key)
-            {
-                case ConsoleKey.UpArrow:
-                case ConsoleKey.LeftArrow:
-                    previousCursorPosY = selectCursorPosY;
-                    selectCursorPosY--;
-                    break;
-                case ConsoleKey.RightArrow:
-                case ConsoleKey.DownArrow:
-                    previousCursorPosY = selectCursorPosY;
-                    selectCursorPosY++;
-                    break;
-                case ConsoleKey.Enter:
-                    selectNum = selectCursorPosY - cursorPosY;
-                    isSelecting = false;
-                    break;
-            }
+            ConsoleKey input = Console.ReadKey(true).Key;
 
+            previousCursorPosY = selectCursorPosY;
+            selectCursorPosY += input == ConsoleKey.UpArrow || input == ConsoleKey.LeftArrow ? -1 :
+                input == ConsoleKey.DownArrow || input == ConsoleKey.RightArrow ? 1 : 0;
+
+            if (input == ConsoleKey.Enter) isSelecting = false;
         }
 
-        return selectNum;
+        return selectCursorPosY - cursorPosY;
     }
 
+    
     public static int DisplaySelectionUI (Option[] options, int x, int y, int cursorOffset)
     {
         bool looping = true;

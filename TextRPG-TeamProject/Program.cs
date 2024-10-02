@@ -9,7 +9,6 @@ public class Program
         Scene nextScene = currentScene;
         currentScene.Start();
         QuestManager.Init();
-        QuestManager.ActivateQuest(1);
 
         while (true)
         {

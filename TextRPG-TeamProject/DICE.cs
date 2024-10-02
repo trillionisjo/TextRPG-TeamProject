@@ -11,7 +11,7 @@ class DiceGame :Scene
     public override void Update()
     {
         dice();
-
+        NextScene = new DiceGame();
     }
     static Random random = new Random();
     static int playerGold = 10000; // 플레이어 초기 소지금
