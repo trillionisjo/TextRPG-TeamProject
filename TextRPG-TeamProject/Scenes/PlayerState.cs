@@ -10,15 +10,21 @@ class PlayerState : Scene
 
     public override void Update ()
     {   
-        Console.WriteLine("플레이어 스테이트 신");
-        Console.WriteLine($" 이름  : {GameData.Player.Name}");
-        Console.WriteLine($" 직업  : {GameData.Player.Type.ToString()}");
-        Console.WriteLine($" LeveL : {GameData.Player.Level}");
-        Console.WriteLine($" H  P  : {GameData.Player.HP}");
-        Console.WriteLine($" M  P  : {GameData.Player.MP}");
-        Console.WriteLine($"공격력 : {GameData.Player.AttackPower}");
-        Console.WriteLine($"방어력 : {GameData.Player.DefensePower}");
-        Console.WriteLine($"소지금 : {GameData.Player.Gold}");
+        UIManager.TitleBox("캐릭터 정보");
+        // 테이블 형식으로 출력해야 할 것 같음.
+        string[] playerStateInfo = 
+        {
+            $" 이 름  : {GameData.Player.Name}",
+            $" 직 업  : {GameData.Player.Type.ToString()}",
+            $" L  V  : {GameData.Player.Level}",
+            $" H  P  : {GameData.Player.HP}",
+            $" M  P  : {GameData.Player.MP}",
+            $" 공격력 : {GameData.Player.AttackPower}",
+            $" 방어력 : {GameData.Player.DefensePower}",
+            $" 소지금 : {GameData.Player.Gold}"
+        };
+        
+        UIManager.AlignTextCenter(playerStateInfo,-2);
         HandleInput();
     }
 

@@ -13,11 +13,8 @@ class JobChooseScene : Scene
     public override void Update()
     {
         List<Player> list = new List<Player>();
-        Console.WriteLine("직업을 선택해 주세요.");
-        foreach (PlayerType playerType in Enum.GetValues(typeof(PlayerType)))
-        {
-            Console.WriteLine(playerType);
-        }
+        UIManager.TitleBox("직업 선택");
+        UIManager.AlignTextCenter("직업을 선택해 주세요.",-2);
         HandleInput();
     }
 

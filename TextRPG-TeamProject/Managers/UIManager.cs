@@ -155,7 +155,7 @@ static class UIManager
         {
             return -1;
         }
-        
+
         int rows = table.GetLength(0);
         int cols = table.GetLength(1);
 
@@ -222,8 +222,8 @@ static class UIManager
     /// </summary>
     public static int DisplaySelectionUI(string[] options)
     {
-        int cursorPosY = (int)(Console.WindowHeight * 0.7) +
-                         (options.Length < 2 ? 2 + padding : options.Length > 4 ? 2 - options.Length / 2 : 2);
+        int padding = options.Length < 4 ? 2 : 0;
+        int cursorPosY = (int)(Console.WindowHeight * 0.7) + padding;
         int selectCursorPosY = cursorPosY + 1;
         int previousCursorPosY = selectCursorPosY;
         bool isSelecting = true;
@@ -251,10 +251,23 @@ static class UIManager
             ConsoleKey input = Console.ReadKey(true).Key;
 
             previousCursorPosY = selectCursorPosY;
-            selectCursorPosY += input == ConsoleKey.UpArrow || input == ConsoleKey.LeftArrow ? -1 :
-                input == ConsoleKey.DownArrow || input == ConsoleKey.RightArrow ? 1 : 0;
 
-            if (input == ConsoleKey.Enter) isSelecting = false;
+            switch (input)
+            {
+                case ConsoleKey.UpArrow:
+                case ConsoleKey.LeftArrow:
+                    selectCursorPosY -= 1;
+                    break;
+
+                case ConsoleKey.DownArrow:
+                case ConsoleKey.RightArrow:
+                    selectCursorPosY += 1;
+                    break;
+
+                case ConsoleKey.Enter:
+                    isSelecting = false;
+                    break;
+            }
         }
 
         return selectCursorPosY - cursorPosY;
