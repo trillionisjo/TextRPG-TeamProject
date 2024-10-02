@@ -4,10 +4,11 @@ public class Program
     static void Main (string[] args)
     {
         GameData.InitDatas();
-
-        Scene currentScene = new StartScene();
+        
+        Scene currentScene = new TitleScene();
         Scene nextScene = currentScene;
         currentScene.Start();
+        QuestManager.Init();
 
         while (true)
         {

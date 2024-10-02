@@ -2,7 +2,7 @@
 
 abstract class Scene
 {
-    public Scene NextScene { get; protected set; }
+    public Scene NextScene { get; set; }
 
     public Scene()
     {

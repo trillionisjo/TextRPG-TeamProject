@@ -3,12 +3,16 @@
 static class Inventory
 {
     public static List<IItem> ItemList { get; set; } = new List<IItem>();
+    public static event Action PotionConsumed;
 
-    public static void RemoveItem (IItem item)
+    public static void RemoveItem (ItemId id)
     {
         for (int i = 0; i < ItemList.Count; i++)
-            if (ItemList[i].Id == item.Id)
+            if (ItemList[i].Id == id)
+            {
                 ItemList.RemoveAt(i);
+                break;
+            }
     }
 
     public static int QueryPotionCount(ItemId id)
@@ -22,13 +26,14 @@ static class Inventory
 
     public static void UsePotion(ItemId id)
     {
-        var potionList = GetItemsByType<IConsumable>();
+        var potionList = GetItemsByType<Potion>();
         foreach (Potion item in potionList)
         {
             if (id == item.Id)
             {
                 item.Consume();
-                RemoveItem(item);
+                RemoveItem(item.Id);
+                PotionConsumed?.Invoke();
                 break;
             }
         }

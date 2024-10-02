@@ -5,28 +5,28 @@ static class Equipment
     public static Weapon EquiptedWeapon { get; set; } = null;
     public static Armor EquiptedArmor { get; set; } = null;
 
-    public static void EquipItem (IEquipable item)
+    public static void EquipItem(IEquipable item)
     {
         switch (item)
         {
-        case Weapon weapon:
-            EquipWeapon(weapon);
-            break;
+            case Weapon weapon:
+                EquipWeapon(weapon);
+                break;
 
-        case Armor armor:
-            EquipArmor(armor);
-            break;
+            case Armor armor:
+                EquipArmor(armor);
+                break;
         }
     }
 
-    public static void EquipWeapon (Weapon weapon)
+    public static void EquipWeapon(Weapon weapon)
     {
         UnequipWeapon();
         weapon.ApplyStats();
         EquiptedWeapon = weapon;
     }
 
-    public static void EquipArmor (Armor armor)
+    public static void EquipArmor(Armor armor)
     {
         UnequipArmor();
         armor.ApplyStats();
@@ -37,17 +37,17 @@ static class Equipment
     {
         switch (item)
         {
-        case Weapon weapon:
-            ToggleWeapon(weapon);
-            break;
+            case Weapon weapon:
+                ToggleWeapon(weapon);
+                break;
 
-        case Armor armor:
-            ToggleArmor(armor);
-            break;
+            case Armor armor:
+                ToggleArmor(armor);
+                break;
         }
     }
 
-    public static void ToggleWeapon (Weapon weapon)
+    public static void ToggleWeapon(Weapon weapon)
     {
         if (EquiptedWeapon == null)
         {
@@ -61,7 +61,7 @@ static class Equipment
             EquipWeapon(weapon);
     }
 
-    public static void ToggleArmor (Armor armor)
+    public static void ToggleArmor(Armor armor)
     {
         if (EquiptedArmor == null)
         {
@@ -75,33 +75,33 @@ static class Equipment
             EquipArmor(armor);
     }
 
-    public static void UnequipWeapon ()
+    public static void UnequipWeapon()
     {
         EquiptedWeapon?.RemoveStats();
         EquiptedWeapon = null;
     }
 
-    public static void UnequipArmor ()
+    public static void UnequipArmor()
     {
         EquiptedArmor?.RemoveStats();
         EquiptedArmor = null;
     }
 
-    public static bool IsEquiptedItem (IEquipable item)
+    public static bool IsEquiptedItem(IEquipable item)
     {
         switch (item)
         {
-        case Weapon weapon:
-            return IsEquiptedWeapon(weapon);
+            case Weapon weapon:
+                return IsEquiptedWeapon(weapon);
 
-        case Armor armor:
-            return IsEquiptedArmor(armor);
+            case Armor armor:
+                return IsEquiptedArmor(armor);
         }
 
         return false;
     }
 
-    public static bool IsEquiptedWeapon (Weapon weapon)
+    public static bool IsEquiptedWeapon(Weapon weapon)
     {
         if (EquiptedWeapon == null)
             return false;
@@ -112,7 +112,7 @@ static class Equipment
         return false;
     }
 
-    public static bool IsEquiptedArmor (Armor armor)
+    public static bool IsEquiptedArmor(Armor armor)
     {
         if (EquiptedArmor == null)
             return false;
