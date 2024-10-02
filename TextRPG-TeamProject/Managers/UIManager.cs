@@ -22,7 +22,6 @@ class Option
 static class UIManager
 {
     const int padding = 3;
-
     public static void TitleBox(string text)
     { 
         int byteSize =  GetByteFromText(text);
@@ -50,8 +49,6 @@ static class UIManager
 
         Console.SetCursorPosition(0, 2);
     }
-
-
     public static void AlignTextCenter(string[] text , int lineSpacing)
     {
         int cursorPosX;
@@ -82,8 +79,6 @@ static class UIManager
         Console.SetCursorPosition(0, 0);
 
     }
-
-
     public static void AlignTextCenter(string text, int lineSpacing)
     {
         int cursorPosX = (Console.WindowWidth / 2) - (GetByteFromText(text) / 2);
@@ -94,8 +89,6 @@ static class UIManager
 
         Console.SetCursorPosition(0, 0);
     }
-
-
     public static void AlignTextCenter(string text)
     {
         int cursorPosX = (Console.WindowWidth / 2) - (GetByteFromText(text) / 2);
@@ -106,7 +99,6 @@ static class UIManager
         Console.SetCursorPosition(0, 0);
     }
 
-
     public static void PrintTextAtPosition(string text, int x, int y)
     {
 
@@ -115,7 +107,6 @@ static class UIManager
         //커서 포지션 초기화 
         Console.SetCursorPosition(0, 0);
     }
-
 
     public static int GetByteFromText(string text)
     {
@@ -134,21 +125,31 @@ static class UIManager
         return byteSize;
     }
 
-
     public static int DisplaySelectionUI(string[] options)
     {
-        //선택지 수에 따라 , 여백 2줄 
-
+        
         int selectNum = 0;
-        //선택값을 저장하기 위한 변수 
-        int cursorPosY = (int)(Console.WindowHeight * 0.7) + 2; //
+        int cursorPosY = (int)(Console.WindowHeight * 0.7) + 2;  // 기본 출력 스타일 
+        
+        // 옵션 수 < 2 출력 스타일 
+        if (options.Length < 2)
+        {
+            cursorPosY += padding; 
+        }
+        
+        // 옵션 수 > 4 출력 스타일
+        else if (options.Length > 4)
+        {
+            cursorPosY -= options.Length / 2; 
+        }
+        
+        
         int selectCursorPosY = cursorPosY + 1;
         int previousCursorPosY = selectCursorPosY; // 이전 커서 위치 저장
         bool isSelecting = true;
 
         while (isSelecting)
         {
-
             // 옵션 출력
             for (int i = 0; i <= options.Length; i++)
             {

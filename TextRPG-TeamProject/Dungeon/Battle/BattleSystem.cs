@@ -119,24 +119,43 @@ class BattleSystem
         if (selectedTargetIndex == backButtonIndex)
             return false;
 
-
         var potionList = Inventory.GetItemsByType<Potion>();
-
         Potion potion = potionList[selectedTargetIndex];
+
+
+        if (!IsCanUsePotion(potion.Id))
+        {
+            BattleUIManager.DisplayPotionUsageError(potion.Id);
+            return false;
+        }
+
         UsePotion(potion);
+        return true;
+    }
+
+    private bool IsCanUsePotion(ItemId potionId)
+    {
+        if (potionId == ItemId.HpPotion)
+        {
+            if (player.MaxHP == player.HP)
+                return false;
+        }
+
+        else if (potionId == ItemId.MpPotion)
+        {
+            if (player.MaxMP == player.MP)
+                return false;
+        }
 
         return true;
     }
 
-
     public void UsePotion(Potion potion)
     {
         BattleUIManager.DisplayTurnUI("플레이어 턴 - 포션사용");
-        Inventory.UsePotion(potion.Id);
         var texts = BattleUIManager.GetPotionUsageResultTexts(player, potion);
         UIManager.AlignTextCenter(texts, -2);
-
-
+        Inventory.UsePotion(potion.Id);
         var options = new string[] { "다음" };
         UIManager.DisplaySelectionUI(options);
     }
@@ -149,12 +168,12 @@ class BattleSystem
         bool isSkill = true;
         AttackType type = battleUtilities.GetAttackOutcome(isSkill);
         int damage = skill.UseSkill(caster, target);
-        string[] texts = BattleUIManager.GetSkillResultTexts(caster, target, damage, skill);
+        battleUtilities.CalculateSkillDamage(type, ref damage);
+        string[] texts = BattleUIManager.GetSkillResultTexts(caster, target, damage, skill, type);
         UIManager.AlignTextCenter(texts, -2);
 
         string[] options = new string[] { "다음" };
         UIManager.DisplaySelectionUI(options);
-
 
         ApplyDamage(target, damage);
     }
@@ -228,6 +247,7 @@ class BattleSystem
     public void HandleMonsterDeath(Monster monster)
     {
         monster.OnDeath -= HandleMonsterDeath;
+        DungeonManager.Instance.NotifyKill();
         GameData.AliveMonster.Remove(monster);
         GameData.DeathMonster.Add(monster);
         int prevPlayerLevel = player.Level;

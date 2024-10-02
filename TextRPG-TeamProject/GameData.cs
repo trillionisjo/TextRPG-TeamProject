@@ -7,11 +7,14 @@ static class GameData
     static public List<Monster> AliveMonster;
     static public List<Monster> DeathMonster;
     static public int DungeonLv = 0;
+    static public int HuntedMonster = 0;
 
     public static void InitDatas()
     {
-        if(DungeonLv == 0)
-            { DungeonLv = 1; }
+        if (DungeonLv == 0)
+        {
+            DungeonLv = 1;
+        }
 
         Console.CursorVisible = false;
 
@@ -43,5 +46,4 @@ static class GameData
         ShopData.ItemList.Add(ItemManager.Instantiate(ItemId.MpPotion));
         ShopData.ItemList.Add(ItemManager.Instantiate(ItemId.MpPotion));
     }
-    
 }

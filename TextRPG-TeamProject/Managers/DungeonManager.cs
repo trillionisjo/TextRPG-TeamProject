@@ -3,7 +3,7 @@
 class DungeonManager
 {
     static public DungeonManager Instance = new DungeonManager();
-
+    public event Action OnKillMonster;
     private BattleSystem battleSystem;
     private Spawner spawner;
     private Player player = GameData.Player;
@@ -16,8 +16,14 @@ class DungeonManager
 
     private DungeonManager()
     {
-        
     }
+
+
+    public void NotifyKill()
+    {
+        OnKillMonster?.Invoke();
+    }
+
 
     public void Init(int mobNum, DungeonScene dungeonScene)
     {
@@ -41,6 +47,8 @@ class DungeonManager
 
     private void OnDungeonUncomplete()
     {
+        battleSystem.OnLoseBattle -= OnDungeonUncomplete;
+        
         Console.Clear();
         string text = "플레이어사망";
         UIManager.AlignTextCenter(text);
