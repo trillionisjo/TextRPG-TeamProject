@@ -1,10 +1,6 @@
-﻿
-using System.Numerics;
-
-class BattleUtilities
+﻿class BattleUtilities
 {
-
-    private const double MISS_CHANCE = 0.10f;
+    private const double MissChance = 0.10f;
     private readonly Random rand = new Random();
 
 
@@ -30,10 +26,11 @@ class BattleUtilities
                 skill = new Mage();
                 break;
         }
+
         return skill;
     }
 
- 
+
     public int CalculateDamage(AttackType type, Creature attacker, Creature target)
     {
         int damage = 0;
@@ -47,8 +44,6 @@ class BattleUtilities
                 break;
             case AttackType.Normal:
                 damage = attacker.GetTotalAttackPower();
-                break;
-            default:
                 break;
         }
 
@@ -66,7 +61,7 @@ class BattleUtilities
         double chance = rand.NextDouble();
 
         // 1. 회피 판정
-        if (!isSkill && chance < MISS_CHANCE)
+        if (!isSkill && chance < MissChance)
             return AttackType.Miss;
 
         // 2. 치명타 판정
@@ -76,8 +71,4 @@ class BattleUtilities
         // 3. 정타 (Normal) 판정
         return AttackType.Normal;
     }
-
-
-
 }
-

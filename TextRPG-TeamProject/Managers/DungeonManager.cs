@@ -2,24 +2,7 @@
 
 class DungeonManager
 {
-    static public DungeonManager Instance
-    {
-
-        get
-        {
-            if (instance == null)
-                instance = new DungeonManager();
-           
-            return instance;
-        }
-
-        private set 
-        {
-            instance = value;
-        }
-    }
-
-    static private DungeonManager instance;
+    static public DungeonManager Instance = new DungeonManager();
 
     private BattleSystem battleSystem;
     private Spawner spawner;
@@ -27,11 +10,14 @@ class DungeonManager
     private DungeonScene dungeonScene;
 
 
-    private readonly int[] GOLD_REWARD = { 100, 200, 300, 400, 500 };
-    private readonly Random RANDOM = new Random();
-    private const float ESCAPE_CHANCE = 0.30f;
+    private readonly int[] goldReward = { 100, 200, 300, 400, 500 };
+    private readonly Random random = new Random();
 
 
+    private DungeonManager()
+    {
+        
+    }
 
     public void Init(int mobNum, DungeonScene dungeonScene)
     {
@@ -50,7 +36,6 @@ class DungeonManager
         battleSystem.OnWinBattle += OnDungeonComplete;
 
         battleSystem.StartBattle();
-
     }
 
 
@@ -61,27 +46,24 @@ class DungeonManager
         UIManager.AlignTextCenter(text);
 
         dungeonScene.PromptRestartOrExit();
-
-
     }
 
 
     private void DropLoot()
     {
         //전리품 획득 
-        int goldLoot = GOLD_REWARD[GameData.DungeonLv - 1];
+        int goldLoot = goldReward[GameData.DungeonLv - 1];
         int prevPlayerGold = player.Gold;
         player.AddGold(goldLoot);
         UIManager.AlignTextCenter($"소지금:{prevPlayerGold} -> {player.Gold}");
 
         float itemDropChance = 0.3f;
 
-        if (itemDropChance >= RANDOM.NextDouble())
+        if (itemDropChance >= random.NextDouble())
         {
             UIManager.AlignTextCenter("아이템 획득!", 1);
         }
     }
-
 
 
     private void OnDungeonComplete()
@@ -95,12 +77,9 @@ class DungeonManager
 
         GameData.DungeonLv++;
 
-        if (GameData.DungeonLv > GOLD_REWARD.Length)
-            GameData.DungeonLv = GOLD_REWARD.Length;
+        if (GameData.DungeonLv > goldReward.Length)
+            GameData.DungeonLv = goldReward.Length;
 
         dungeonScene.PromptTryNextDungeon();
-   
     }
-
 }
-

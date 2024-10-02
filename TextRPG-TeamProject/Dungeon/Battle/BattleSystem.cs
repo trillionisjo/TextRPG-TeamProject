@@ -1,38 +1,25 @@
-﻿using System;
-using System.Linq;
-using System.Numerics;
-using System.Reflection.Emit;
-using System.Threading;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
-
-public enum AttackType
+﻿enum AttackType
 {
     None,
     Miss,
     Critical,
     Normal
 }
+
 public delegate void OnWinBattle();
+
 public delegate void OnLoseBattle();
 
 
 class BattleSystem
 {
-
     public event OnWinBattle OnWinBattle;
     public event OnLoseBattle OnLoseBattle;
 
 
     private Player player;
     private BattleUtilities battleUtilities;
-
     private List<Monster> monsters = GameData.AliveMonster;
-
-    private Random rand = new Random();
-    private double missChance = 0.10f;
-
-    private int diedMonsterNum = 0;
     private bool isPlayerTurn = true;
 
     public BattleSystem()
@@ -41,19 +28,17 @@ class BattleSystem
         player = GameData.Player;
     }
 
-    public void ProcessMonsterTurn()
+    private void ProcessMonsterTurn()
     {
-
         BattleUIManager.DisplayTurnUI("몬스터 턴");
 
         for (int i = 0; i < GameData.AliveMonster.Count; i++)
         {
             PerformAttack(GameData.AliveMonster[i], player);
         }
-
     }
 
-    public void ProcessPlayerTurn()
+    private void ProcessPlayerTurn()
     {
         SelectPlayerAction();
     }
@@ -61,15 +46,14 @@ class BattleSystem
 
     private void SelectPlayerAction()
     {
-        bool isAction = false;
         const string playerTurnMessage = "플레이어 턴 - 행동선택";
 
-        while (!isAction)
+        while (true)
         {
             BattleUIManager.DisplayTurnUI(playerTurnMessage);
             string[] options = { "일반공격", "스킬", "아이템" };
-            int selectedAction = UIManager.DisplaySelectionUI(options);
-           
+            var selectedAction = UIManager.DisplaySelectionUI(options);
+
             int backButtonIndex;
 
             switch (selectedAction)
@@ -98,19 +82,18 @@ class BattleSystem
 
     private bool HandleAttackSelection(int backButtonIndex)
     {
-        int selectedTargetIndex = BattleUIManager.ShowBattleChoices();
+        var selectedTargetIndex = BattleUIManager.ShowBattleChoices();
 
         if (selectedTargetIndex == backButtonIndex)
             return false;
 
         PerformAttack(player, monsters[selectedTargetIndex]);
         return true;
-
     }
 
     private bool HandleSkillSelection(int backButtonIndex)
     {
-        int selectedTargetIndex = BattleUIManager.ShowBattleChoices();
+        var selectedTargetIndex = BattleUIManager.ShowBattleChoices();
 
         if (selectedTargetIndex == backButtonIndex)
             return false;
@@ -131,7 +114,7 @@ class BattleSystem
     private bool HandleItemSelection(int backButtonIndex)
     {
         BattleUIManager.DisplayTurnUI("플레이어 턴 - 아이템 사용");
-        int selectedTargetIndex = BattleUIManager.ShowPotionChoices();
+        var selectedTargetIndex = BattleUIManager.ShowPotionChoices();
 
         if (selectedTargetIndex == backButtonIndex)
             return false;
@@ -143,9 +126,6 @@ class BattleSystem
         UsePotion(potion);
 
         return true;
-
-
-
     }
 
 
@@ -153,33 +133,34 @@ class BattleSystem
     {
         BattleUIManager.DisplayTurnUI("플레이어 턴 - 포션사용");
         Inventory.UsePotion(potion.Id);
-        string[] texts = BattleUIManager.GetPotionUsageResultTexts(player, potion);
+        var texts = BattleUIManager.GetPotionUsageResultTexts(player, potion);
         UIManager.AlignTextCenter(texts, -2);
 
 
-        string[] options = new string[] { "다음" };
-        int selectNum = UIManager.DisplaySelectionUI(options);
+        var options = new string[] { "다음" };
+        UIManager.DisplaySelectionUI(options);
     }
 
 
-    public void PerformSkill(Player player, Monster target, ISkill skill)
+    //스킬 치명타 부분 추가.
+    public void PerformSkill(Player caster, Monster target, ISkill skill)
     {
         BattleUIManager.DisplayTurnUI("플레이어 턴 - 스킬사용");
         bool isSkill = true;
         AttackType type = battleUtilities.GetAttackOutcome(isSkill);
-        int damage = skill.UseSkill(player, target);
-        string[] texts = BattleUIManager.GetSkillResultTexts(player, target, damage, skill);
+        int damage = skill.UseSkill(caster, target);
+        string[] texts = BattleUIManager.GetSkillResultTexts(caster, target, damage, skill);
         UIManager.AlignTextCenter(texts, -2);
 
         string[] options = new string[] { "다음" };
-        int selectNum = UIManager.DisplaySelectionUI(options);
+        UIManager.DisplaySelectionUI(options);
 
 
-        ApplyDamage(target, damage, texts);
+        ApplyDamage(target, damage);
     }
 
 
-    private void ApplyDamage(Creature target, int damage, string[] texts)
+    private void ApplyDamage(Creature target, int damage)
     {
         target.OnDamaged(damage);
     }
@@ -187,10 +168,9 @@ class BattleSystem
 
     public void PerformAttack(Creature attacker, Creature target)
     {
-
         AttackType type = battleUtilities.GetAttackOutcome();
 
-        int damage = 0;
+        int damage;
         damage = battleUtilities.CalculateDamage(type, attacker, target);
         string[] texts;
 
@@ -205,21 +185,15 @@ class BattleSystem
         texts = BattleUIManager.GetAttackResultTexts(attacker, target, type, damage);
         UIManager.AlignTextCenter(texts, -2);
 
-        string[] options = new string[] { "다음" };
-        int selectNum = UIManager.DisplaySelectionUI(options);
+        string[] options = { "다음" };
+        UIManager.DisplaySelectionUI(options);
 
-        ApplyDamage(target, damage, texts);
-
-
+        ApplyDamage(target, damage);
     }
-
-
 
 
     public void StartBattle()
     {
-
-
         for (int i = 0; i < monsters.Count; i++)
         {
             monsters[i].OnDeath += HandleMonsterDeath;
@@ -227,10 +201,9 @@ class BattleSystem
 
         while (true)
         {
-
             if (monsters.Count == 0)
             {
-                OnWinBattle?.Invoke();
+                OnWinBattle.Invoke();
                 break;
             }
 
@@ -238,9 +211,10 @@ class BattleSystem
             {
                 if (player.IsDead)
                 {
-                    OnLoseBattle?.Invoke();
+                    OnLoseBattle.Invoke();
                     break;
                 }
+
                 if (isPlayerTurn)
                     ProcessPlayerTurn();
                 else
@@ -249,9 +223,7 @@ class BattleSystem
                 isPlayerTurn = !isPlayerTurn;
             }
         }
-
     }
-
 
     public void HandleMonsterDeath(Monster monster)
     {
@@ -263,9 +235,17 @@ class BattleSystem
         player.AddExp(monster.DropExp);
         player.AddGold(monster.DropGold);
 
+
         BattleUIManager.DisplayTurnUI("몬스터 턴 - 공격 결과");
-        string[] texts = { $"{monster.Name}({monster.InstanceNumber})을 처치!", $"{monster.DropExp}의 경험치와 {monster.DropGold} Gold를 획득" };
+        string[] texts =
+
+        {
+            $"{monster.Name}({monster.InstanceNumber})을 처치!", $"{monster.DropExp}의 경험치와 {monster.DropGold} Gold를 획득"
+        };
+
+
         UIManager.AlignTextCenter(texts, -2);
+
 
         if (prevPlayerLevel != player.Level)
         {
@@ -273,15 +253,7 @@ class BattleSystem
             UIManager.AlignTextCenter(texts, -2);
         }
 
-        string[] options = new string[] { "다음" };
-        int selectNum = UIManager.DisplaySelectionUI(options);
-
+        string[] options = { "다음" };
+        UIManager.DisplaySelectionUI(options);
     }
-
-
-
-
-
 }
-
-

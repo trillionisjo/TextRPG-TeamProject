@@ -1,17 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Numerics;
-using static System.Net.Mime.MediaTypeNames;
-
-
-static class BattleUIManager
+﻿static class BattleUIManager
 {
     static Player player = GameData.Player;
 
 
     static public int ShowBattleChoices()
     {
-
         DisplayTurnUI("플레이어 턴 - 대상선택");
         string[] mobList = GetMonsterOptions();
         string[] previousPage = { "뒤로가기" };
@@ -22,7 +15,6 @@ static class BattleUIManager
 
     static public int ShowPotionChoices()
     {
-
         DisplayTurnUI("플레이어 턴 - 포션선택");
         string[] potionList = GetPotionOptions();
         string[] previousPage = { "뒤로가기" };
@@ -62,10 +54,10 @@ static class BattleUIManager
         int previousMp = caster.MP + skill.ManaCost;
 
         string[] texts =
-       {
-          $"{target.Name}({target.InstanceNumber})에게 {skill.SkillName} 사용",
-          $"{damage}의 피해",
-          $"MP{previousMp} -> {caster.MP}"
+        {
+            $"{target.Name}({target.InstanceNumber})에게 {skill.SkillName} 사용",
+            $"{damage}의 피해",
+            $"MP{previousMp} -> {caster.MP}"
         };
 
         return texts;
@@ -80,29 +72,36 @@ static class BattleUIManager
 
         if (potion.Id == ItemId.HpPotion)
         {
-            previousPower = player.HP - potion.RecoveryPower;
+            if (player.HP + potion.RecoveryPower == player.MaxHP)
+                previousPower = player.HP;
+            else
+                previousPower = player.HP - potion.RecoveryPower;
+
             currentPower = player.HP;
             power = "HP";
         }
 
         else if (potion.Id == ItemId.MpPotion)
         {
-            previousPower = player.MP - potion.RecoveryPower;
+            if (player.MP + potion.RecoveryPower == player.MaxMP)
+                previousPower = player.MP;
+            else
+                previousPower = player.MP - potion.RecoveryPower;
+
             currentPower = player.MP;
             power = "MP";
         }
 
 
         string[] texts =
-       {
-          $"{(potion.Id == ItemId.HpPotion ? "회복포션" : "마나포션")} 사용",
-          $"{potion.RecoveryPower}만큼 회복",
-          $"{power}{previousPower} -> {currentPower}"
+        {
+            $"{(potion.Id == ItemId.HpPotion ? "회복포션" : "마나포션")} 사용",
+            $"{potion.RecoveryPower}만큼 회복",
+            $"{power}{previousPower} -> {currentPower}"
         };
 
         return texts;
     }
-
 
 
     static public string[] GetAttackResultTexts(Creature attacker, Creature target, AttackType type, int damage)
@@ -119,8 +118,8 @@ static class BattleUIManager
 
             texts = new string[]
             {
-                    $"{target.Name}에게 {damage}만큼의 공격{critical}",
-                    $"{target.Name} HP:{target.HP} -> {(target.HP - damage > 0 ? target.HP - damage : "Dead")}"
+                $"{target.Name}에게 {damage}만큼의 공격{critical}",
+                $"{target.Name} HP:{target.HP} -> {(target.HP - damage > 0 ? target.HP - damage : "Dead")}"
             };
         }
 
@@ -136,11 +135,11 @@ static class BattleUIManager
         {
             var monster = GameData.AliveMonster[i];
             var monsterInfo = $"Lv.{monster.Level}ㅣ{monster.Name}({monster.InstanceNumber})";
-            var monsterStats = $"HP: {monster.HP}ㅣ공격력: {monster.GetTotalAttackPower()}ㅣ방어력: {monster.GetTotalDefensePower()}";
+            var monsterStats =
+                $"HP: {monster.HP}ㅣ공격력: {monster.GetTotalAttackPower()}ㅣ방어력: {monster.GetTotalDefensePower()}";
             Console.WriteLine($"{monsterInfo} {monsterStats}");
         }
-    
-  
+
 
         Console.WriteLine();
 
@@ -148,13 +147,9 @@ static class BattleUIManager
         for (int i = 0; i < GameData.DeathMonster.Count; i++)
         {
             var monster = GameData.DeathMonster[i];
-
-            if (monster != null)
-            {
-                var monsterHP = (monster.HP > 0) ? monster.HP.ToString() : "Dead";
-                string monsterInfo = $"Lv.{monster.Level} {monster.Name} ({monster.InstanceNumber}) HP: {monsterHP}";
-                Console.WriteLine(monsterInfo);
-            }
+            var monsterHp = (monster.HP > 0) ? monster.HP.ToString() : "Dead";
+            string monsterInfo = $"Lv.{monster.Level} {monster.Name} ({monster.InstanceNumber}) HP: {monsterHp}";
+            Console.WriteLine(monsterInfo);
         }
 
         Console.ForegroundColor = ConsoleColor.White;
@@ -167,10 +162,10 @@ static class BattleUIManager
 
         string[] statText =
         {
-             $"Lv:{player.Level}({player.Exp}/{player.ExpToNextLv})",
+            $"Lv:{player.Level}({player.Exp}/{player.ExpToNextLv})",
             $"HP:{player.HP}ㅣMP:{player.MP}",
-              $"ATK:{player.GetTotalAttackPower()}{extraAttackPower}ㅣDEF:{player.GetTotalDefensePower()}{extraDefensePower}"
-            };
+            $"ATK:{player.GetTotalAttackPower()}{extraAttackPower}ㅣDEF:{player.GetTotalDefensePower()}{extraDefensePower}"
+        };
 
 
         int maxTextWidth = GetMaxWidth(statText);
@@ -192,6 +187,7 @@ static class BattleUIManager
             Console.WriteLine(statText[i]);
         }
     }
+
     static public void ShowManaError()
     {
         DisplayTurnUI("플레이어 턴 - 행동선택");
@@ -209,7 +205,6 @@ static class BattleUIManager
     }
 
 
-
     static private int GetMaxWidth(string[] texts)
     {
         int maxWidth = 0;
@@ -224,4 +219,3 @@ static class BattleUIManager
         return maxWidth;
     }
 }
-

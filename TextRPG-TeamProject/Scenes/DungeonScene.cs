@@ -15,7 +15,6 @@ class DungeonScene : Scene
     private int monsterNum;
 
 
-
     public override void Start()
     {
         Init();
@@ -32,12 +31,11 @@ class DungeonScene : Scene
     }
 
 
-
     private void DecideDungeonEntry()
     {
         UIManager.TitleBox($"던전LV:{GameData.DungeonLv}");
         Console.ForegroundColor = ConsoleColor.Red;
-        UIManager.AlignTextCenter($"{monsterNum}마리의 적이 느껴집니다...",-2);
+        UIManager.AlignTextCenter($"{monsterNum}마리의 적이 느껴집니다...", -2);
         Console.ForegroundColor = ConsoleColor.White;
 
         string[] options = { "싸운다", "도망간다" };
@@ -68,7 +66,6 @@ class DungeonScene : Scene
             }
         }
     }
-
 
 
     public void PromptRestartOrExit()
@@ -106,9 +103,4 @@ class DungeonScene : Scene
                 break;
         }
     }
-
 }
-
-
-
-
