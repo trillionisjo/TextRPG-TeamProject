@@ -12,6 +12,8 @@ class AudioManager
         EquipManager.ItemEquippted += OnItemEquipped;
         EquipManager.ItemUnequippted += OnItemUnequippted;
         Inventory.PotionConsumed += OnPotionConsumed;
+        ShopData.Purchased += OnPurchased;
+        ShopData.Sold += OnSold;
     }
 
     public static void PlayAudio(string filePath)
@@ -106,4 +108,13 @@ class AudioManager
         PlayOntShot("sfx-consume-potion.mp3");
     }
 
+    private static void OnPurchased()
+    {
+        PlayOntShot("sfx-purchase-item.mp3");
+    }
+
+    private static void OnSold()
+    {
+        PlayOntShot("sfx-sell-item.mp3");
+    }
 }

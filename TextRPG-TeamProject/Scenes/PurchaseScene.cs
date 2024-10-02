@@ -22,16 +22,7 @@ class PurchaseScene : Scene
                 return;
             }
 
-            Purchase();
-        }
-
-        private void Purchase()
-        {
-            GameData.Player.SpendGold(ShopData.ItemList[index].Price);
-            Inventory.ItemList.Add(ShopData.ItemList[index]);
-            ShopData.ItemList.RemoveAt(index);
-
-            AudioManager.PlayOntShot("sfx-purchase-item.mp3");
+            ShopData.Purchase(index);
         }
     }
 
