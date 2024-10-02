@@ -1,6 +1,8 @@
 ﻿static class EquipManager
 {
     public static Dictionary<Slot, IEquipable> Slots;
+    public static event Action<Slot, IEquipable> ItemEquippted;
+    public static event Action<Slot> ItemUnequippted;
 
     static EquipManager()
     {
@@ -14,14 +16,19 @@
         UnequipItem(item.Slot);
         Slots[item.Slot] = item;
         item.ApplyStats();
+
+        ItemEquippted?.Invoke(item.Slot, item);
     }
 
     public static void UnequipItem (Slot slot)
     {
         if (Slots[slot] == null)
             return;
+
         Slots[slot].RemoveStats();
         Slots[slot] = null;
+
+        ItemUnequippted?.Invoke(slot);
     }
 
     public static void ToggleEquip (IEquipable item)
