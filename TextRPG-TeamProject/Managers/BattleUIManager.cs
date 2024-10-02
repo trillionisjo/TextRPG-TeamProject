@@ -1,10 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Numerics;
-using static System.Net.Mime.MediaTypeNames;
-
-
-static class BattleUIManager
+﻿static class BattleUIManager
 {
     static Player player = GameData.Player;
 
@@ -78,7 +72,7 @@ static class BattleUIManager
 
         if (potion.Id == ItemId.HpPotion)
         {
-            if (player.HP + potion.RecoveryPower >= player.MaxHP)
+            if (player.HP + potion.RecoveryPower == player.MaxHP)
                 previousPower = player.HP;
             else
                 previousPower = player.HP - potion.RecoveryPower;
@@ -89,11 +83,11 @@ static class BattleUIManager
 
         else if (potion.Id == ItemId.MpPotion)
         {
-            if (player.MP + potion.RecoveryPower >= player.MaxMP)
+            if (player.MP + potion.RecoveryPower == player.MaxMP)
                 previousPower = player.MP;
             else
                 previousPower = player.MP - potion.RecoveryPower;
-            
+
             currentPower = player.MP;
             power = "MP";
         }

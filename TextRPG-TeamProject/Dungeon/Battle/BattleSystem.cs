@@ -28,7 +28,7 @@ class BattleSystem
         player = GameData.Player;
     }
 
-    public void ProcessMonsterTurn()
+    private void ProcessMonsterTurn()
     {
         BattleUIManager.DisplayTurnUI("몬스터 턴");
 
@@ -38,7 +38,7 @@ class BattleSystem
         }
     }
 
-    public void ProcessPlayerTurn()
+    private void ProcessPlayerTurn()
     {
         SelectPlayerAction();
     }
@@ -52,7 +52,7 @@ class BattleSystem
         {
             BattleUIManager.DisplayTurnUI(playerTurnMessage);
             string[] options = { "일반공격", "스킬", "아이템" };
-            int selectedAction = UIManager.DisplaySelectionUI(options);
+            var selectedAction = UIManager.DisplaySelectionUI(options);
 
             int backButtonIndex;
 
@@ -82,7 +82,7 @@ class BattleSystem
 
     private bool HandleAttackSelection(int backButtonIndex)
     {
-        int selectedTargetIndex = BattleUIManager.ShowBattleChoices();
+        var selectedTargetIndex = BattleUIManager.ShowBattleChoices();
 
         if (selectedTargetIndex == backButtonIndex)
             return false;
@@ -93,7 +93,7 @@ class BattleSystem
 
     private bool HandleSkillSelection(int backButtonIndex)
     {
-        int selectedTargetIndex = BattleUIManager.ShowBattleChoices();
+        var selectedTargetIndex = BattleUIManager.ShowBattleChoices();
 
         if (selectedTargetIndex == backButtonIndex)
             return false;
@@ -114,7 +114,7 @@ class BattleSystem
     private bool HandleItemSelection(int backButtonIndex)
     {
         BattleUIManager.DisplayTurnUI("플레이어 턴 - 아이템 사용");
-        int selectedTargetIndex = BattleUIManager.ShowPotionChoices();
+        var selectedTargetIndex = BattleUIManager.ShowPotionChoices();
 
         if (selectedTargetIndex == backButtonIndex)
             return false;
@@ -133,11 +133,11 @@ class BattleSystem
     {
         BattleUIManager.DisplayTurnUI("플레이어 턴 - 포션사용");
         Inventory.UsePotion(potion.Id);
-        string[] texts = BattleUIManager.GetPotionUsageResultTexts(player, potion);
+        var texts = BattleUIManager.GetPotionUsageResultTexts(player, potion);
         UIManager.AlignTextCenter(texts, -2);
 
 
-        string[] options = new string[] { "다음" };
+        var options = new string[] { "다음" };
         UIManager.DisplaySelectionUI(options);
     }
 

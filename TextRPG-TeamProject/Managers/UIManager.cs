@@ -1,30 +1,26 @@
 ﻿using System;
 using System.Text;
 
-static class UIManager
+public static class UIManager
 {
-    const int padding = 3;
-
     public static void TitleBox(string text)
-    { 
-        int byteSize =  GetByteFromText(text);
+    {
+        int byteSize = GetByteFromText(text);
         int cursorPosX = (Console.WindowWidth / 2) - (byteSize / 2);
 
 
-        for (int i = 0; i < byteSize ; i++)
+        for (int i = 0; i < byteSize; i++)
         {
-            
-            cursorPosX = (Console.WindowWidth / 2 ) - (byteSize  / 2);
-            Console.SetCursorPosition(cursorPosX+i, 0);  
+            cursorPosX = (Console.WindowWidth / 2) - (byteSize / 2);
+            Console.SetCursorPosition(cursorPosX + i, 0);
             Console.Write("-");
         }
+
         Console.SetCursorPosition(cursorPosX, 1);
         Console.WriteLine(text);
 
         for (int i = 0; i < byteSize; i++)
         {
-             
-
             cursorPosX = (Console.WindowWidth / 2) - (byteSize / 2);
             Console.SetCursorPosition(cursorPosX + i, 2);
             Console.Write("-");
@@ -34,7 +30,7 @@ static class UIManager
     }
 
 
-    public static void AlignTextCenter(string[] text , int lineSpacing)
+    public static void AlignTextCenter(string[] text, int lineSpacing)
     {
         int cursorPosX;
         int cursorPosY = Console.WindowHeight / 2 - text.Length / 2 + lineSpacing;
@@ -47,8 +43,8 @@ static class UIManager
         }
 
         Console.SetCursorPosition(0, 0);
-
     }
+
     public static void AlignTextCenter(string[] text)
     {
         int cursorPosX;
@@ -62,7 +58,6 @@ static class UIManager
         }
 
         Console.SetCursorPosition(0, 0);
-
     }
 
 
@@ -91,10 +86,8 @@ static class UIManager
 
     public static void PrintTextAtPosition(string text, int x, int y)
     {
-
         Console.SetCursorPosition(x, y);
         Console.Write(text);
-        //커서 포지션 초기화 
         Console.SetCursorPosition(0, 0);
     }
 
@@ -113,6 +106,7 @@ static class UIManager
                 byteSize += 2;
             }
         }
+
         return byteSize;
     }
 
@@ -130,7 +124,6 @@ static class UIManager
 
         while (isSelecting)
         {
-
             // 옵션 출력
             for (int i = 0; i <= options.Length; i++)
             {
@@ -146,7 +139,7 @@ static class UIManager
                 }
                 else
                 {
-                    Console.Write(options[i - 1]);  // 옵션 출력
+                    Console.Write(options[i - 1]); // 옵션 출력
                 }
             }
 
@@ -155,7 +148,7 @@ static class UIManager
 
             // 이전 커서 위치의 '▶' 지우기
             Console.SetCursorPosition(0, previousCursorPosY);
-            Console.Write(" ");  // 공백으로 커서를 지움
+            Console.Write(" "); // 공백으로 커서를 지움
 
 
             //콘솔 좌표 설정
@@ -187,13 +180,12 @@ static class UIManager
                     isSelecting = false;
                     break;
             }
-
         }
 
         return selectNum;
     }
 
-    public static void WriteTable (string[,] table)
+    public static void WriteTable(string[,] table)
     {
         string[,] paddedTable = CreatePaddedTable(table);
         for (int row = 0; row < table.GetLength(0); row++)
@@ -204,7 +196,7 @@ static class UIManager
         }
     }
 
-    public static void WriteTable (string[,] table, int left, int top)
+    public static void WriteTable(string[,] table, int left, int top)
     {
         int count = 0;
         string[,] paddedTable = CreatePaddedTable(table);
@@ -216,7 +208,7 @@ static class UIManager
         }
     }
 
-    public static string[,] CreatePaddedTable (string[,] table)
+    public static string[,] CreatePaddedTable(string[,] table)
     {
         int rows = table.GetLength(0);
         int cols = table.GetLength(1);
@@ -232,6 +224,7 @@ static class UIManager
                 int width = CalcTextWidth(table[row, col]);
                 max = Math.Max(max, width);
             }
+
             maxWidths[col] = max;
         }
 
@@ -243,6 +236,7 @@ static class UIManager
                 string paddedText = PadRight(table[row, col], maxWidths[col]);
                 paddedTable[row, col] = $"{paddedText} | ";
             }
+
             string lastColumnText = PadRight(table[row, cols - 1], maxWidths[cols - 1]);
             paddedTable[row, cols - 1] = lastColumnText;
         }
@@ -250,7 +244,7 @@ static class UIManager
         return paddedTable;
     }
 
-    public static string[] CreatePaddedList (string[,] table)
+    public static string[] CreatePaddedList(string[,] table)
     {
         int rows = table.GetLength(0);
         int cols = table.GetLength(1);
@@ -266,6 +260,7 @@ static class UIManager
                 int width = CalcTextWidth(table[row, col]);
                 max = Math.Max(max, width);
             }
+
             maxWidths[col] = max;
         }
 
@@ -278,6 +273,7 @@ static class UIManager
                 string paddedText = PadRight(table[row, col], maxWidths[col]);
                 sb.Append($"{paddedText} | ");
             }
+
             string lastColumnText = PadRight(table[row, cols - 1], maxWidths[cols - 1]);
             sb.Append(lastColumnText);
 
@@ -287,23 +283,19 @@ static class UIManager
         return paddedList;
     }
 
-    public static string PadRight (string input, int totalWidth)
+    public static string PadRight(string input, int totalWidth)
     {
         int textWidth = CalcTextWidth(input);
         return input.PadRight(input.Length + (totalWidth - textWidth));
     }
 
-    public static int CalcTextWidth (string str)
+    public static int CalcTextWidth(string str)
     {
         return str.Sum(c => IsKorean(c) ? 2 : 1);
     }
 
-    public static bool IsKorean (char ch)
+    public static bool IsKorean(char ch)
     {
         return ('가' <= ch && ch <= '힣') || ('ㄱ' <= ch && ch <= 'ㅎ') || ('ㅏ' <= ch && ch <= 'ㅣ');
     }
-
-
 }
-
-

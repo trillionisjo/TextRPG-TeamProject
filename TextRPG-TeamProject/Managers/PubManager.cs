@@ -1,16 +1,16 @@
 ﻿using System;
+
 static class PubManager
 {
     public static void PubDrink()
     {
-        if (GameData.Player.Gold>=10)
+        if (GameData.Player.Gold >= 10)
         {
             Console.Clear();
             GameData.Player.SpendGold(10);
             Console.WriteLine("한잔 마시고 나니 기분이 좋아졌습니다.");
 
             HandleInput();
-
         }
         else
         {
@@ -19,11 +19,11 @@ static class PubManager
 
             HandleInput();
         }
-
     }
+
     public static void PubRest()
     {
-        if (GameData.Player.Gold>=50)
+        if (GameData.Player.Gold >= 50)
         {
             Console.Clear();
             GameData.Player.SpendGold(50);
@@ -32,7 +32,6 @@ static class PubManager
             Console.WriteLine("지친 몸을 이끌고 편히 쉬었습니다.");
 
             HandleInput();
-
         }
         else
         {
@@ -41,8 +40,8 @@ static class PubManager
 
             HandleInput();
         }
-
     }
+
     private static void HandleInput()
     {
         string[] option = { "나가기" };
