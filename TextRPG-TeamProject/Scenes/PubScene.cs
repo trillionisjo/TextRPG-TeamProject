@@ -30,10 +30,7 @@ internal class PubScene : Scene
                 NextScene = new PubScene();
                 break;
             case 3:
-                Console.Clear ();
-                Console.WriteLine("구현중");
-                Console.ReadLine();
-                NextScene = new PubScene();
+                NextScene = new DiceScene();
                 break;
             case 4:
                 NextScene = new StartScene();

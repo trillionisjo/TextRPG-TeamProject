@@ -1,84 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-class DiceGame :Scene
+static class DiceManager
 {
-    public override void Start()
-    {
-    }
-
-    public override void Update()
-    {
-        dice();
-
-    }
     static Random random = new Random();
-    static int playerGold = 10000; // 플레이어 초기 소지금
 
-    static void dice()
-    {
-        Console.WriteLine("Welcome to the Dice Game!");
-
-        // 게임 반복
-        while (true)
-        {
-            Console.WriteLine("\n소지금: " + playerGold + " 골드");
-            Console.Write("베팅할 금액을 입력하세요 (최대 10000 골드): ");
-            int betAmount = int.Parse(Console.ReadLine());
-
-            if (betAmount > playerGold || betAmount > 10000)
-            {
-                Console.WriteLine("잘못된 베팅 금액입니다. 다시 입력하세요.");
-                continue;
-            }
-
-            // 플레이어 및 AI 주사위 굴리기
-            Console.WriteLine("\n--- 플레이어 차례 ---");
-            int[] playerDice = PlayTurn();
-            Console.WriteLine("\n--- AI1 차례 ---");
-            int[] ai1Dice = PlayAITurn();
-            Console.WriteLine("\n--- AI2 차례 ---");
-            int[] ai2Dice = PlayAITurn();
-
-            // 승리자 결정
-            int playerRank = GetRank(playerDice);
-            int ai1Rank = GetRank(ai1Dice);
-            int ai2Rank = GetRank(ai2Dice);
-
-            Console.WriteLine("\n--- 결과 ---");
-            Console.WriteLine("플레이어: " + GetRankName(playerRank));
-            Console.WriteLine("AI1: " + GetRankName(ai1Rank));
-            Console.WriteLine("AI2: " + GetRankName(ai2Rank));
-
-            int winner = DetermineWinner(playerDice, ai1Dice, ai2Dice);
-
-            // 결과에 따른 금액 처리
-            if (winner == 0)
-            {
-                Console.WriteLine("플레이어가 이겼습니다!");
-                Bet(betAmount, true);
-            }
-            else
-            {
-                Console.WriteLine($"AI{winner}이 이겼습니다.");
-                Bet(betAmount, false);
-            }
-
-            if (playerGold <= 0)
-            {
-                Console.WriteLine("더 이상 소지금이 없습니다. 게임 종료.");
-                break;
-            }
-
-            Console.WriteLine("다시 하시겠습니까? (y/n)");
-            if (Console.ReadLine().ToLower() != "y")
-                break;
-        }
-    }
 
     // 턴 진행 (플레이어)
-    static int[] PlayTurn()
+    public static int[] PlayTurn()
     {
         int[] dice = new int[5];
         bool[] holdFlags = new bool[5];
@@ -110,7 +37,7 @@ class DiceGame :Scene
     }
 
     // 턴 진행 (AI)
-    static int[] PlayAITurn()
+    public static int[] PlayAITurn()
     {
         int[] dice = new int[5];
         bool[] holdFlags = new bool[5];
@@ -192,7 +119,7 @@ class DiceGame :Scene
     }
 
     // 승리 조건 분석
-    static int GetRank(int[] dice)
+    public static int GetRank(int[] dice)
     {
         var count = CountDice(dice);
         var counts = count.Values.OrderByDescending(v => v).ToList();
@@ -221,7 +148,7 @@ class DiceGame :Scene
     }
 
     // 랭크 이름 출력
-    static string GetRankName(int rank)
+    public static string GetRankName(int rank)
     {
         switch (rank)
         {
@@ -236,7 +163,7 @@ class DiceGame :Scene
     }
 
     // 승리자 결정
-    static int DetermineWinner(int[] playerDice, int[] ai1Dice, int[] ai2Dice)
+    public static int DetermineWinner(int[] playerDice, int[] ai1Dice, int[] ai2Dice)
     {
         int playerRank = GetRank(playerDice);
         int ai1Rank = GetRank(ai1Dice);
@@ -257,15 +184,15 @@ class DiceGame :Scene
     }
 
     // 배팅 처리
-    static void Bet(int betAmount, bool isWin)
+    public static void Bet(int betAmount, bool isWin)
     {
         if (isWin)
         {
-            playerGold += betAmount * 2; // 승리 시 3배 획득
+            GameData.Player.Gold += betAmount * 2; // 승리 시 3배 획득
         }
         else
         {
-            playerGold -= betAmount; // 패배 시 배팅 금액 잃음
+            GameData.Player.Gold -= betAmount; // 패배 시 배팅 금액 잃음
         }
     }
 }
