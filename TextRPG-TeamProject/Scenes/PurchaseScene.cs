@@ -30,6 +30,8 @@ class PurchaseScene : Scene
             GameData.Player.SpendGold(ShopData.ItemList[index].Price);
             Inventory.ItemList.Add(ShopData.ItemList[index]);
             ShopData.ItemList.RemoveAt(index);
+
+            AudioManager.PlayOntShot("sfx-purchase-item.mp3");
         }
     }
 

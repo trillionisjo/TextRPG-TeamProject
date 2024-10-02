@@ -22,6 +22,8 @@ class SellScene : Scene
             GameData.Player.AddGold(gold);
             ShopData.ItemList.Add(Inventory.ItemList[index]);
             Inventory.ItemList.RemoveAt(index);
+
+            AudioManager.PlayOntShot("sfx-sell-item.mp3");
         }
     }
 
