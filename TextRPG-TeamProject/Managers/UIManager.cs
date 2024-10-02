@@ -125,10 +125,17 @@ static class UIManager
         return byteSize;
     }
     // table을 인자로 받아 뒤로가기가 추가된 선택지 생성 , 뒤로가기 = -1 반환
-public static int DisplaySelectionUI(string[,] options)
+public static int DisplaySelectionUI(string[,] table)
 {
-    int rows = options.GetLength(0); // 행의 개수 (첫 번째 차원)
-    int cols = options.GetLength(1); // 열의 개수 (두 번째 차원)
+    //table 0이 들어올 수 도 있으니 처리 
+    if (table == null || table.GetLength(0) == 0 || table.GetLength(1) == 0)
+    {
+        return -1;
+    }
+    
+    
+    int rows = table.GetLength(0); // 행의 개수 (첫 번째 차원)
+    int cols = table.GetLength(1); // 열의 개수 (두 번째 차원)
     
     int padding = 2;
     int cursorPosY = 0;
@@ -146,7 +153,7 @@ public static int DisplaySelectionUI(string[,] options)
             // 각 열의 값을 한 줄로 출력
             for (int j = 0; j < cols; j++)
             {
-                Console.Write(options[i, j] + "\t");  // 열 값을 탭으로 구분하여 출력
+                Console.Write(table[i, j] + "\t");  // 열 값을 탭으로 구분하여 출력
             }
 
             Console.WriteLine(); // 다음 줄로 이동

@@ -49,18 +49,18 @@
     }
 
 
-    static public string[] GetSkillResultTexts(Player caster, Monster target, int damage, ISkill skill , AttackType type)
+    static public string[] GetSkillResultTexts(Player caster, Monster target, int damage, ISkill skill, AttackType type)
     {
         int previousMp = caster.MP + skill.ManaCost;
         string critical = (type == AttackType.Critical) ? "(치명타)" : "";
-        
+
         string[] texts =
         {
             $"{target.Name}({target.InstanceNumber})에게 {skill.SkillName} 사용",
             $"{damage}{critical}의 피해",
             $"MP{previousMp} -> {caster.MP}"
         };
-        
+
 
         return texts;
     }
@@ -78,17 +78,20 @@
     {
         int nextPower = 0;
         string potionName = " ";
+        int currentPower = 0;
 
         if (potion.Id == ItemId.HpPotion)
         {
-            nextPower = (int)MathF.Min(player.HP + potion.RecoveryPower , player.MaxHP);
+            nextPower = (int)MathF.Min(player.HP + potion.RecoveryPower, player.MaxHP);
             potionName = "HP";
+            currentPower = player.HP;
         }
 
         else if (potion.Id == ItemId.MpPotion)
         {
-            nextPower = (int)MathF.Min(player.MP + potion.RecoveryPower , player.MaxMP);
+            nextPower = (int)MathF.Min(player.MP + potion.RecoveryPower, player.MaxMP);
             potionName = "MP";
+            currentPower = player.MP;
         }
 
 
@@ -96,7 +99,7 @@
         {
             $"{(potion.Id == ItemId.HpPotion ? "회복포션" : "마나포션")} 사용",
             $"{potion.RecoveryPower}만큼 회복",
-            $"{potionName}{player.HP} -> {nextPower}"
+            $"{potionName}{currentPower} -> {nextPower}"
         };
 
         return texts;

@@ -18,7 +18,7 @@ public enum QuestType
 
 public abstract class Quest
 {
-    public string DetailedDescription { get; set; }
+    public string[] DetailedDescription { get; set; }
     public string Difficulty { get; set; }
     public QuestType Type { get; set; }
     public QuestStatus Status { get; set; }
@@ -35,11 +35,22 @@ public abstract class Quest
         Description = description;
         Status = QuestStatus.NotStarted;
     }
-
+    
+    /// <summary>
+    /// 퀘스트 시작을 위한 메서드
+    /// <returns></returns>
     public abstract void StartQuest();
+    
+    /// <summary>
+    /// 조건에 따라 퀘스트를 클리어 처리하고 보상을 지급하는 메서드
+    /// <returns></returns>
     public abstract bool IsCompleteQuest();
-
-    public virtual void SetDetailedDescription(string text)
+    /// <summary>
+    /// 퀘스트 진행도를 return 해주기 위한 메서드 
+    /// <returns></returns>
+    public abstract string GetQuestProgressText();
+    
+    public virtual void SetDetailedDescription(string[] text)
     {
         DetailedDescription = text;
     }

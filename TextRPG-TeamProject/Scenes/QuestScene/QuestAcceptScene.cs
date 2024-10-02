@@ -1,4 +1,4 @@
-﻿class QuestListScene() : Scene
+﻿class QuestAcceptScene : Scene
 {
     public override void Start()
     {
@@ -8,7 +8,7 @@
     public override void Update()
     {
         var notStartedList = QuestManager.GetQuestListByStatus(QuestStatus.NotStarted);
-        string[,] table = GetNotStartedTable();
+        string[,] table = QuestManager.GetQuestTableByStatus(QuestStatus.NotStarted);
         int selectedNum = UIManager.DisplaySelectionUI(table);
 
         if (selectedNum != -1)
@@ -20,50 +20,30 @@
         else
             NextScene = new QuestScene();
     }
-    
+
     public void ShowQuestInfoById(int id)
     {
         Quest quest = QuestManager.GetQuestById(id);
         Console.Clear();
-        
+
         string[] texts =
         {
-            $"{quest.Name}", 
+            $"{quest.Name}",
             $"난이도:{quest.Difficulty}",
-            $"{quest.DetailedDescription}",
             $"보상:{quest.Reward} Gold",
         };
 
-        UIManager
+        UIManager.AlignTextCenter(texts, -3);
+        UIManager.AlignTextCenter(quest.DetailedDescription, 2);
         string[] options = { "수락", "나가기" };
+
+
         int selectNum = UIManager.DisplaySelectionUI(options);
 
-        
         if (selectNum == 1)
             QuestManager.ActivateQuest(id);
 
         Console.Clear();
     }
-
-
-    protected string[,] GetNotStartedTable()
-    {
-        var notStartedList = QuestManager.GetQuestListByStatus(QuestStatus.NotStarted);
-        if (notStartedList.Count != 0)
-        {
-            string[,] table = new string[notStartedList.Count, 3];
-
-            for (int i = 0; i < notStartedList.Count; i++)
-            {
-                Quest quest = notStartedList[i];
-                table[i, 0] = $"- {quest.Name}";
-                table[i, 1] = quest.Description;
-                table[i, 2] = $"{quest.Reward}G";
-            }
-
-            return table;
-        }
-
-        return null;
-    }
 }
+

@@ -27,13 +27,29 @@
         switch (selectedNumber)
         {
             case 1:
-                NextScene = new QuestListScene();
-                break;
+                if (QuestManager.GetQuestListByStatus(QuestStatus.NotStarted).Count == 0)
+                {
+                    Console.Clear();
+                    UIManager.AlignTextCenter("흠... 더 이상 자네에게 줄 퀘스트가 없구만");
+                    UIManager.DisplaySelectionUI(new[] { "다음" });
+                    Console.Clear();
+                }
+                else
+                    NextScene = new QuestAcceptScene();
 
+                break;
             case 2:
-                Inventory.UsePotion(ItemId.HpPotion);
-                break;
+                if (QuestManager.GetQuestListByStatus(QuestStatus.Active).Count == 0)
+                {
+                    Console.Clear();
+                    UIManager.AlignTextCenter("퀘스트를 한번 받아 보는건 어때?");
+                    UIManager.DisplaySelectionUI(new[] {"다음"});
+                    Console.Clear();
+                }
+                else 
+                    NextScene = new ActiveQuestScene();
 
+                break;
             case 3:
                 NextScene = new StartScene();
                 break;

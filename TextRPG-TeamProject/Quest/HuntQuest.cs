@@ -18,6 +18,11 @@
        
     }
 
+    public override string GetQuestProgressText()
+    {
+        return $"처치 수:{Math.Min(currentKillCount,targetKillCount)}/{targetKillCount}";
+    }
+
     public void IncreaseTargetKillCount()
     {
         currentKillCount++;
@@ -30,6 +35,7 @@
             currentKillCount = targetKillCount;
             DungeonManager.Instance.OnKillMonster -= IncreaseTargetKillCount;
             Status = QuestStatus.Completed;
+            GameData.Player.AddGold(Reward);
             return true;
         }
         return false;
