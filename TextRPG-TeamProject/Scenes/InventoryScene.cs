@@ -10,6 +10,7 @@ class InventoryScene : Scene
 
     public override void Update()
     {
+        Console.Clear();
         Console.WriteLine("인벤토리");
         Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
         Console.WriteLine();
@@ -33,7 +34,7 @@ class InventoryScene : Scene
 
             if (item is IEquipable equipment)
             {
-                string strEquipted = Equipment.IsEquiptedItem(equipment) ? "[E]" : "";
+                string strEquipted = EquipManager.IsEquiptedItem(equipment) ? "[E]" : "";
                 table[i, 0] = $"- {strEquipted}{item.Name}";
             }
             else

@@ -7,7 +7,7 @@ class Potion : IConsumable
     public string Desc { get; set; }
     public int Price { get; set; }
     public int RecoveryPower { get; set; }
-    public string StatInfo => $"회복력 {RecoveryPower}";
+    public string StatInfo => $"회복력 {RecoveryPower:+#;-#;0}";
 
     public Potion(ItemId id, string name, string desc, int price, int recoveryPower)
     {
