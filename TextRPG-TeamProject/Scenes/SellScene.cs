@@ -46,7 +46,7 @@ class SellScene : Scene
     {
         int n = Inventory.ItemList.Count;
         string[,] table = new string[n, 4];
-        var options = new Option[n + 3];
+        var options = new Option[n + 2];
 
         for (int i = 0; i < Inventory.ItemList.Count; i++)
         {
@@ -66,8 +66,8 @@ class SellScene : Scene
         for (int i = 0; i < paddedList.Count(); i++)
             options[i].Text = paddedList[i];
 
-        options[n + 1] = new Option(UIManager.GetLineString(), null);
-        options[n + 2] = new Option("나가기", new NextSceneEvent(this, new ShopScene()));
+        //options[n + 1] = new Option(UIManager.GetLineString(), null);
+        options[n + 1] = new Option("나가기", new NextSceneEvent(this, new ShopScene()));
 
         (int x, int y) point = Console.GetCursorPosition();
         cursor = UIManager.DisplaySelectionUI(options, point.x, point.y, cursor);
