@@ -30,6 +30,17 @@
         return skill;
     }
 
+    public void CalculateSkillDamage(AttackType type, ref int damage)
+    {
+        switch (type)
+        {
+            case AttackType.Critical:
+                damage = (int)(damage * GameData.Player.CritDmgPct);
+                break;
+            case AttackType.Normal:
+                break;
+        }
+    }
 
     public int CalculateDamage(AttackType type, Creature attacker, Creature target)
     {

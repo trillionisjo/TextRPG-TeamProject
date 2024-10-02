@@ -23,11 +23,11 @@ class Potion : IConsumable
         switch (Id)
         {
         case ItemId.HpPotion:
-            GameData.Player.HP = Math.Min(GameData.Player.HP + RecoveryPower, GameData.Player.MaxHP);
+            GameData.Player.AddHp(RecoveryPower);
             break;
 
         case ItemId.MpPotion:
-            GameData.Player.AddMP(RecoveryPower);
+            GameData.Player.AddMp(RecoveryPower);
             break;
         }
     }

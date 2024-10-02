@@ -3,6 +3,7 @@
 static class Inventory
 {
     public static List<IItem> ItemList { get; set; } = new List<IItem>();
+    public static event Action PotionConsumed;
 
     public static void RemoveItem (ItemId id)
     {
@@ -32,6 +33,7 @@ static class Inventory
             {
                 item.Consume();
                 RemoveItem(item.Id);
+                PotionConsumed?.Invoke();
                 break;
             }
         }

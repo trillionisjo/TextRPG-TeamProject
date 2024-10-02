@@ -13,15 +13,7 @@ class SellScene : Scene
 
         public void Invoke ()
         {
-            IItem item = Inventory.ItemList[index];
-
-            if (item is IEquipable equipable)
-                EquipManager.UnequipItem(equipable.Slot);
-
-            int gold = (int)(item.Price * ShopData.Rate);
-            GameData.Player.AddGold(gold);
-            ShopData.ItemList.Add(Inventory.ItemList[index]);
-            Inventory.ItemList.RemoveAt(index);
+            ShopData.Sell(index);
         }
     }
 
