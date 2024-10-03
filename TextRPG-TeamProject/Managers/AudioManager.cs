@@ -58,6 +58,8 @@ class AudioManager
     {
         var os = Environment.OSVersion;
         if(os.Platform != PlatformID.Win32NT)return;
+
+    
         // 현재 재생 중인 오디오와 새로 재생하려는 오디오가 동일한지 확인
         if (currentAudioFilePath == filePath && outputDevice != null && outputDevice.PlaybackState == PlaybackState.Playing)
         {

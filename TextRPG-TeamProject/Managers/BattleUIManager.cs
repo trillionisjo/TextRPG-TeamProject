@@ -49,47 +49,49 @@
     }
 
 
-    static public string[] GetSkillResultTexts(Player caster, Monster target, int damage, ISkill skill)
+    static public string[] GetSkillResultTexts(Player caster, Monster target, int damage, ISkill skill, AttackType type)
     {
         int previousMp = caster.MP + skill.ManaCost;
+        string critical = (type == AttackType.Critical) ? "(치명타)" : "";
 
         string[] texts =
         {
             $"{target.Name}({target.InstanceNumber})에게 {skill.SkillName} 사용",
-            $"{damage}의 피해",
+            $"{damage}{critical}의 피해",
             $"MP{previousMp} -> {caster.MP}"
         };
+
 
         return texts;
     }
 
+    public static void DisplayPotionUsageError(ItemId potion)
+    {
+        string potionName = potion == ItemId.HpPotion ? "Hp" : "Mp";
+        BattleUIManager.DisplayTurnUI("플레이어 턴 - 아이템 사용");
+        UIManager.AlignTextCenter($"이미 최대치의 {potionName} 입니다.");
+        var options = new string[] { "다음" };
+        UIManager.DisplaySelectionUI(options);
+    }
 
     static public string[] GetPotionUsageResultTexts(Player player, Potion potion)
     {
-        int previousPower = 0;
+        int nextPower = 0;
+        string potionName = " ";
         int currentPower = 0;
-        string power = " ";
 
         if (potion.Id == ItemId.HpPotion)
         {
-            if (player.HP + potion.RecoveryPower == player.MaxHP)
-                previousPower = player.HP;
-            else
-                previousPower = player.HP - potion.RecoveryPower;
-
+            nextPower = (int)MathF.Min(player.HP + potion.RecoveryPower, player.MaxHP);
+            potionName = "HP";
             currentPower = player.HP;
-            power = "HP";
         }
 
         else if (potion.Id == ItemId.MpPotion)
         {
-            if (player.MP + potion.RecoveryPower == player.MaxMP)
-                previousPower = player.MP;
-            else
-                previousPower = player.MP - potion.RecoveryPower;
-
+            nextPower = (int)MathF.Min(player.MP + potion.RecoveryPower, player.MaxMP);
+            potionName = "MP";
             currentPower = player.MP;
-            power = "MP";
         }
 
 
@@ -97,7 +99,7 @@
         {
             $"{(potion.Id == ItemId.HpPotion ? "회복포션" : "마나포션")} 사용",
             $"{potion.RecoveryPower}만큼 회복",
-            $"{power}{previousPower} -> {currentPower}"
+            $"{potionName}{currentPower} -> {nextPower}"
         };
 
         return texts;

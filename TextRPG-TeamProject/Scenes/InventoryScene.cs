@@ -23,6 +23,7 @@ class InventoryScene : Scene
         int selectedNumber = UIManager.DisplaySelectionUI(options);
         HandleInput(selectedNumber);
     }
+    
 
     protected void WriteItemList()
     {
@@ -45,7 +46,7 @@ class InventoryScene : Scene
             //table[i, 3] = $"{item.Price} G";
         }
 
-        UIManager.WriteTable(table);
+        UIManager.WriteTable(table, (int)5,(int)5 );
     }
 
     private void HandleInput(int selectedNumber)
