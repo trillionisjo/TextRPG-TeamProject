@@ -27,6 +27,7 @@ static class SaveManager
         // 던전 관련 데이터
         [JsonProperty] public int DungeonLv;
         [JsonProperty] public int HuntedMonster;
+        //[JsonProperty] public Action OnKillMonster;
 
         // 퀘스트 관련 데이터
         [JsonProperty] public List<Quest> QuestList;
@@ -86,6 +87,9 @@ static class SaveManager
         QuestManager.QuestList = data.QuestList;
         QuestManager.MaxActivateCount = data.MaxActivateCount;
         QuestManager.CurrentActivateCount = data.CurrentActivateCount;
+
+        foreach (Quest quest in QuestManager.QuestList)
+            quest.Reloaded();
 
         return LoadGameResult.Success;
     }

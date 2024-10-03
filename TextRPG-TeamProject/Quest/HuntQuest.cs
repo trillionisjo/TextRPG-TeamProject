@@ -48,4 +48,12 @@ public class HuntQuest : Quest
         }
         return false;
     }
+
+    public override void Reloaded ()
+    {
+        if (Status == QuestStatus.Active)
+        {
+            DungeonManager.Instance.OnKillMonster += IncreaseTargetKillCount;
+        }
+    }
 }

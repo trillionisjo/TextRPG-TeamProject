@@ -56,5 +56,5 @@ public abstract class Quest
     {
         DetailedDescription = text;
     }
-
+    public abstract void Reloaded ();
 }
