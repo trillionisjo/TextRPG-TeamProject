@@ -15,3 +15,8 @@
 8. **보물상자 상점** : 열쇠를 사용하여 보물상자를 열고 무작위 보상을 획득합니다.
 9. **컬렉션 갤러리** : 게임 전반에 걸쳐 발견한 특별한 카드를 수집하고 감상합니다.
 10. **저장/불러오기 시스템** : 게임 진행 상황을 저장하고 불러올 수 있습니다.
+
+## Contributors
+- [chijan0427](https://github.com/chijan0427)
+- [junuyng](https://github.com/junuyng)
+- [new-Tower-of-Babel](https://github.com/new-Tower-of-Babel)
