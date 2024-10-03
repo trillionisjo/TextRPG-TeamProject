@@ -1,21 +1,13 @@
 ﻿using System;
 static class DiceManager
 {
-    public override void Start()
-    {
-    }
-
-    public override void Update()
-    {
-        dice();
-        NextScene = new DiceGame();
-    }
     static Random random = new Random();
 
 
     // 턴 진행 (플레이어)
     public static int[] PlayTurn()
     {
+
         int[] dice = new int[5];
         bool[] holdFlags = new bool[5];
 

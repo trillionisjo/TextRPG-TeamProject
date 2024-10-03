@@ -37,7 +37,7 @@ class AudioManager
         Inventory.PotionConsumed += OnPotionConsumed;
         ShopData.Purchased += OnPurchased;
         ShopData.Sold += OnSold;
-
+        DungeonManager.BattleSystem.OnAttack +=OnAttack;
         if (IsWindowsPlatform())
         {
             audios = new Dictionary<AudioName, AudioInfo>();
@@ -73,8 +73,9 @@ class AudioManager
         var audioFile = new AudioFileReader(filePath);
         loopStream = new LoopStream(audioFile); // 반복 재생을 위한 LoopStream 사용
 
+        
         outputDevice = new WaveOutEvent();
-        outputDevice.Volume = 0.3f;
+        outputDevice.Volume = 0.05f;
         outputDevice.Init(loopStream);
         outputDevice.Play();
 

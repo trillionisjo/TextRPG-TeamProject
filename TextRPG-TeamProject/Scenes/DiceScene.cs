@@ -12,8 +12,32 @@ class DiceScene : Scene
     {
         Dice();
     }
+
+    private static void HandleInput()
+    {
+        string[] option = { "나가기" };
+        int number = UIManager.DisplaySelectionUI(option);
+
+        switch (number)
+        {
+            case 1:
+                break;
+
+            default:
+                break;
+        }
+    }
     public void Dice()
     {
+        if (GameData.Player.Gold<=0)
+        {
+            Console.Clear();
+            Console.WriteLine("돈도없는놈이 어딜 낄려고!");
+            HandleInput();
+            NextScene=new PubScene();
+            return;
+
+        }
         string betAmountstring = null;
         diceCheck = true;
         int numChk;
@@ -89,9 +113,9 @@ class DiceScene : Scene
 
             Console.WriteLine("다시 하시겠습니까?");
 
-            HandleInput();
+            HandleInput2();
         }
-        void HandleInput()
+        void HandleInput2()
         {
             string[] option = { "한판 더!", "이제 그만 할 때가 됫군" };
             int number = UIManager.DisplaySelectionUI(option, 4);

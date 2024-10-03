@@ -22,40 +22,24 @@ class JobChooseScene : Scene
             switch ((int)playerType)
             {
                 case 1:
-                    Console.WriteLine("HP:5 / MP:20 / AtkPower : 5 / DfsPower : 7\n");
+                    Console.WriteLine("HP:50 / MP:50 / AtkPower : 5 / DfsPower : 7\n");
                     break;
                 case 2:
-                    Console.WriteLine("HP:70 / MP:100 / AtkPower : 10 / DfsPower : 2\n");
+                    Console.WriteLine("HP:20 / MP:100 / AtkPower : 10 / DfsPower : 2\n");
                     break;
                 case 3:
-                    Console.WriteLine("HP:100 / MP:50 / AtkPower : 6 / DfsPower : 6\n");
+                    Console.WriteLine("HP:40 / MP:70 / AtkPower : 6 / DfsPower : 6\n");
                     break;
                 case 4:
-                    Console.WriteLine("HP:50 / MP:70 / AtkPower : 12 / DfsPower : 5\n");
+                    Console.WriteLine("HP:30 / MP:70 / AtkPower : 12 / DfsPower : 0\n");
                     break;
             }
         }
         HandleInput();
     }
     
-            //case 1:
-            //    Type = PlayerType.Knight;
-            //    SetInfo(5, 20, 5, 7);
-            //    break;
-            //case 2:
-            //    Type = PlayerType.Mage;
-            //    SetInfo(70, 100 , 10, 2);
-            //    break;
-            // case 3:
-            //    Type = PlayerType.Archer;
-            //    SetInfo(100, 50 , 6, 6);
-            //    break;
-            //case 4:
-            //    Type = PlayerType.Rogue;
-            //    SetInfo(50, 70 , 12, 5);
-            //    break;
 
-    private void HandleInput()
+private void HandleInput()
     {
         string[] option = Enum.GetNames(typeof(PlayerType));
         int number = UIManager.DisplaySelectionUI(option);

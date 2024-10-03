@@ -69,16 +69,13 @@ class DungeonScene : Scene
 
     public void PromptRestartOrExit()
     {
-        string[] options = { "재시작", "게임종료" };
+        string[] options = { "게임종료" };
         int selectNum = UIManager.DisplaySelectionUI(options);
         Console.Clear();
 
         switch (selectNum)
         {
             case 1:
-                NextScene = new NameInputScene();
-                break;
-            case 2:
                 Environment.Exit(0);
                 break;
         }

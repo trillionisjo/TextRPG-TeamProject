@@ -33,6 +33,7 @@ class TitleScene : Scene
 
     public override void Start ()
     {
+        Console.CursorVisible = false;
         animationSpeed = 100;
         startTime = Environment.TickCount;
         looping = true;

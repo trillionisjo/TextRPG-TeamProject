@@ -263,7 +263,7 @@ static class UIManager
     public static int DisplaySelectionUI(string[] options)
     {
         int padding = options.Length < 4 ? 2 : 0;
-        int cursorPosY = (int)(Console.WindowHeight * 0.7) + padding;
+        int cursorPosY = (int)(Console.WindowHeight * 0.6) + padding;
         int selectCursorPosY = cursorPosY + 1;
         int previousCursorPosY = selectCursorPosY;
         bool isSelecting = true;
@@ -317,7 +317,7 @@ static class UIManager
     {
 
         int selectNum = 0;
-        int cursorPosY = (int)(Console.WindowHeight * 0.7) + padding;  // 기본 출력 스타일 
+        int cursorPosY = (int)(Console.WindowHeight * 0.6) + padding;  // 기본 출력 스타일 
 
         // 옵션 수 < 2 출력 스타일 
         if (options.Length < 2)
