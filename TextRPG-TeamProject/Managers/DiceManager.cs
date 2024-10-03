@@ -39,6 +39,7 @@ static class DiceManager
     // 턴 진행 (AI)
     public static int[] PlayAITurn()
     {
+
         int[] dice = new int[5];
         bool[] holdFlags = new bool[5];
 
@@ -53,6 +54,7 @@ static class DiceManager
         }
 
         return dice;
+
     }
 
     // 주사위 굴리기
@@ -169,6 +171,7 @@ static class DiceManager
         int ai1Rank = GetRank(ai1Dice);
         int ai2Rank = GetRank(ai2Dice);
 
+        // 우선, 등급 순으로 비교 (등급 숫자가 낮을수록 높은 순위)
         if (playerRank < ai1Rank && playerRank < ai2Rank)
         {
             return 0; // 플레이어 승
@@ -177,10 +180,78 @@ static class DiceManager
         {
             return 1; // AI1 승
         }
-        else
+        else if (ai2Rank < playerRank && ai2Rank < ai1Rank)
         {
             return 2; // AI2 승
         }
+
+        // 등급이 동일한 경우
+        if (playerRank == ai1Rank && playerRank == ai2Rank)
+        {
+            // 플레이어, AI1, AI2가 모두 같은 등급일 경우
+            return CompareHighestDice(playerDice, ai1Dice, ai2Dice); // 세 명의 주사위 숫자 비교
+        }
+        else if (playerRank == ai1Rank)
+        {
+            // 플레이어와 AI1이 같은 등급이고 AI2는 다른 등급인 경우
+            int result = CompareHighestDice(playerDice, ai1Dice); // 플레이어와 AI1의 주사위 숫자 비교
+            if (result == 0) return 0; // 플레이어가 이김
+            else return 1; // AI1이 이김
+        }
+        else if (playerRank == ai2Rank)
+        {
+            // 플레이어와 AI2가 같은 등급이고 AI1은 다른 등급인 경우
+            int result = CompareHighestDice(playerDice, ai2Dice); // 플레이어와 AI2의 주사위 숫자 비교
+            if (result == 0) return 0; // 플레이어가 이김
+            else return 2; // AI2가 이김
+        }
+        else if (ai1Rank == ai2Rank)
+        {
+            // AI1과 AI2가 같은 등급이고 플레이어는 다른 등급인 경우
+            int result = CompareHighestDice(ai1Dice, ai2Dice); // AI1과 AI2의 주사위 숫자 비교
+            if (result == 0) return 1; // AI1이 이김
+            else return 2; // AI2가 이김
+        }
+
+        // 기본값 설정 (모든 경우를 처리한 후에도 남는 경우를 대비)
+        return -1; // 기본적으로 무승부를 반환
+    }
+
+    // 동일한 등급일 때, 주사위 숫자를 비교하는 함수
+    static int CompareHighestDice(int[] dice1, int[] dice2)
+    {
+        Array.Sort(dice1);
+        Array.Sort(dice2);
+
+        // 각 주사위 배열을 내림차순으로 정렬한 후, 큰 숫자부터 비교
+        for (int i = dice1.Length - 1; i >= 0; i--)
+        {
+            if (dice1[i] > dice2[i])
+                return 0; // dice1이 이김
+            else if (dice1[i] < dice2[i])
+                return 1; // dice2가 이김
+        }
+        return -1; // 무승부 (같은 숫자일 경우)
+    }
+
+    // 플레이어와 AI1, AI2 모두의 주사위를 비교하는 함수
+    static int CompareHighestDice(int[] dice1, int[] dice2, int[] dice3)
+    {
+        Array.Sort(dice1);
+        Array.Sort(dice2);
+        Array.Sort(dice3);
+
+        // 각 주사위 배열을 내림차순으로 정렬한 후, 큰 숫자부터 비교
+        for (int i = dice1.Length - 1; i >= 0; i--)
+        {
+            if (dice1[i] > dice2[i] && dice1[i] > dice3[i])
+                return 0; // dice1(플레이어)이 이김
+            else if (dice2[i] > dice1[i] && dice2[i] > dice3[i])
+                return 1; // dice2(AI1)이 이김
+            else if (dice3[i] > dice1[i] && dice3[i] > dice2[i])
+                return 2; // dice3(AI2)이 이김
+        }
+        return -1; // 무승부 (같은 숫자일 경우)
     }
 
     // 배팅 처리

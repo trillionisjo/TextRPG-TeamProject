@@ -17,7 +17,7 @@ class PlayerState : Scene
         Console.WriteLine($" H  P  : {GameData.Player.HP} / {GameData.Player.MaxHP}");
         Console.WriteLine($" M  P  : {GameData.Player.MP} / {GameData.Player.MaxMP}");
         Console.WriteLine($"공격력 : {GameData.Player.AttackPower+GameData.Player.ExtraAttackPower}({GameData.Player.AttackPower}+{GameData.Player.ExtraAttackPower})");
-        Console.WriteLine($"방어력 : {GameData.Player.DefensePower+GameData.Player.ExtraDefensePower}({GameData.Player.ExtraDefensePower}+{GameData.Player.ExtraDefensePower})");
+        Console.WriteLine($"방어력 : {GameData.Player.DefensePower+GameData.Player.ExtraDefensePower}({GameData.Player.DefensePower}+{GameData.Player.ExtraDefensePower})");
         Console.WriteLine($"소지금 : {GameData.Player.Gold} gold");
         HandleInput();
     }

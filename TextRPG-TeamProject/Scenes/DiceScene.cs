@@ -2,6 +2,7 @@
 
 class DiceScene : Scene
 {
+    public bool diceCheck;
     public override void Start()
     {
         Console.Clear();
@@ -13,16 +14,31 @@ class DiceScene : Scene
     }
     public void Dice()
     {
-        Console.WriteLine("Welcome to the Dice Game!");
+        string betAmountstring = null;
+        diceCheck = true;
+        int numChk;
 
         // 게임 반복
-        while (true)
+        while (diceCheck)
         {
             Console.Clear();
-            Console.WriteLine("\n소지금: " + GameData.Player.Gold + " 골드");
+            Console.WriteLine("소지금: " + GameData.Player.Gold + " 골드");
             Console.Write("베팅할 금액을 입력하세요 (최대 10000 골드): ");
-            Console.WriteLine(Console.WindowHeight+"  " + Console.BufferWidth);
-            int betAmount = int.Parse(Console.ReadLine());
+
+            
+            betAmountstring = Console.ReadLine();
+            if (betAmountstring == "") 
+            {
+                Console.WriteLine("ㅇㅇ");
+                return;
+            }
+            bool isNum = int.TryParse(betAmountstring, out numChk);
+            if (!isNum)
+            {
+                Console.WriteLine("숫자가 아닌것을 입력");
+                return;
+            }
+            int betAmount = int.Parse(betAmountstring);
 
             if (betAmount > GameData.Player.Gold || betAmount > 10000)
             {
@@ -66,6 +82,8 @@ class DiceScene : Scene
             if (GameData.Player.Gold <= 0)
             {
                 Console.WriteLine("더 이상 소지금이 없습니다. 게임 종료.");
+                Thread.Sleep(3000);
+                NextScene = new PubScene();
                 break;
             }
 
@@ -84,6 +102,7 @@ class DiceScene : Scene
                     break;
 
                 case 2:
+                    diceCheck=false;
                     NextScene = new PubScene();
                     break;
 
