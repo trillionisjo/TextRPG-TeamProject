@@ -1,7 +1,9 @@
-﻿public class HuntQuest : Quest
+﻿using Newtonsoft.Json;
+
+public class HuntQuest : Quest
 {
-    private int targetKillCount;
-    private int currentKillCount;
+    [JsonProperty]private int targetKillCount;
+    [JsonProperty]private int currentKillCount;
     
     public HuntQuest(int id, string name, int reward, string description, int targetKillCount , string difficulty) : base(id, name, reward, description)
     {

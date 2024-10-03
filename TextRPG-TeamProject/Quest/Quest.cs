@@ -1,4 +1,5 @@
-﻿
+﻿using Newtonsoft.Json;
+
 public enum QuestStatus
 {
     None,
@@ -18,14 +19,14 @@ public enum QuestType
 
 public abstract class Quest
 {
-    public string[] DetailedDescription { get; set; }
-    public string Difficulty { get; set; }
-    public QuestType Type { get; set; }
-    public QuestStatus Status { get; set; }
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public int Reward { get; set; }
-    public string Description { get; set; }
+    [JsonProperty] public string[] DetailedDescription { get; set; }
+    [JsonProperty] public string Difficulty { get; set; }
+    [JsonProperty] public QuestType Type { get; set; }
+    [JsonProperty] public QuestStatus Status { get; set; }
+    [JsonProperty] public int Id { get; set; }
+    [JsonProperty] public string Name { get; set; }
+    [JsonProperty] public int Reward { get; set; }
+    [JsonProperty] public string Description { get; set; }
     
     public Quest(int id, string name , int reward ,string description)
     {

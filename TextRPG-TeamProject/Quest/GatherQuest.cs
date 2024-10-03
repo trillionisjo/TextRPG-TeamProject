@@ -1,4 +1,6 @@
-﻿public enum CollectionItem
+﻿using Newtonsoft.Json;
+
+public enum CollectionItem
 {
     None,
     Gold,
@@ -8,9 +10,9 @@
 
 public class GatherQuest : Quest
 {
-    private CollectionItem collection;
-    public int targetAmount;
-    public int currentAmount;
+    [JsonProperty] private CollectionItem collection;
+    [JsonProperty] public int targetAmount;
+    [JsonProperty] public int currentAmount;
 
     public GatherQuest(int id, string name, int reward, string description, CollectionItem collection, int targetAmount,
         string difficulty) : base(id, name, reward, description)

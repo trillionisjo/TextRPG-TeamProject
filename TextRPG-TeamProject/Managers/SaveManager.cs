@@ -8,13 +8,22 @@ static class SaveManager
         [JsonProperty] public Player Player;
         [JsonProperty] public List<IItem> InventoryItems;
         [JsonProperty] public int ChestKeyCount;
+        [JsonProperty] public Dictionary<Slot, IEquipable> Slots;
 
         // 상점 데이터
         [JsonProperty] public List<IItem> ShopItems;
 
+        // 수집 데이터
+        [JsonProperty] public Card[] Cards;
+
         // 던전 관련 데이터
         [JsonProperty] public int DungeonLv;
         [JsonProperty] public int HuntedMonster;
+
+        // 퀘스트 관련 데이터
+        [JsonProperty] public List<Quest> QuestList;
+        [JsonProperty] public int MaxActivateCount;
+        [JsonProperty] public int CurrentActivateCount;
     }
 
     static JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
@@ -26,9 +35,14 @@ static class SaveManager
         data.Player = GameData.Player;
         data.InventoryItems = Inventory.ItemList;
         data.ChestKeyCount = Inventory.ChestKeyCount;
+        data.Slots = EquipManager.Slots;
         data.ShopItems = ShopData.ItemList;
+        data.Cards = CollectionData.Cards;
         data.DungeonLv = GameData.DungeonLv;
         data.HuntedMonster = GameData.HuntedMonster;
+        data.QuestList = QuestManager.QuestList;
+        data.MaxActivateCount = QuestManager.MaxActivateCount;
+        data.CurrentActivateCount = QuestManager.CurrentActivateCount;
 
         // 폴더 경로 가져오기
         string directory = Path.GetDirectoryName(path);
@@ -56,9 +70,14 @@ static class SaveManager
         GameData.Player = data.Player;
         Inventory.ItemList = data.InventoryItems;
         Inventory.ChestKeyCount = data.ChestKeyCount;
+        EquipManager.Slots = data.Slots;
         ShopData.ItemList = data.ShopItems;
+        CollectionData.Cards = data.Cards;
         GameData.DungeonLv = data.DungeonLv;
         GameData.HuntedMonster = data.HuntedMonster;
+        QuestManager.QuestList = data.QuestList;
+        QuestManager.MaxActivateCount = data.MaxActivateCount;
+        QuestManager.CurrentActivateCount = data.CurrentActivateCount;
 
         return true;
     }

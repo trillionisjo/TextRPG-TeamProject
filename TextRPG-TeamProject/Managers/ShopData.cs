@@ -27,7 +27,10 @@ static class ShopData
         IItem item = Inventory.ItemList[index];
 
         if (item is IEquipable equipable)
-            EquipManager.UnequipItem(equipable.Slot);
+        {
+            if (EquipManager.IsEquiptedItem(equipable))
+                EquipManager.UnequipItem(equipable.Slot);
+        }
 
         int gold = (int)(item.Price * Rate);
         GameData.Player.AddGold(gold);
