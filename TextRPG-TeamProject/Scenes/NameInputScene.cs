@@ -7,6 +7,7 @@ class NameInputScene : Scene
     public override void Start()
     {
         AudioManager.PlayAudio("title_bgm.mp3");
+        GameData.InitDatas(); // 이름을 입력하는 부분은 재시작 시점
         Console.Clear();
     }
 

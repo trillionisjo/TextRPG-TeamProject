@@ -3,13 +3,10 @@ public class Program
 {
     static void Main (string[] args)
     {
-        GameData.InitDatas();
-
+        //GameData.InitDatas();  NameIputScene으로 이동
         Scene currentScene = new TitleScene();
         Scene nextScene = currentScene;
         currentScene.Start();
-        QuestManager.Init();
-        QuestManager.ActivateQuest(1);
 
         while (true)
         {

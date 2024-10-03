@@ -13,8 +13,9 @@ class JobChooseScene : Scene
 
     public override void Update()
     {
-        List<Player> list = new List<Player>();
-        Console.WriteLine("직업을 선택해 주세요.");
+        List<Player> list = new List<Player>(); 
+        UIManager.TitleBox("직업 선택");
+        Console.WriteLine("모험의 길을 떠날 준비가 되셨나요? 당신의 운명을 결정할 직업을 선택해 주세요.");
         foreach (PlayerType playerType in Enum.GetValues(typeof(PlayerType)))
         {
             Console.WriteLine(playerType);

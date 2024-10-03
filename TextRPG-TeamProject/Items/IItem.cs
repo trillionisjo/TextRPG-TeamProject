@@ -2,6 +2,7 @@
 
 interface IItem
 {
+    Guid guid { get; }
     ItemId Id { get; set; }
     string Name { get; set; }
     string Desc { get; set; }

@@ -22,8 +22,8 @@ class SellScene : Scene
     public override void Update ()
     {
         Console.Clear();
-        Console.WriteLine("상점 - 아이템 판매");
-        Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.");
+        UIManager.TitleBox("상점 - 아이템 판매");
+        Console.WriteLine("필요 없는 아이템을 판매하고 골드를 모아보세요! 쓸모 없는 물건도 골드가 될 수 있답니다.");
         Console.WriteLine();
 
         Console.WriteLine("[보유 골드]");

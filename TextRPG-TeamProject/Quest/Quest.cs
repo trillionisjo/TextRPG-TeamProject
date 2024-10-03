@@ -1,4 +1,5 @@
-﻿
+﻿using Newtonsoft.Json;
+
 public enum QuestStatus
 {
     None,
@@ -18,13 +19,14 @@ public enum QuestType
 
 public abstract class Quest
 {
-
-    public QuestType Type { get; set; }
-    public QuestStatus Status { get; set; }
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public int Reward { get; set; }
-    public string Description { get; set; }
+    [JsonProperty] public string[] DetailedDescription { get; set; }
+    [JsonProperty] public string Difficulty { get; set; }
+    [JsonProperty] public QuestType Type { get; set; }
+    [JsonProperty] public QuestStatus Status { get; set; }
+    [JsonProperty] public int Id { get; set; }
+    [JsonProperty] public string Name { get; set; }
+    [JsonProperty] public int Reward { get; set; }
+    [JsonProperty] public string Description { get; set; }
     
     public Quest(int id, string name , int reward ,string description)
     {
@@ -34,9 +36,25 @@ public abstract class Quest
         Description = description;
         Status = QuestStatus.NotStarted;
     }
-
+    
+    /// <summary>
+    /// 퀘스트 시작을 위한 메서드
+    /// 
     public abstract void StartQuest();
+    
+    /// <summary>
+    /// 조건에 따라 퀘스트를 클리어 처리하고 보상을 지급하는 메서드
+    /// 
     public abstract bool IsCompleteQuest();
+    /// <summary>
+    /// 퀘스트 진행도를 return 해주기 위한 메서드 
+    /// 
+    public abstract string GetQuestProgressText();
 
-   
+    public abstract void CancelQuest();
+    public virtual void SetDetailedDescription(string[] text)
+    {
+        DetailedDescription = text;
+    }
+
 }

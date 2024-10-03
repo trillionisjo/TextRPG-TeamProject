@@ -2,13 +2,24 @@
 
 class DungeonManager
 {
-    static public DungeonManager Instance = new DungeonManager();
+    private static DungeonManager instance;
+
+    public static DungeonManager Instance
+    {
+        get
+        {
+            if (instance == null)
+                instance = new DungeonManager();
+            return instance;
+        }
+    }
+    
     public event Action OnKillMonster;
-    private BattleSystem battleSystem;
+    public static BattleSystem BattleSystem = new BattleSystem();
     private Spawner spawner;
     private Player player = GameData.Player;
     private DungeonScene dungeonScene;
-
+   
 
     private readonly int[] goldReward = { 100, 200, 300, 400, 500 };
     private readonly Random random = new Random();
@@ -31,28 +42,27 @@ class DungeonManager
         this.dungeonScene = dungeonScene;
         GameData.AliveMonster = spawner.GenerateMonstersByLevel(GameData.DungeonLv, mobNum);
         GameData.DeathMonster = new List<Monster>();
-        battleSystem = new BattleSystem();
     }
 
     public void EnterDungeon()
     {
         AudioManager.PlayAudio("fight_bgm.mp3");
-
-        battleSystem.OnLoseBattle += OnDungeonUncomplete;
-        battleSystem.OnWinBattle += OnDungeonComplete;
-
-        battleSystem.StartBattle();
+        
+        BattleSystem.OnLoseBattle -= OnDungeonUncomplete;
+        BattleSystem.OnLoseBattle += OnDungeonUncomplete;
+        BattleSystem.OnWinBattle -= OnDungeonComplete;
+        BattleSystem.OnWinBattle += OnDungeonComplete;
+        BattleSystem.Init();
+        BattleSystem.StartBattle();
     }
 
 
     private void OnDungeonUncomplete()
     {
-        battleSystem.OnLoseBattle -= OnDungeonUncomplete;
-        
         Console.Clear();
+        AudioManager. PlayOntShot("playerDie.mp3");
         string text = "플레이어사망";
         UIManager.AlignTextCenter(text);
-
         dungeonScene.PromptRestartOrExit();
     }
 
@@ -76,8 +86,6 @@ class DungeonManager
 
     private void OnDungeonComplete()
     {
-        battleSystem.OnWinBattle -= OnDungeonComplete;
-
         Console.Clear();
         int lineSpacing = -2;
         UIManager.AlignTextCenter($"Lv{GameData.DungeonLv}의 던전 클리어", lineSpacing);
@@ -90,4 +98,19 @@ class DungeonManager
 
         dungeonScene.PromptTryNextDungeon();
     }
+
+    public void PrintRandomEscapeFailMessage(int damage)
+    {
+        string[] texts =
+        {
+            $"도망치는데 실패했습니다...! {damage}의 데미지를 입고 전투가 계속됩니다.",
+            $"도망치려 했으나 발이 엉켜버렸습니다...!, 그 틈을 타 {damage}의 데미지를 입었습니다." ,
+            $"도망치려 했지만, 적이 순식간에 뒤쫓아왔습니다!, {damage}의 데미지를 입고 말았습니다." 
+        };
+
+       Console.WriteLine(texts[random.Next(1,4)]); 
+    }
+
+
+
 }

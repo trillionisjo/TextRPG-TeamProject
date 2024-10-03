@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Numerics;
 
 
@@ -13,13 +14,15 @@ public enum PlayerType
 public class Player : Creature
 {
     public event OnDeath<Player> OnDeath;
+    public event Action<int> OnAddGold;
+    public event Action<int> OnSpendGold;
 
-    public PlayerType Type { get; set; }
-    public int Gold { get; set; }
-    public int ExpToNextLv { get; set; }
-    public int Exp { get; set; }
-    public int ExtraAttackPower { get; set; }
-    public int ExtraDefensePower { get; set; }
+    [JsonProperty] public PlayerType Type { get; set; }
+    [JsonProperty] public int Gold { get; set; }
+    [JsonProperty] public int ExpToNextLv { get; set; }
+    [JsonProperty] public int Exp { get; set; }
+    [JsonProperty] public int ExtraAttackPower { get; set; }
+    [JsonProperty] public int ExtraDefensePower { get; set; }
     
     public Player() : base(CreatureType.Player)
     {
@@ -30,7 +33,15 @@ public class Player : Creature
         ExtraDefensePower = 0;
     }
 
-
+    public void Init()
+    {
+        Level = 1;
+        Exp = 0;
+        ExpToNextLv = 1;
+        ExtraAttackPower = 0;
+        ExtraDefensePower = 0;
+        Gold = 0;
+    }
 
     public void SetInfo(int hp, int mp, int attackPower, int defensePower)
     {
@@ -45,19 +56,19 @@ public class Player : Creature
         {
             case 1:
                 Type = PlayerType.Knight;
-                SetInfo(5, 20, 5, 7);
+                SetInfo(50, 50, 5, 7);
                 break;
             case 2:
                 Type = PlayerType.Mage;
-                SetInfo(70, 100 , 10, 2);
+                SetInfo(20, 100 , 10, 2);
                 break;
              case 3:
                 Type = PlayerType.Archer;
-                SetInfo(100, 50 , 6, 6);
+                SetInfo(40, 70 , 6, 6);
                 break;
             case 4:
                 Type = PlayerType.Rogue;
-                SetInfo(50, 70 , 12, 5);
+                SetInfo(30, 70 , 12, 0);
                 break;
         }
     }
@@ -102,6 +113,7 @@ public void AddExp(int extraExp)
     public void AddGold(int amount)
     {
         Gold += amount;
+        OnAddGold?.Invoke(Gold);
     }
     public bool SpendGold(int amount)
     {
@@ -112,6 +124,7 @@ public void AddExp(int extraExp)
 
         else
         {
+            OnSpendGold?.Invoke(Gold);
             Gold -= amount;
             return true;
         }

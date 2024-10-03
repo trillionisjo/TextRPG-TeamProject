@@ -1,6 +1,15 @@
 ﻿using System;
 static class DiceManager
 {
+    public override void Start()
+    {
+    }
+
+    public override void Update()
+    {
+        dice();
+        NextScene = new DiceGame();
+    }
     static Random random = new Random();
 
 
@@ -52,7 +61,7 @@ static class DiceManager
             HoldDice(dice, holdFlags);
             DisplayDice(dice, holdFlags);
         }
-
+    
         return dice;
 
     }

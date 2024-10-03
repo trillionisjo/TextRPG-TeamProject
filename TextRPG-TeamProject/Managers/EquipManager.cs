@@ -49,6 +49,6 @@
     {
         if (Slots[item.Slot] == null)
             return false;
-        return Slots[item.Slot] == item;
+        return Slots[item.Slot].guid == item.guid;
     }
 }

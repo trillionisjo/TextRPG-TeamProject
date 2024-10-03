@@ -19,29 +19,42 @@ class Option
     }
 }
 
+struct Point
+{
+    public int x, y;
+    public Point(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+
 static class UIManager
 {
     const int padding = 3;
-    public static void TitleBox(string text)
-    { 
-        int byteSize =  GetByteFromText(text);
+
+    /// <summary>
+    /// 콘솔 창 상단 중앙에 제목 텍스트를 상하 선으로 감싸서 출력하는 메서드 
+    /// </summary>
+    public static void CenterTitleBox(string text)
+    {
+        int byteSize = GetByteFromText(text);
         int cursorPosX = (Console.WindowWidth / 2) - (byteSize / 2);
 
 
-        for (int i = 0; i < byteSize ; i++)
+        for (int i = 0; i < byteSize; i++)
         {
-            
-            cursorPosX = (Console.WindowWidth / 2 ) - (byteSize  / 2);
-            Console.SetCursorPosition(cursorPosX+i, 0);  
+            cursorPosX = (Console.WindowWidth / 2) - (byteSize / 2);
+            Console.SetCursorPosition(cursorPosX + i, 0);
             Console.Write("-");
         }
+
         Console.SetCursorPosition(cursorPosX, 1);
         Console.WriteLine(text);
 
         for (int i = 0; i < byteSize; i++)
         {
-             
-
             cursorPosX = (Console.WindowWidth / 2) - (byteSize / 2);
             Console.SetCursorPosition(cursorPosX + i, 2);
             Console.Write("-");
@@ -49,21 +62,47 @@ static class UIManager
 
         Console.SetCursorPosition(0, 2);
     }
-    public static void AlignTextCenter(string[] text , int lineSpacing)
+    
+    public static void TitleBox(string text)
     {
-        int cursorPosX;
-        int cursorPosY = Console.WindowHeight / 2 - text.Length / 2 + lineSpacing;
+        int byteSize = GetByteFromText(text);
 
-        for (int i = 0; i < text.Length; i++)
+
+        for (int i = 0; i < byteSize; i++)
         {
-            cursorPosX = (Console.WindowWidth / 2) - (GetByteFromText(text[i]) / 2);
-            Console.SetCursorPosition(cursorPosX, cursorPosY++);
-            Console.Write(text[i]);
+            Console.SetCursorPosition( i, 0);
+            Console.Write("-");
         }
 
-        Console.SetCursorPosition(0, 0);
+        Console.SetCursorPosition(0, 1);
+        Console.WriteLine(text);
 
+        for (int i = 0; i < byteSize; i++)
+        {
+            Console.SetCursorPosition(0 + i, 2);
+            Console.Write("-");
+        }
+
+        Console.SetCursorPosition(0, 3);
     }
+
+
+    /// <summary>
+    /// 콘솔 창 가운데에 텍스트를 중앙 정렬하여 출력하는 메서드
+    /// </summary>
+    public static void AlignTextCenter(string text)
+    {
+        int cursorPosX = (Console.WindowWidth / 2) - (GetByteFromText(text) / 2);
+        int cursorPosY = Console.WindowHeight / 2;
+
+        Console.SetCursorPosition(cursorPosX, cursorPosY);
+        Console.Write(text);
+        Console.SetCursorPosition(0, 0);
+    }
+
+    /// <summary>
+    /// 콘솔 창 가운데에 텍스트 배열을 중앙 정렬하여 출력하는 메서드
+    /// </summary>
     public static void AlignTextCenter(string[] text)
     {
         int cursorPosX;
@@ -77,8 +116,11 @@ static class UIManager
         }
 
         Console.SetCursorPosition(0, 0);
-
     }
+
+    /// <summary>
+    /// 콘솔 창 가운데에서 지정된 줄 간격만큼 떨어진 위치에 텍스트를 중앙 정렬하여 출력하는 메서드
+    /// </summary>
     public static void AlignTextCenter(string text, int lineSpacing)
     {
         int cursorPosX = (Console.WindowWidth / 2) - (GetByteFromText(text) / 2);
@@ -89,25 +131,43 @@ static class UIManager
 
         Console.SetCursorPosition(0, 0);
     }
-    public static void AlignTextCenter(string text)
-    {
-        int cursorPosX = (Console.WindowWidth / 2) - (GetByteFromText(text) / 2);
-        int cursorPosY = Console.WindowHeight / 2;
 
-        Console.SetCursorPosition(cursorPosX, cursorPosY);
-        Console.Write(text);
+    /// <summary>
+    /// 콘솔 창 가운데에서 지정된 줄 간격만큼 떨어진 위치에 텍스트 배열을 중앙 정렬로 출력하는 메서드
+    /// </summary>
+    public static void AlignTextCenter(string[] text, int lineSpacing)
+    {
+        int cursorPosX;
+        int cursorPosY = Console.WindowHeight / 2 - text.Length / 2 + lineSpacing;
+
+        for (int i = 0; i < text.Length; i++)
+        {
+            cursorPosX = (Console.WindowWidth / 2) - (GetByteFromText(text[i]) / 2);
+            Console.SetCursorPosition(cursorPosX, cursorPosY++);
+            Console.Write(text[i]);
+        }
+
         Console.SetCursorPosition(0, 0);
     }
 
+    public static int CalcCenterX(string text, int x)
+    {
+        return x - CalcTextWidth(text) / 2;
+    }
+
+    /// <summary>
+    /// 지정된 좌표 (x, y) 위치에 텍스트를 출력하는 메서드
+    /// </summary>
     public static void PrintTextAtPosition(string text, int x, int y)
     {
-
         Console.SetCursorPosition(x, y);
         Console.Write(text);
-        //커서 포지션 초기화 
         Console.SetCursorPosition(0, 0);
     }
 
+    /// <summary>
+    /// 주어진 텍스트의 바이트 크기를 계산하는 메서드 (영문 1바이트, 한글 2바이트)
+    /// </summary>
     public static int GetByteFromText(string text)
     {
         int byteSize = 0;
@@ -122,94 +182,135 @@ static class UIManager
                 byteSize += 2;
             }
         }
+
         return byteSize;
     }
 
-    public static int DisplaySelectionUI(string[] options)
+    /// <summary>
+    /// 2차원 배열로 주어진 옵션을 출력하고 선택할 수 있는 UI를 제공하는 메서드
+    /// </summary>
+    public static int DisplaySelectionUI(string[,] table)
     {
-        
-        int selectNum = 0;
-        int cursorPosY = (int)(Console.WindowHeight * 0.7) + 2;  // 기본 출력 스타일 
-        
-        // 옵션 수 < 2 출력 스타일 
-        if (options.Length < 2)
+        if (table == null || table.GetLength(0) == 0 || table.GetLength(1) == 0)
         {
-            cursorPosY += padding; 
+            return -1;
         }
-        
-        // 옵션 수 > 4 출력 스타일
-        else if (options.Length > 4)
-        {
-            cursorPosY -= options.Length / 2; 
-        }
-        
-        
+
+        int rows = table.GetLength(0);
+        int cols = table.GetLength(1);
+
+        int padding = 2;
+        int cursorPosY = Console.CursorTop;
         int selectCursorPosY = cursorPosY + 1;
-        int previousCursorPosY = selectCursorPosY; // 이전 커서 위치 저장
+        int previousCursorPosY = selectCursorPosY;
         bool isSelecting = true;
 
         while (isSelecting)
         {
-            // 옵션 출력
-            for (int i = 0; i <= options.Length; i++)
+            for (int i = 0; i < rows; i++)
             {
-                Console.SetCursorPosition(1, cursorPosY + i);
+                Console.SetCursorPosition(1, cursorPosY + 1 + i);
 
-                if (i == 0)
+                for (int j = 0; j < cols; j++)
                 {
-                    // 상단 경계선 그리기
-                    for (int j = 0; j < Console.WindowWidth - 1; j++)
-                    {
-                        Console.Write("-");
-                    }
+                    Console.Write(table[i, j] + "\t");
                 }
-                else
-                {
-                    Console.Write(options[i - 1]);  // 옵션 출력
-                }
+
+                Console.WriteLine();
             }
 
-            Console.CursorVisible = false; //콘솔창 커서 숨기기 
+            Console.SetCursorPosition(1, cursorPosY + 1 + rows);
+            Console.WriteLine("뒤로가기");
 
-
-            // 이전 커서 위치의 '▶' 지우기
             Console.SetCursorPosition(0, previousCursorPosY);
-            Console.Write(" ");  // 공백으로 커서를 지움
+            Console.Write(' ');
 
+            if (selectCursorPosY < cursorPosY + 1) selectCursorPosY = cursorPosY + rows + 1;
+            else if (selectCursorPosY > cursorPosY + rows + 1) selectCursorPosY = cursorPosY + 1;
 
-            //콘솔 좌표 설정
-            if (selectCursorPosY < cursorPosY + 1)
-                selectCursorPosY = cursorPosY + options.Length;
-            else if (selectCursorPosY > cursorPosY + options.Length)
-                selectCursorPosY = cursorPosY + 1;
-
-            // 새 위치에 '▶' 출력
             Console.SetCursorPosition(0, selectCursorPosY);
             Console.Write('▶');
 
-            //사용자 입력처리 
-            ConsoleKeyInfo input = Console.ReadKey(true);
-            switch (input.Key)
+            ConsoleKey input = Console.ReadKey(true).Key;
+
+            previousCursorPosY = selectCursorPosY;
+
+            switch (input)
             {
                 case ConsoleKey.UpArrow:
                 case ConsoleKey.LeftArrow:
-                    previousCursorPosY = selectCursorPosY;
-                    selectCursorPosY--;
+                    selectCursorPosY -= 1;
                     break;
-                case ConsoleKey.RightArrow:
                 case ConsoleKey.DownArrow:
-                    previousCursorPosY = selectCursorPosY;
-                    selectCursorPosY++;
+                case ConsoleKey.RightArrow:
+                    selectCursorPosY += 1;
                     break;
                 case ConsoleKey.Enter:
-                    selectNum = selectCursorPosY - cursorPosY;
+                    isSelecting = false;
+
+                    if (selectCursorPosY == cursorPosY + rows + 1)
+                        return -1;
+                    break;
+            }
+        }
+
+        return selectCursorPosY - cursorPosY - 1;
+    }
+
+    /// <summary>
+    /// 1차원 배열로 주어진 옵션을 출력하고 선택할 수 있는 UI를 제공하는 메서드
+    /// </summary>
+    public static int DisplaySelectionUI(string[] options)
+    {
+        int padding = options.Length < 4 ? 2 : 0;
+        int cursorPosY = (int)(Console.WindowHeight * 0.7) + padding;
+        int selectCursorPosY = cursorPosY + 1;
+        int previousCursorPosY = selectCursorPosY;
+        bool isSelecting = true;
+
+        while (isSelecting)
+        {
+            Console.SetCursorPosition(0, cursorPosY);
+            Console.WriteLine(new string('-', Console.WindowWidth - 1));
+
+            for (int i = 0; i < options.Length; i++)
+            {
+                Console.SetCursorPosition(1, cursorPosY + 1 + i);
+                Console.WriteLine(options[i]);
+            }
+
+            Console.SetCursorPosition(0, previousCursorPosY);
+            Console.Write(' ');
+
+            if (selectCursorPosY < cursorPosY + 1) selectCursorPosY = cursorPosY + options.Length;
+            else if (selectCursorPosY > cursorPosY + options.Length) selectCursorPosY = cursorPosY + 1;
+
+            Console.SetCursorPosition(0, selectCursorPosY);
+            Console.Write('▶');
+
+            ConsoleKey input = Console.ReadKey(true).Key;
+
+            previousCursorPosY = selectCursorPosY;
+
+            switch (input)
+            {
+                case ConsoleKey.UpArrow:
+                case ConsoleKey.LeftArrow:
+                    selectCursorPosY -= 1;
+                    break;
+
+                case ConsoleKey.DownArrow:
+                case ConsoleKey.RightArrow:
+                    selectCursorPosY += 1;
+                    break;
+
+                case ConsoleKey.Enter:
                     isSelecting = false;
                     break;
             }
-
         }
 
-        return selectNum;
+        return selectCursorPosY - cursorPosY;
     }
 
     public static int DisplaySelectionUI(string[] options, int padding)
@@ -298,12 +399,16 @@ static class UIManager
 
         return selectNum;
     }
+    /// <summary>
+    /// 1차원 배열을 받아와서 지정된 위치에 출력하고 선택할 수 있는 UI를 제공하는 메서드
+    /// </summary>
     public static int DisplaySelectionUI (Option[] options, int x, int y, int cursorOffset)
     {
         bool looping = true;
         int count = 0;
 
-        while (cursorOffset < 0 || cursorOffset >= options.Count() || options[cursorOffset] == null || options[cursorOffset].Handler == null)
+        while (cursorOffset < 0 || cursorOffset >= options.Count() || options[cursorOffset] == null ||
+               options[cursorOffset].Handler == null)
         {
             cursorOffset = (cursorOffset - 1 + options.Length) % options.Length;
             if (++count >= options.Count())
@@ -330,33 +435,38 @@ static class UIManager
             ConsoleKey key = Console.ReadKey(false).Key;
             switch (key)
             {
-            case ConsoleKey.UpArrow:
-            case ConsoleKey.LeftArrow:
-                do
-                {
-                    cursorOffset = (cursorOffset - 1 + options.Length) % options.Length;
-                } while (options[cursorOffset] == null || options[cursorOffset].Handler == null);
-                break;
+                case ConsoleKey.UpArrow:
+                case ConsoleKey.LeftArrow:
+                    do
+                    {
+                        cursorOffset = (cursorOffset - 1 + options.Length) % options.Length;
+                    } while (options[cursorOffset] == null || options[cursorOffset].Handler == null);
 
-            case ConsoleKey.DownArrow:
-            case ConsoleKey.RightArrow:
-                do
-                {
-                    cursorOffset = (cursorOffset + 1) % options.Length;
-                } while (options[cursorOffset] == null || options[cursorOffset].Handler == null);
-                break;
+                    break;
 
-            case ConsoleKey.Enter:
-                options[cursorOffset].Handler.Invoke();
-                looping = false;
-                break;
+                case ConsoleKey.DownArrow:
+                case ConsoleKey.RightArrow:
+                    do
+                    {
+                        cursorOffset = (cursorOffset + 1) % options.Length;
+                    } while (options[cursorOffset] == null || options[cursorOffset].Handler == null);
+
+                    break;
+
+                case ConsoleKey.Enter:
+                    options[cursorOffset].Handler.Invoke();
+                    looping = false;
+                    break;
             }
         }
 
         return cursorOffset;
     }
 
-    public static void WriteTable (string[,] table)
+    /// <summary>
+    /// 주어진 2차원 배열을 받아와서 정렬 후 출력하는 메서드
+    /// </summary>
+    public static void WriteTable(string[,] table)
     {
         string[,] paddedTable = CreatePaddedTable(table);
         for (int row = 0; row < table.GetLength(0); row++)
@@ -367,7 +477,10 @@ static class UIManager
         }
     }
 
-    public static void WriteTable (string[,] table, int left, int top)
+    /// <summary>
+    /// 주어진 2차원 배열을 지정된 위치 (left, top)에서 정렬 후 출력하는 메서드
+    /// </summary>
+    public static void WriteTable(string[,] table, int left, int top)
     {
         int count = 0;
         string[,] paddedTable = CreatePaddedTable(table);
@@ -379,7 +492,10 @@ static class UIManager
         }
     }
 
-    public static string[,] CreatePaddedTable (string[,] table)
+    /// <summary>
+    /// 2차원 배열을 정렬 후 반환 해주는 메서드
+    /// </summary>
+    public static string[,] CreatePaddedTable(string[,] table)
     {
         int rows = table.GetLength(0);
         int cols = table.GetLength(1);
@@ -395,6 +511,7 @@ static class UIManager
                 int width = CalcTextWidth(table[row, col]);
                 max = Math.Max(max, width);
             }
+
             maxWidths[col] = max;
         }
 
@@ -406,6 +523,7 @@ static class UIManager
                 string paddedText = PadRight(table[row, col], maxWidths[col]);
                 paddedTable[row, col] = $"{paddedText} | ";
             }
+
             string lastColumnText = PadRight(table[row, cols - 1], maxWidths[cols - 1]);
             paddedTable[row, cols - 1] = lastColumnText;
         }
@@ -413,7 +531,7 @@ static class UIManager
         return paddedTable;
     }
 
-    public static string[] CreatePaddedList (string[,] table)
+    public static string[] CreatePaddedList(string[,] table)
     {
         int rows = table.GetLength(0);
         int cols = table.GetLength(1);
@@ -429,6 +547,7 @@ static class UIManager
                 int width = CalcTextWidth(table[row, col]);
                 max = Math.Max(max, width);
             }
+
             maxWidths[col] = max;
         }
 
@@ -441,6 +560,7 @@ static class UIManager
                 string paddedText = PadRight(table[row, col], maxWidths[col]);
                 sb.Append($"{paddedText} | ");
             }
+
             string lastColumnText = PadRight(table[row, cols - 1], maxWidths[cols - 1]);
             sb.Append(lastColumnText);
 
@@ -464,23 +584,19 @@ static class UIManager
         return sb.ToString();
     }
 
-    public static string PadRight (string input, int totalWidth)
+    public static string PadRight(string input, int totalWidth)
     {
         int textWidth = CalcTextWidth(input);
         return input.PadRight(input.Length + (totalWidth - textWidth));
     }
 
-    public static int CalcTextWidth (string str)
+    public static int CalcTextWidth(string str)
     {
         return str.Sum(c => IsKorean(c) ? 2 : 1);
     }
 
-    public static bool IsKorean (char ch)
+    public static bool IsKorean(char ch)
     {
         return ('가' <= ch && ch <= '힣') || ('ㄱ' <= ch && ch <= 'ㅎ') || ('ㅏ' <= ch && ch <= 'ㅣ');
     }
-
-
 }
-
-
