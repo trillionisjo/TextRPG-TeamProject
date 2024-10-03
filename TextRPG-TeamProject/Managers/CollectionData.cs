@@ -33,7 +33,7 @@ static class CollectionData
     {
         Cards = new Card[Enum.GetValues<CardType>().Length];
         Cards[(int)CardType.Mountain] = new Card(false, "록키 산맥 카드", AsciiArts.MonkeyMountain);
-        Cards[(int)CardType.Cherry] = new Card(false, "둥근 체리 카드", AsciiArts.Cherry);
+        Cards[(int)CardType.Cherry] = new Card(false, "둥근 채리 카드", AsciiArts.Cherry);
         Cards[(int)CardType.Fairy] = new Card(false, "퇴실 요정 카드", AsciiArts.Fairy);
         Cards[(int)CardType.CatInterruption] = new Card(false, "냥이 방해 카드", AsciiArts.CatInterruption);
         Cards[(int)CardType.Card5] = new Card(false, "카드5", AsciiArts.EmptyCard);
