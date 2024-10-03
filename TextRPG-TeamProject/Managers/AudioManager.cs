@@ -14,6 +14,7 @@ class AudioManager
         Inventory.PotionConsumed += OnPotionConsumed;
         ShopData.Purchased += OnPurchased;
         ShopData.Sold += OnSold;
+        DungeonManager.BattleSystem.OnAttack += OnAttack;
     }
 
     public static void PlayAudio(string filePath)
@@ -88,6 +89,24 @@ class AudioManager
         case Slot.Hand:
             PlayOntShot("sfx-equip.mp3");
             break;
+        }
+    }
+    
+    private static void OnAttack(AttackType type)
+    {
+        switch (type)
+        {
+            case AttackType.Normal:
+                PlayOntShot("hit.mp3");
+                break;
+
+            case AttackType.Critical:
+                PlayOntShot("critical.mp3");
+                break;
+          
+            case AttackType.Miss:
+                PlayOntShot("miss.wav");
+                break;
         }
     }
     

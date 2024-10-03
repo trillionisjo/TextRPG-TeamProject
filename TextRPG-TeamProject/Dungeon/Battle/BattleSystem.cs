@@ -13,19 +13,23 @@ public delegate void OnLoseBattle();
 
 class BattleSystem
 {
+    public event Action<AttackType> OnAttack;
     public event OnWinBattle OnWinBattle;
     public event OnLoseBattle OnLoseBattle;
 
 
     private Player player;
     private BattleUtilities battleUtilities;
-    private List<Monster> monsters = GameData.AliveMonster;
+    private List<Monster> monsters;
     private bool isPlayerTurn = true;
 
-    public BattleSystem()
+
+    public void Init()
     {
-        battleUtilities = new BattleUtilities();
+        monsters = GameData.AliveMonster;
         player = GameData.Player;
+        battleUtilities = new BattleUtilities();
+        isPlayerTurn = true;
     }
 
     private void ProcessMonsterTurn()
@@ -188,7 +192,7 @@ class BattleSystem
     public void PerformAttack(Creature attacker, Creature target)
     {
         AttackType type = battleUtilities.GetAttackOutcome();
-
+        OnAttack?.Invoke(type);
         int damage;
         damage = battleUtilities.CalculateDamage(type, attacker, target);
         string[] texts;
@@ -222,7 +226,7 @@ class BattleSystem
         {
             if (monsters.Count == 0)
             {
-                OnWinBattle.Invoke();
+                OnWinBattle?.Invoke();
                 break;
             }
 
@@ -230,7 +234,7 @@ class BattleSystem
             {
                 if (player.IsDead)
                 {
-                    OnLoseBattle.Invoke();
+                    OnLoseBattle?.Invoke();
                     break;
                 }
 
@@ -247,6 +251,7 @@ class BattleSystem
     public void HandleMonsterDeath(Monster monster)
     {
         monster.OnDeath -= HandleMonsterDeath;
+        AudioManager.PlayOntShot("enenmyDeath.wav");
         DungeonManager.Instance.NotifyKill();
         GameData.AliveMonster.Remove(monster);
         GameData.DeathMonster.Add(monster);
@@ -256,9 +261,8 @@ class BattleSystem
         player.AddGold(monster.DropGold);
 
 
-        BattleUIManager.DisplayTurnUI("몬스터 턴 - 공격 결과");
+        BattleUIManager.DisplayTurnUI("플레이어 턴 - 공격 결과");
         string[] texts =
-
         {
             $"{monster.Name}({monster.InstanceNumber})을 처치!", $"{monster.DropExp}의 경험치와 {monster.DropGold} Gold를 획득"
         };

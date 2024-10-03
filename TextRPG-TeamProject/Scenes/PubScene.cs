@@ -10,8 +10,9 @@ internal class PubScene : Scene
 
     public override void Update()
     {
-        Console.WriteLine("주점에 오신것을 환영합니다.");
-        Console.WriteLine("저희 주점에서는 휴식이 가능합니다.");
+        UIManager.TitleBox("주점");
+        UIManager.AlignTextCenter("주점에 오신것을 환영합니다.",-3);
+        UIManager.AlignTextCenter("저희 주점에서는 휴식이 가능합니다.",-2);
         HandleInput();
     }
     private void HandleInput()

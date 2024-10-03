@@ -6,22 +6,19 @@ static class GameData
     static public Player Player = new Player();
     static public List<Monster> AliveMonster;
     static public List<Monster> DeathMonster;
-    static public int DungeonLv = 0;
-    static public int HuntedMonster = 0;
+    static public int DungeonLv;
+    static public int HuntedMonster;
 
     public static void InitDatas()
     {
-        if (DungeonLv == 0)
-        {
-            DungeonLv = 1;
-        }
-
+        DungeonLv = 1;
+        HuntedMonster = 1;
+        QuestManager.Init();
         Console.CursorVisible = false;
 
 
         // Test
         GameData.Player.AddGold(20000);
-
         Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.TraineesArmor));
         //Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.IronArmor));
         //Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.SpartanArmor));
