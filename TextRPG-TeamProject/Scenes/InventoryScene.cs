@@ -44,7 +44,8 @@ class InventoryScene : Scene
             //table[i, 3] = $"{item.Price} G";
         }
 
-        UIManager.WriteTable(table, (int)5,(int)5 );
+        (int x, int y) pt = Console.GetCursorPosition();
+        UIManager.WriteTable(table, 0, pt.y);
     }
 
     private void HandleInput(int selectedNumber)

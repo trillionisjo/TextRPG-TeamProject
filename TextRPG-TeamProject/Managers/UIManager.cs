@@ -19,6 +19,17 @@ class Option
     }
 }
 
+struct Point
+{
+    public int x, y;
+    public Point(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+
 static class UIManager
 {
     const int padding = 3;
@@ -137,6 +148,11 @@ static class UIManager
         }
 
         Console.SetCursorPosition(0, 0);
+    }
+
+    public static int CalcCenterX(string text, int x)
+    {
+        return x - CalcTextWidth(text) / 2;
     }
 
     /// <summary>

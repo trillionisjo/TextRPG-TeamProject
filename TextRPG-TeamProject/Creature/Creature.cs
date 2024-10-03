@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 
 public enum CreatureType
@@ -11,19 +12,19 @@ public enum CreatureType
 
 public class Creature
 {
-    public CreatureType CreatureType { get; set; }
-    public int HP { get; set; }
-    public int MP { get; set; }
+    [JsonProperty] public CreatureType CreatureType { get; set; }
+    [JsonProperty] public int HP { get; set; }
+    [JsonProperty] public int MP { get; set; }
 
-    public int MaxHP { get; set; }
-    public int MaxMP { get; set; }
-    public string Name { get; set; }
+    [JsonProperty] public int MaxHP { get; set; }
+    [JsonProperty] public int MaxMP { get; set; }
+    [JsonProperty] public string Name { get; set; }
     public bool IsDead => HP <= 0;
-    public int Level { get; set; }
-    public int AttackPower { get; set; }
-    public int DefensePower { get; set; }
-    public float CriticalChance { get; set; }
-    public float CritDmgPct { get; set; }
+    [JsonProperty] public int Level { get; set; }
+    [JsonProperty] public int AttackPower { get; set; }
+    [JsonProperty] public int DefensePower { get; set; }
+    [JsonProperty] public float CriticalChance { get; set; }
+    [JsonProperty] public float CritDmgPct { get; set; }
 
     protected Creature(CreatureType type)
     {

@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System;
 using System.Numerics;
 
 
@@ -17,12 +17,12 @@ public class Player : Creature
     public event Action<int> OnAddGold;
     public event Action<int> OnSpendGold;
 
-    public PlayerType Type { get; set; }
-    public int Gold { get; set; }
-    public int ExpToNextLv { get; set; }
-    public int Exp { get; set; }
-    public int ExtraAttackPower { get; set; }
-    public int ExtraDefensePower { get; set; }
+    [JsonProperty] public PlayerType Type { get; set; }
+    [JsonProperty] public int Gold { get; set; }
+    [JsonProperty] public int ExpToNextLv { get; set; }
+    [JsonProperty] public int Exp { get; set; }
+    [JsonProperty] public int ExtraAttackPower { get; set; }
+    [JsonProperty] public int ExtraDefensePower { get; set; }
     
     public Player() : base(CreatureType.Player)
     {
