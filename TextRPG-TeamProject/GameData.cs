@@ -12,13 +12,16 @@ static class GameData
     public static void InitDatas()
     {
         DungeonLv = 1;
-        HuntedMonster = 1;
-        QuestManager.Init();
+        HuntedMonster = 0;
         Console.CursorVisible = false;
-
-
+        // Init for Restart
+        Inventory.ItemList.Clear();
+        QuestManager.QuestList.Clear();
+        ShopData.ItemList.Clear();
+        Player.Init();
+        QuestManager.Init();
         // Test
-        GameData.Player.AddGold(20000);
+        //GameData.Player.AddGold(20000);
         Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.TraineesArmor));
         //Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.IronArmor));
         //Inventory.ItemList.Add(ItemManager.Instantiate(ItemId.SpartanArmor));

@@ -33,9 +33,9 @@ class DungeonScene : Scene
 
     private void DecideDungeonEntry()
     {
-        UIManager.TitleBox($"던전LV:{GameData.DungeonLv}");
+        UIManager.TitleBox($"    LV:{GameData.DungeonLv} 던전    ");
         Console.ForegroundColor = ConsoleColor.Red;
-        UIManager.AlignTextCenter($"{monsterNum}마리의 적이 느껴집니다...", -2);
+        Console.WriteLine($"{monsterNum}마리의 적이 느껴집니다...");
         Console.ForegroundColor = ConsoleColor.White;
 
         string[] options = { "싸운다", "도망간다" };
@@ -58,9 +58,8 @@ class DungeonScene : Scene
                 Console.Clear();
                 int damage = (int)(player.HP * 0.1f);
                 player.OnDamaged(damage);
-                string[] texts = { "도망치는데 실패했다...", $"{damage}의 데미지를 입었다." };
-                UIManager.AlignTextCenter(texts, -2);
-                options = new string[] { "싸운다" };
+                DungeonManager.Instance.PrintRandomEscapeFailMessage(damage);
+                options = new string[] { "도망치지 못했다... 이제 싸울 수밖에 없다." };
                 selectNum = UIManager.DisplaySelectionUI(options);
                 DungeonManager.Instance.EnterDungeon();
             }

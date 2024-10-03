@@ -38,16 +38,16 @@ public abstract class Quest
     
     /// <summary>
     /// 퀘스트 시작을 위한 메서드
-    /// <returns></returns>
+    /// 
     public abstract void StartQuest();
     
     /// <summary>
     /// 조건에 따라 퀘스트를 클리어 처리하고 보상을 지급하는 메서드
-    /// <returns></returns>
+    /// 
     public abstract bool IsCompleteQuest();
     /// <summary>
     /// 퀘스트 진행도를 return 해주기 위한 메서드 
-    /// <returns></returns>
+    /// 
     public abstract string GetQuestProgressText();
 
     public abstract void CancelQuest();

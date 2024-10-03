@@ -26,7 +26,7 @@ static class UIManager
     /// <summary>
     /// 콘솔 창 상단 중앙에 제목 텍스트를 상하 선으로 감싸서 출력하는 메서드 
     /// </summary>
-    public static void TitleBox(string text)
+    public static void CenterTitleBox(string text)
     {
         int byteSize = GetByteFromText(text);
         int cursorPosX = (Console.WindowWidth / 2) - (byteSize / 2);
@@ -51,6 +51,30 @@ static class UIManager
 
         Console.SetCursorPosition(0, 2);
     }
+    
+    public static void TitleBox(string text)
+    {
+        int byteSize = GetByteFromText(text);
+
+
+        for (int i = 0; i < byteSize; i++)
+        {
+            Console.SetCursorPosition( i, 0);
+            Console.Write("-");
+        }
+
+        Console.SetCursorPosition(0, 1);
+        Console.WriteLine(text);
+
+        for (int i = 0; i < byteSize; i++)
+        {
+            Console.SetCursorPosition(0 + i, 2);
+            Console.Write("-");
+        }
+
+        Console.SetCursorPosition(0, 3);
+    }
+
 
     /// <summary>
     /// 콘솔 창 가운데에 텍스트를 중앙 정렬하여 출력하는 메서드
@@ -160,7 +184,7 @@ static class UIManager
         int cols = table.GetLength(1);
 
         int padding = 2;
-        int cursorPosY = 0;
+        int cursorPosY = Console.CursorTop;
         int selectCursorPosY = cursorPosY + 1;
         int previousCursorPosY = selectCursorPosY;
         bool isSelecting = true;

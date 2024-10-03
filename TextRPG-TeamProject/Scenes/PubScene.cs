@@ -10,14 +10,14 @@ internal class PubScene : Scene
 
     public override void Update()
     {
-        UIManager.TitleBox("주점");
-        UIManager.AlignTextCenter("주점에 오신것을 환영합니다.",-3);
-        UIManager.AlignTextCenter("저희 주점에서는 휴식이 가능합니다.",-2);
+        UIManager.TitleBox("          주점          ");
+        Console.WriteLine("반갑습니다! 주점에 오신 걸 환영해요, 용감한 모험가님!");
+        Console.WriteLine("저희 주점에서는 편안한 휴식과 흥미로운 놀이를 제공하고 있답니다. 맘껏 즐기세요!");
         HandleInput();
     }
     private void HandleInput()
     {
-        string[] option = { "한잔 마시기   -10gold", "휴식하기   -50gold","도박하기","나가기" };
+        string[] option = { "한잔 마시며 여유를 즐긴다 (-10 골드)", "체력을 회복하며 휴식을 취한다 (-50 골드)", "도박을 통해 운을 시험해본다", "다른 모험을 위해 주점을 떠난다" };
         int number = UIManager.DisplaySelectionUI(option);
 
         switch (number)

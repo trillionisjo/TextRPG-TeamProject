@@ -32,8 +32,8 @@ class PurchaseScene : Scene
     public override void Update ()
     {
         Console.Clear();
-        Console.WriteLine("상점 - 아이템 구매");
-        Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.");
+        UIManager.TitleBox("    상점 - 아이템 구매    ");
+        Console.WriteLine("필요한 아이템을 골라 구매하세요! 모험을 준비하는 데 도움이 될 겁니다.");
         Console.WriteLine();
 
         Console.WriteLine("[보유 골드]");

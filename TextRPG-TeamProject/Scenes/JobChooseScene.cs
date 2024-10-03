@@ -14,7 +14,7 @@ class JobChooseScene : Scene
     {
         List<Player> list = new List<Player>();
         UIManager.TitleBox("직업 선택");
-        UIManager.AlignTextCenter("직업을 선택해 주세요.",-2);
+        Console.WriteLine("모험의 길을 떠날 준비가 되셨나요? 당신의 운명을 결정할 직업을 선택해 주세요.");
         HandleInput();
     }
 

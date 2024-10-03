@@ -5,8 +5,8 @@ class ShopScene : Scene
     public override void Update ()
     {
         Console.Clear();
-        Console.WriteLine("상점");
-        Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.");
+        UIManager.TitleBox("    상점    ");
+        Console.WriteLine("“이곳에서 모험에 필요한 물건을 구매하세요. 필요 없는 물건이 있다면 판매하여 골드를 모을 수도 있답니다!”");
         Console.WriteLine();
 
         Console.WriteLine("[보유 골드]");

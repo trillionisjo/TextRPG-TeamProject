@@ -25,7 +25,7 @@ public static class QuestManager
             "몇 마리 잡는 건 효과가 없으니, 최소 7마리는 처리해주게나.",
             "이 정도는 가볍게 해낼 수 있겠지?"
         });
-        QuestList.Add(new GatherQuest(3, "절약만이 살길", 1000, "돈을 모아 부자가 되어보자!", CollectionItem.Gold, 500,
+        QuestList.Add(new GatherQuest(3, "절약만이 살길!!", 1000, "돈을 모아 부자가 되어보자!", CollectionItem.Gold, 500,
             "쉬움"));
         QuestList[2].SetDetailedDescription(new string[]
         {
@@ -34,6 +34,17 @@ public static class QuestManager
             "최소 500골드는 모아야 부채도 청산하고, 장비도 업그레이드할 수 있을 거야.",
             "절약과 모험은 종이 한 장 차이지만, 넌 그걸 해낼 수 있을 거라고 믿어."
         });
+        QuestList.Add(new GatherQuest(4, "최고의 상인", 3000, "상인의 길을 걷자!", CollectionItem.Gold, 3000, "중간"));
+        QuestList[3].SetDetailedDescription(new string[]
+        {
+            "모험가, 돈을 벌기 위한 다른 방법이 필요하지 않은가?",
+            "이 마을에서 부를 쌓기 위해선 단순한 모험만으로는 부족해. 상인의 눈과 손이 필요하지.",
+            "최소한 3000골드를 모아, 투자를 통해 자산을 늘려보게. 목표는 부자가 아니라 최고의 상인이 되는 것!",
+            "단순히 모험에서 얻는 돈이 아닌, 시장과 거래를 통해 새로운 수익원을 창출해보는 건 어떤가?",
+            "세상은 위험하지만, 위험 속에서 기회를 찾는 자만이 진정한 부를 얻을 수 있지.",
+            "자, 당신의 상인 감각을 시험해보게! 자산을 불려 최고의 상인으로 거듭나길 바란다."
+        });
+
     }
 
     public static bool IsQuestTypeInProgress(QuestType type)
@@ -42,27 +53,46 @@ public static class QuestManager
     }
 
 
-    public static string[,] GetQuestTableByStatus(QuestStatus status)
-    {
-        var questListByStatus = QuestManager.GetQuestListByStatus(status);
+  public static string[,] GetQuestTableByStatus(QuestStatus status)
+{
+    var questListByStatus = QuestManager.GetQuestListByStatus(status);
 
-        if (questListByStatus.Count != 0)
-        {
-            string[,] table = new string[questListByStatus.Count, 3];
-
-            for (int i = 0; i < questListByStatus.Count; i++)
-            {
-                Quest quest = questListByStatus[i];
-                table[i, 0] = quest.Name+"|".PadRight(15);
-                table[i, 1] = quest.Description+"|".PadRight(20);
-                table[i, 2] = quest.Difficulty+"|".PadRight(5); 
-            }
-
-            return table;
-        }
-
+    if (questListByStatus.Count == 0)
         return null;
+
+    int maxNameLength = questListByStatus.Max(q => UIManager.GetByteFromText(q.Name));
+    int maxDescriptionLength = questListByStatus.Max(q => UIManager.GetByteFromText(q.Description));
+    int maxDifficultyLength = questListByStatus.Max(q => UIManager.GetByteFromText(q.Difficulty));
+
+    int nameColumnWidth = maxNameLength + 5; // 5칸 여유 추가
+    int descriptionColumnWidth = maxDescriptionLength + 5; 
+    int difficultyColumnWidth = maxDifficultyLength + 5;
+
+    int rowCount = questListByStatus.Count;
+
+    string[,] table = new string[rowCount, 1];
+
+    
+    // 퀘스트 데이터를 테이블에 채우기
+    for (int i = 0; i < questListByStatus.Count; i++)
+    {
+        Quest quest = questListByStatus[i];
+
+        int namePadding = nameColumnWidth - UIManager.GetByteFromText(quest.Name);
+        int descriptionPadding = descriptionColumnWidth - UIManager.GetByteFromText(quest.Description);
+        int difficultyPadding = difficultyColumnWidth - UIManager.GetByteFromText(quest.Difficulty);
+
+        string name = quest.Name + new string(' ', namePadding); 
+        string description = quest.Description + new string(' ', descriptionPadding); 
+        string difficulty = quest.Difficulty + new string(' ', difficultyPadding); 
+
+        table[i, 0] = $"{name}|{description}|{difficulty}";
     }
+
+    return table;
+}
+
+
 
 
     public static void ActivateQuest(int id)

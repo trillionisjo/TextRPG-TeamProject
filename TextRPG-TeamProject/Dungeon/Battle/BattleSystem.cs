@@ -38,7 +38,8 @@ class BattleSystem
 
         for (int i = 0; i < GameData.AliveMonster.Count; i++)
         {
-            PerformAttack(GameData.AliveMonster[i], player);
+            if (!player.IsDead)
+                PerformAttack(GameData.AliveMonster[i], player);
         }
     }
 
@@ -174,7 +175,11 @@ class BattleSystem
         int damage = skill.UseSkill(caster, target);
         battleUtilities.CalculateSkillDamage(type, ref damage);
         string[] texts = BattleUIManager.GetSkillResultTexts(caster, target, damage, skill, type);
-        UIManager.AlignTextCenter(texts, -2);
+
+        foreach (var t in texts)
+        {
+            Console.WriteLine(t);
+        }
 
         string[] options = new string[] { "다음" };
         UIManager.DisplaySelectionUI(options);
@@ -206,7 +211,10 @@ class BattleSystem
 
 
         texts = BattleUIManager.GetAttackResultTexts(attacker, target, type, damage);
-        UIManager.AlignTextCenter(texts, -2);
+        foreach (var t in texts)
+        {
+            Console.WriteLine(t);
+        }
 
         string[] options = { "다음" };
         UIManager.DisplaySelectionUI(options);
@@ -268,14 +276,17 @@ class BattleSystem
         };
 
 
-        UIManager.AlignTextCenter(texts, -2);
-
-
         if (prevPlayerLevel != player.Level)
         {
             texts = texts.Concat(new string[] { $"lv {prevPlayerLevel} -> {player.Level} " }).ToArray();
-            UIManager.AlignTextCenter(texts, -2);
         }
+
+        Console.WriteLine();
+        foreach (var text in texts)
+        {
+            Console.WriteLine(text);
+        }
+
 
         string[] options = { "다음" };
         UIManager.DisplaySelectionUI(options);

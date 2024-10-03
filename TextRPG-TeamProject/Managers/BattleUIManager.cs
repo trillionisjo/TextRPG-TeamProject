@@ -142,8 +142,8 @@
             Console.WriteLine($"{monsterInfo} {monsterStats}");
         }
 
-
-        Console.WriteLine();
+        if (GameData.AliveMonster.Count != 0)
+            Console.WriteLine();
 
         Console.ForegroundColor = ConsoleColor.Red;
         for (int i = 0; i < GameData.DeathMonster.Count; i++)
@@ -193,7 +193,7 @@
     static public void ShowManaError()
     {
         DisplayTurnUI("플레이어 턴 - 행동선택");
-        UIManager.AlignTextCenter("마나가 부족합니다");
+        Console.WriteLine("마나가 부족합니다");
         string[] options = { "다음" };
         UIManager.DisplaySelectionUI(options);
     }

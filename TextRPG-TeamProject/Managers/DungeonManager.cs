@@ -98,7 +98,19 @@ class DungeonManager
 
         dungeonScene.PromptTryNextDungeon();
     }
-    
-    
+
+    public void PrintRandomEscapeFailMessage(int damage)
+    {
+        string[] texts =
+        {
+            $"도망치는데 실패했습니다...! {damage}의 데미지를 입고 전투가 계속됩니다.",
+            $"도망치려 했으나 발이 엉켜버렸습니다...!, 그 틈을 타 {damage}의 데미지를 입었습니다." ,
+            $"도망치려 했지만, 적이 순식간에 뒤쫓아왔습니다!, {damage}의 데미지를 입고 말았습니다." 
+        };
+
+       Console.WriteLine(texts[random.Next(1,4)]); 
+    }
+
+
 
 }

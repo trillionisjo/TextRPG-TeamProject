@@ -13,9 +13,10 @@
 
     public override void Update()
     {
-        UIManager.AlignTextCenter("길드에 오신 것을 환영합니다.", -2);
-        UIManager.AlignTextCenter("여기서 퀘스트를 진행하실 수 있습니다.", -1);
-        string[] option = { "퀘스트 목록", "진행중인 퀘스트", "나가기" };
+        UIManager.TitleBox($"     {GameData.Player.Type}     ");
+        Console.WriteLine("모험가 길드에 오신 것을 진심으로 환영합니다.");
+        Console.WriteLine("이곳에서는 당신을 위한 다양한 퀘스트가 준비되어 있습니다.");
+        string[] option = { "퀘스트 목록 열람", "진행 중인 퀘스트 확인", "길드 문을 나선다" };
         int number = UIManager.DisplaySelectionUI(option);
         HandleInput(number);
     }
@@ -29,7 +30,8 @@
                 if (QuestManager.GetQuestListByStatus(QuestStatus.NotStarted).Count == 0)
                 {
                     Console.Clear();
-                    UIManager.AlignTextCenter("흠... 더 이상 자네에게 줄 퀘스트가 없구만");
+                    UIManager.TitleBox("    퀘스트 목록    ");
+                    Console.WriteLine("흠... 더 이상 자네에게 줄 퀘스트가 없구만");
                     UIManager.DisplaySelectionUI(new[] { "다음" });
                     Console.Clear();
                 }
@@ -41,7 +43,8 @@
                 if (QuestManager.GetQuestListByStatus(QuestStatus.Active).Count == 0)
                 {
                     Console.Clear();
-                    UIManager.AlignTextCenter("퀘스트를 한번 받아 보는건 어때?");
+                    UIManager.TitleBox("    진행 중인 퀘스트    ");
+                    Console.WriteLine("퀘스트를 한번 받아 보는건 어때?");
                     UIManager.DisplaySelectionUI(new[] {"다음"});
                     Console.Clear();
                 }

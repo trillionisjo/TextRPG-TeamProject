@@ -10,10 +10,10 @@ class StartScene : Scene
     
     public override void Update ()
     {
-        
-        UIManager.AlignTextCenter("스파르타 던전에 오신 여러분 환영합니다.",-3);
+        UIManager.TitleBox("    스파르타 마을    ");
+        Console.WriteLine("원하는 행동을 선택해 주세요.");
 
-        string[] option = { "상태 보기","주점 입장", "전투 시작", "인벤토리", "상점","퀘스트" };
+        string[] option = { "상태 보기","주점 입장", "던전 입장", "인벤토리", "상점","모험가 길드" };
         int number = UIManager.DisplaySelectionUI(option);
         HandleInput(number);
     }

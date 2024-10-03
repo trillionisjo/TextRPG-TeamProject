@@ -10,7 +10,7 @@ class PlayerState : Scene
 
     public override void Update ()
     {   
-        UIManager.TitleBox("캐릭터 정보");
+        UIManager.TitleBox("    캐릭터 정보    ");
         // 테이블 형식으로 출력해야 할 것 같음.
         string[] playerStateInfo = 
         {
@@ -23,8 +23,13 @@ class PlayerState : Scene
             $" 방어력 : {GameData.Player.DefensePower}",
             $" 소지금 : {GameData.Player.Gold}"
         };
+
+
+        foreach (var p in playerStateInfo)
+        {
+            Console.WriteLine(p);
+        }
         
-        UIManager.AlignTextCenter(playerStateInfo,-2);
         HandleInput();
     }
 
