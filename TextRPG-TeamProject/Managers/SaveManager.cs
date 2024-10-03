@@ -1,5 +1,13 @@
 ﻿using Newtonsoft.Json;
 
+enum LoadGameResult
+{
+    Success,
+    FileNotFound,
+    CorruptedData,
+}
+
+
 static class SaveManager
 {
     private class SaveData
@@ -56,16 +64,16 @@ static class SaveManager
         File.WriteAllText(path, jsonString);
     }
 
-    public static bool LoadGame()
+    public static LoadGameResult LoadGame()
     {
         if (!File.Exists(path))
-            return false;
+            return LoadGameResult.FileNotFound;
 
         string jsonString = File.ReadAllText(path);
         SaveData? data = JsonConvert.DeserializeObject<SaveData>(jsonString, settings);
 
         if (data == null)
-            return false;
+            return LoadGameResult.CorruptedData;
 
         GameData.Player = data.Player;
         Inventory.ItemList = data.InventoryItems;
@@ -79,6 +87,6 @@ static class SaveManager
         QuestManager.MaxActivateCount = data.MaxActivateCount;
         QuestManager.CurrentActivateCount = data.CurrentActivateCount;
 
-        return true;
+        return LoadGameResult.Success;
     }
 }

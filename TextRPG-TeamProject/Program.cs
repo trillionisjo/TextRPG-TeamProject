@@ -5,7 +5,7 @@ public class Program
     {
         GameData.InitDatas();
         
-        Scene currentScene = new MainMenuScene();
+        Scene currentScene = new TitleScene();
         Scene nextScene = currentScene;
         currentScene.Start();
         QuestManager.Init();
