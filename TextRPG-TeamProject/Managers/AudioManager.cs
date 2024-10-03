@@ -1,11 +1,34 @@
 ﻿using System;
 using NAudio.Wave;
 
+enum AudioName
+{
+    sfxEquip,
+    sfxUnequip,
+    sfxConsumePotion,
+    sfxPurchaseItem,
+    sfxSellItem,
+    sfxUnlocking,
+    sfxOpenChest,
+    sfxKey,
+
+    voiceNotEnoughtGold,
+    voiceNotEnoughKey,
+}
+
+class AudioInfo
+{
+    public Mp3FileReader mp3reader;
+    public WaveOutEvent outEvent;
+}
+
 class AudioManager
 {
     private static WaveOutEvent outputDevice;
     private static LoopStream loopStream;
     private static string currentAudioFilePath;
+
+    private static Dictionary<AudioName, AudioInfo> audios;
 
     static AudioManager ()
     {
@@ -14,6 +37,21 @@ class AudioManager
         Inventory.PotionConsumed += OnPotionConsumed;
         ShopData.Purchased += OnPurchased;
         ShopData.Sold += OnSold;
+
+        if (IsWindowsPlatform())
+        {
+            audios = new Dictionary<AudioName, AudioInfo>();
+            foreach (AudioName fileName in Enum.GetValues(typeof(AudioName)))
+            {
+                string path = $"sfx\\{fileName.ToString()}.mp3";
+                var mp3reader = new Mp3FileReader(path);
+
+                audios[fileName] = new AudioInfo();
+                audios[fileName].mp3reader = mp3reader;
+                audios[fileName].outEvent = new WaveOutEvent();
+                audios[fileName].outEvent.Init(mp3reader);
+            }
+        }
     }
 
     public static void PlayAudio(string filePath)
@@ -34,6 +72,7 @@ class AudioManager
         loopStream = new LoopStream(audioFile); // 반복 재생을 위한 LoopStream 사용
 
         outputDevice = new WaveOutEvent();
+        outputDevice.Volume = 0.3f;
         outputDevice.Init(loopStream);
         outputDevice.Play();
 
@@ -53,6 +92,7 @@ class AudioManager
         }
     }
 
+    // deprecated!!
     public static void PlayOntShot(string filePath)
     {
         if (!IsWindowsPlatform()) return;
@@ -70,6 +110,15 @@ class AudioManager
         };
     }
 
+    public static void PlayOneShot(AudioName name)
+    {
+        if (!IsWindowsPlatform())
+            return;
+
+        audios[name].mp3reader.Position = 0;
+        audios[name].outEvent.Play();
+    }
+
     private static bool IsWindowsPlatform()
     {
         return Environment.OSVersion.Platform == PlatformID.Win32NT;
@@ -80,11 +129,11 @@ class AudioManager
         switch (equipable.Slot)
         {
         case Slot.Body:
-            PlayOntShot("sfx-equip.mp3");
+            PlayOneShot(AudioName.sfxEquip);
             break;
 
         case Slot.Hand:
-            PlayOntShot("sfx-equip.mp3");
+            PlayOneShot(AudioName.sfxEquip);
             break;
         }
     }
@@ -94,27 +143,27 @@ class AudioManager
         switch (slot)
         {
         case Slot.Body:
-            PlayOntShot("sfx-unequip.mp3");
+            PlayOneShot(AudioName.sfxUnequip);
             break;
 
         case Slot.Hand:
-            PlayOntShot("sfx-unequip.mp3");
+            PlayOneShot(AudioName.sfxUnequip);
             break;
         }
     }
 
     private static void OnPotionConsumed()
     {
-        PlayOntShot("sfx-consume-potion.mp3");
+        PlayOneShot(AudioName.sfxConsumePotion);
     }
 
     private static void OnPurchased()
     {
-        PlayOntShot("sfx-purchase-item.mp3");
+        PlayOneShot(AudioName.sfxPurchaseItem);
     }
 
     private static void OnSold()
     {
-        PlayOntShot("sfx-sell-item.mp3");
+        PlayOneShot(AudioName.sfxSellItem);
     }
 }
