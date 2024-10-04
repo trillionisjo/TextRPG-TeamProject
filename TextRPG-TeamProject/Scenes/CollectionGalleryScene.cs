@@ -36,10 +36,10 @@ class CollectionGalleryScene : Scene
 
     public override void Start ()
     {
-        CollectionData.Cards[(int)CardType.Mountain].Found = true;
-        CollectionData.Cards[(int)CardType.Cherry].Found = true;
-        CollectionData.Cards[(int)CardType.Fairy].Found = true;
-        CollectionData.Cards[(int)CardType.CatInterruption].Found = true;
+        //CollectionData.Cards[(int)CardType.Mountain].Found = true;
+        //CollectionData.Cards[(int)CardType.Cherry].Found = true;
+        //CollectionData.Cards[(int)CardType.Fairy].Found = true;
+        //CollectionData.Cards[(int)CardType.CatInterruption].Found = true;
 
         n = CollectionData.Cards.Length;
         cardNameList = new string[n];
