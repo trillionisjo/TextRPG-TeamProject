@@ -74,9 +74,9 @@ class DiceScene : Scene
             // 플레이어 및 AI 주사위 굴리기
             Console.WriteLine("\n--- 플레이어 차례 ---");
             int[] playerDice = DiceManager.PlayTurn();
-            Console.WriteLine("\n--- AI1 차례 ---");
+            Console.WriteLine("\n--- 모험가1 차례 ---");
             int[] ai1Dice = DiceManager.PlayAITurn();
-            Console.WriteLine("\n--- AI2 차례 ---");
+            Console.WriteLine("\n--- 모험가2 차례 ---");
             int[] ai2Dice = DiceManager.PlayAITurn();
 
             // 승리자 결정
@@ -86,8 +86,8 @@ class DiceScene : Scene
 
             Console.WriteLine("\n--- 결과 ---");
             Console.WriteLine("플레이어: " + DiceManager.GetRankName(playerRank));
-            Console.WriteLine("AI1: " + DiceManager.GetRankName(ai1Rank));
-            Console.WriteLine("AI2: " + DiceManager.GetRankName(ai2Rank));
+            Console.WriteLine("모험가1: " + DiceManager.GetRankName(ai1Rank));
+            Console.WriteLine("모험가2: " + DiceManager.GetRankName(ai2Rank));
 
             int winner = DiceManager.DetermineWinner(playerDice, ai1Dice, ai2Dice);
 
@@ -99,7 +99,7 @@ class DiceScene : Scene
             }
             else
             {
-                Console.WriteLine($"AI{winner}이 이겼습니다.");
+                Console.WriteLine($"모험가{winner}이 이겼습니다.");
                 DiceManager.Bet(betAmount, false);
             }
 
