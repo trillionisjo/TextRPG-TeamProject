@@ -66,7 +66,7 @@ public static class QuestManager
     int maxDescriptionLength = questListByStatus.Max(q => UIManager.GetByteFromText(q.Description));
     int maxDifficultyLength = questListByStatus.Max(q => UIManager.GetByteFromText(q.Difficulty));
 
-    int nameColumnWidth = maxNameLength + 5; // 5칸 여유 추가
+    int nameColumnWidth = maxNameLength + 5; 
     int descriptionColumnWidth = maxDescriptionLength + 5; 
     int difficultyColumnWidth = maxDifficultyLength + 5;
 
@@ -74,8 +74,6 @@ public static class QuestManager
 
     string[,] table = new string[rowCount, 1];
 
-    
-    // 퀘스트 데이터를 테이블에 채우기
     for (int i = 0; i < questListByStatus.Count; i++)
     {
         Quest quest = questListByStatus[i];
