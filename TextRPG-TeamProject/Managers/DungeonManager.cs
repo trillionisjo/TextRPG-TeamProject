@@ -108,7 +108,7 @@ class DungeonManager
             $"도망치려 했지만, 적이 순식간에 뒤쫓아왔습니다!, {damage}의 데미지를 입고 말았습니다." 
         };
 
-       Console.WriteLine(texts[random.Next(1,4)]); 
+       Console.WriteLine(texts[random.Next(0,3)]); 
     }
 
 
