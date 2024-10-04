@@ -20,3 +20,5 @@
 - [chijan0427](https://github.com/chijan0427)
 - [pracUmj](https://github.com/pracUmj)
 - [new-Tower-of-Babel](https://github.com/new-Tower-of-Babel)
+
+![picture](team.png?raw=true)
