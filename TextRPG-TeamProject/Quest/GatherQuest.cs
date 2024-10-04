@@ -81,4 +81,13 @@ public class GatherQuest : Quest
 
         return false;
     }
+
+    public override void Reloaded ()
+    {
+        if (Status == QuestStatus.Active)
+        {
+            GameData.Player.OnAddGold += IncreaseTargetAmount;
+            GameData.Player.OnSpendGold += DecreaseTargetAmount;
+        }
+    }
 }
