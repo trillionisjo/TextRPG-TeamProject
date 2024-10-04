@@ -166,7 +166,7 @@ class BattleSystem
     }
 
 
-    //스킬 치명타 부분 추가.
+
     public void PerformSkill(Player caster, Monster target, ISkill skill)
     {
         BattleUIManager.DisplayTurnUI("플레이어 턴 - 스킬사용");
