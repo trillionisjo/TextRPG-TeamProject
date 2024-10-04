@@ -33,10 +33,10 @@ static class ItemManager
             return new Armor(id, "스파르타의 갑옷", "스파르타의 전사들이 사용했다는 전설의 갑옷입니다", 3500, 15);
 
         case ItemId.WornSword:
-            return new Weapon(id, "낡은 검", "어디선가 사용됐던거 같은 도끼입니다", 600, 2);
+            return new Weapon(id, "낡은 검", "쉽게 볼 수 있는 낡은 검 입니다", 600, 2);
 
         case ItemId.BronzeAxe:
-            return new Weapon(id, "청동도끼", "쉽게 볼 수 있는 낡은 검 입니다", 1500, 5);
+            return new Weapon(id, "청동도끼", "어디선가 사용됐던거 같은 도끼입니다", 1500, 5);
 
         case ItemId.SpartanSpear:
             return new Weapon(id, "스파르타의 창", "스파르타의 전사들이 사용했다는 전설의 창입니다", 3000, 7);
